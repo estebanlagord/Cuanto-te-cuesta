@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <string name="app_name">Cuanto Te Roban</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Opciones</string>
+    <string name="menu_update">Actualizar</string>
+    <string name="menu_change">Cambiar Moneda</string>
+    <string name="menu_help">Ayuda</string>
+    <string name="menu_about">Acerca de</string>
+    <string name="menu_add_currency">Agregar Moneda</string>
+    <string name="menu_remove_currency">Borrar</string>
+    <string name="menu_cancel_remove_currencies">Cancelar</string>
+    <string name="menu_copy">Copiar</string>
+    <string name="menu_paste">Pegar</string>
+    <string name="menu_share">Compartir</string>
+    <string name="title_activity_main">¿Cuanto Te Roban?</string>
+    <string name="title_activity_about">Acerca de la aplicación</string>
+    <string name="Ammount">Monto:</string>
+    <string name="AmmountTip">$</string>
+    <string name="InPesos">Pesos: </string>
+    <string name="WithCreditCard">Tarjeta:</string>
+    <string name="ExchangeAgency">Casa de Cambio: </string>
+    <string name="Paypal">PayPal: </string>
+    <string name="WhatItCostsYou">Lo que te cuesta</string>
+    <string name="application_preferences">Opciones</string>
+    <string name="global_preferences">Opciones generales"</string>
+    <string name="bank_exchange_rate_preferences">Cotización del banco</string>
+    <string name="bank_exchange_rate">Cotizacion en el banco</string>
+    <string name="bank_exchange_rate_explained">Valor de venta de la moneda, según el banco.</string>
+    <string name="bank_exchange_rate_percentage">Porcentaje a sumar/restar</string>
+    <string name="bank_exchange_rate_percentage_explained">Setear en caso de que tu banco tenga una cotización diferente a la que figura en \"Cotización en el banco\".</string>
+    <string name="agency_exchange_rate_preferences">Cotización en casa de cambio</string>
+    <string name="agency_exchange_rate">Casa de cambio</string>
+    <string name="agency_exchange_rate_explained">Valor de venta de la moneda, según la casa de cambio.</string>
+    <string name="exchange_rate_inverted">Invertir cotización</string>
+    <string name="exchange_rate_inverted_explained_off">X ARS = 1 ZZZ</string>
+    <string name="exchange_rate_inverted_explained_on">1 ARS = X ZZZ</string>
+    <string name="afip_percentage">Porcentaje para AFIP</string>
+    <string name="afip_percentage_explained">¿Que porcentaje te roba la AFIP al comprar con tarjeta?</string>
+    <string name="paypal_percentage">Porcentaje para PayPal</string>
+    <string name="paypal_percentage_explained">¿Que porcentaje se queda PayPal?</string>
+    <string name="update_bank_exchange_rates">Actualizar cotizaciones</string>
+    <string name="update_bank_exchange_rates_explained_on">Las cotizaciones se actualizarán automaticamente desde Yahoo Finances.</string>
+    <string name="update_bank_exchange_rates_explained_off">Las cotizaciones se actualizarán manualmente, o se usarán las definidas por el usuario.</string>
+    <string name="remember_last_conversion">Recordar última conversión</string>
+    <string name="remember_last_conversion_explained">¿Recordar la última conversión realizada al reiniciar la aplicación?</string>
+    <string name="use_internet_bank_exchange_rate">Usar cotización de Internet</string>
+    <string name="use_internet_bank_exchange_rate_explained_on">Se usará la cotización del banco descargada de Internet.</string>
+    <string name="use_internet_bank_exchange_rate_explained_off">La cotización del banco está definida por el usuario.</string>
+    <string name="source_currency">Moneda a convertir</string>
+    <string name="source_currency_explained">Moneda a convertir</string>
+    <string name="use_light_icons">Usar iconos claros</string>
+    <string name="use_light_icons_explainedOn">El menú usa iconos claros.</string>
+    <string name="use_light_icons_explainedOff">El menú usa iconos oscuros.</string>
+    <string name="currency_preference_screen_explained">Las preferencias en esta pantalla son solo para [ZZZ]\nPara configurar otra moneda, primero seleccionala en la pantalla anterior.</string>
+    <string name="update_frequency">Frecuencia de actualización (horas)</string>
+    <string name="update_frequency_explained">Las cotizaciones se actualizarán desde Internet con esta frecuencia.</string>
+    <string name="show_conversions_category">Mostrar/Ocultar conversiones</string>
+    <string name="show_discount">Mostrar \"Descuento %\"</string>
+    <string name="show_discount_on_explained">Se aplicará el descuento ingresado</string>
+    <string name="show_discount_off_explained">No se realizará ningún descuento</string>
+    <string name="show_taxes">Mostrar \"Recargo %\"</string>
+    <string name="show_taxes_on_explained">Se aplicará el recargo ingresado</string>
+    <string name="show_taxes_off_explained">No se realizará ningún recargo</string>
+    <string name="show_pesos">Mostrar \"Pesos\"</string>
+    <string name="show_credit_card">Mostrar \"Tarjeta\"</string>
+    <string name="show_exchange_agency">Mostrar \"Casa de Cambio\"</string>
+    <string name="show_paypal">Mostrar \"PayPal\"</string>
+
+    <string name="LastUpdate">"Ultima actualización: "</string>
+    <string name="updating">"Actualizando&#8230;"</string>
+    <string name="LastUpdateNever">"Nunca"</string>
+    <string name="title_activity_help">¿Cuanto Te Roban? - Ayuda</string>
+    <string name="mainHelp">
+        Para usar la aplicación podes empezar tocando la bandera (o el botón de la esquina superior izquierda) para elegir cual es la moneda de origen que vas a convertir hacia Pesos Argentinos.\n\n
+        Luego podes ingresar un valor para <b>Monto</b>, que podría ser por ejemplo el precio de lo que te interesa comprar.\n
+        En caso de que el negocio ofrezca algún tipo de porcentaje de descuento, lo podes ingresar en el campo <b>Descuento</b>.\n		<b>Recargo</b> es útil cuando el precio dado a conocer no incluye algún porcentaje de impuesto local.\n
+        En caso de que el recargo o impuesto sea un valor fijo (en vez de un porcentaje), se puede calcular en el campo <b>Monto</b>, usando la calculadora.\n\n		<b><u>Nota</u>:</b> el valor <b>Total</b> muestra el resultado de aplicarle el % de <b>Descuento</b> al <b>Monto</b>, y a eso se le aplica el % de <b>Recargo</b>.\n
+        Es importante notar que, por ejemplo, $100 - 10% + 10% no da como resultado $100, sino $99\n\n 
+        
+        <b><u>Nota 2</u>:</b> Todos los números que aparecen en la pantalla principal son editables. Esto quiere decir que si queres saber, por ejemplo, 
+        “¿A cuantos dólares equivalen 100 pesos, si el negocio me da además un descuento de 10 dólares?” podes fijar el valor de Pesos en 100 y el de Descuento en 10,
+        para saber la respuesta. \n\n 
+        
+        Lo que figura por debajo de <i><b>Lo que te cuesta</b></i> son todos valores en Pesos Argentinos.\n
+        Para conocer los detalles de esos cálculos podes consultar las otras secciones de esta ayuda.\n
+        ¡No te olvides de ir a la pantalla de <b>Opciones</b> para personalizar la aplicación!</string>
+    <string name="pesosHelp">
+		La conversión de la moneda que figura al lado de la palabra <b>“Pesos”</b> es la que se define en el menú de Opciones, en la sección <b>“Cotización del banco”</b> (dentro de <b>“Preferencias para la moneda”</b>).\n\n
+		Esta cotización se puede actualizar automáticamente desde Internet (<a href="http://es-us.finanzas.yahoo.com/divisas/convertidor/">Yahoo Finanzas</a>), o puede ser especificada manualmente por el usuario.\n\n
+		Cuando está activa la opción <b>“Actualizar automáticamente”</b>, las cotizaciones se descargarán periódicamente desde Internet (al abrir la aplicación), aunque también se pueden actualizar manualmente usando el botón <b>“Actualizar”</b> de la pantalla principal.\n\n
+		En caso de definir la cotización manualmente (cuando la opción <b>“Actualizar automáticamente”</b> está desactivada), normalmente se ingresa en la pantalla de configuración la cantidad de pesos que hay que vender para comprar 1 unidad de la moneda extranjera. Si preferís especificar cuantas unidades de la moneda extranjera equivalen a 1 Peso Argentino, se puede ingresar ese valor y activar la opción <b>“Invertir Cotización”</b>.\n\n
+		Cuando definas una cotización manualmente, probablemente quieras probar de convertir el valor “$1” para asegurarte de que esté bien configurado.\n\n
+		Puede haber casos en que tu banco utilice una cotización un poco diferente a la que está definida. En ese caso podes configurar un porcentaje de ajuste utilizando la opción <b>“Porcentaje a sumar/restar”</b>. Este porcentaje puede ser positivo o negativo.</string>
+    <string name="creditCardHelp">
+		La conversión de la moneda que figura como <b>“Tarjeta”</b> se calcula tomando como base el valor que se muestra para “Pesos”, y sumándole el porcentaje que te roba la <b>AFIP</b>.\n\n
+		Cuando escribí esta ayuda, ese porcentaje para AFIP era %35, pero como lo cambian cuando quieren de un día para el otro, ese valor lo podes actualizar en la opción <b>“Porcentaje para AFIP”</b>.</string>
+    <string name="agencyHelp">
+		La conversión de la moneda que figura como <b>“Casa de Cambio”</b> es la que se define en el menú de Opciones, en la sección <b>“Cotización en casa de cambio”</b>.\n\n
+		Esta cotización debe ser definida manualmente, porque va a depender mucho del lugar en particular que uses para vender tus Pesos Argentinos, ya sea un lugar oficial de venta o no.\n
+		Como ésta es opción es diferente para cada moneda, se configura en la sección <b>“Preferencias para la moneda”</b> de las Opciones.\n\n
+		Normalmente se ingresa la cantidad de pesos que hay que vender para comprar 1 unidad de la moneda extranjera. Si preferís especificar cuantas unidades de la moneda extranjera equivalen a 1 Peso Argentino, se puede ingresar ese valor y activar la opción <b>“Invertir Cotización”</b>.</string>
+    <string name="payPalHelp">
+		Cuando se realiza una transferencia usando <b>PayPal</b>, la empresa cobra un porcentaje del monto transferido. Este porcentaje depende del país en el cual se retire el dinero.\n
+		Para averiguarlo hay que ingresar a PayPal con la cuenta de la persona que va a recibir el dinero y buscar ésta información en la Ayuda.\n\n
+		Una vez que se conozca ese porcentaje, hay que ingresarlo en la opción <b>“Porcentaje para PayPal”</b> de la aplicación. Como ésta es una opción que podría ser diferente para cada moneda, se configura en la sección <b>“Preferencias para la moneda”</b> de las Opciones.\n\n
+		La conversión que figura como “PayPal” se calcula tomando como base el valor que se muestra para “Pesos”. A eso se le suma el “Porcentaje para Paypal”, y al resultado se le suma el “Porcentaje para AFIP”. </string>
+    <string name="chooseCurrencyHelp">
+        Al tocar la bandera o el botón de la esquina superior izquierda en la pantalla principal, aparece la lista <b>Mis Monedas</b>.\n\n
+        Las cotizaciones para las monedas de ésta lista se actualizan automáticamente de Internet (al abrir la aplicación), siempre y cuando la opción “Actualizar cotizaciones” esté activa.\n
+        Para sacar una moneda de ésta lista, tenes que mantener presionada la moneda que quieras sacar. \n\n
+        
+        <b><u>Nota</u>:</b> Sólo las cotizaciones para tus monedas elegidas se actualizan desde Internet.\n\n
+        
+        Al apretar el botón <b>+</b>, la aplicación muestra una lista con todas las monedas que podes agregar a tu lista de favoritas (alrededor de 130).\n
+        Es posible <b>buscar</b> una moneda en esta lista presionando el botón de búsqueda. También se pueden realizar búsquedas por voz, presionando el micrófono y diciendo por ejemplo “dólar”.\n\n
+        
+        <b><u>Nota 2</u>:</b> Las funciones de búsqueda solo funcionan en Android 2.2 o posterior. \n\n
+        
+        <b><u>Nota 3</u>:</b> Para que funcione la <b>búsqueda por voz</b>, tenes que tener instalada la aplicación <a href="market://details?id=com.google.android.googlequicksearchbox">Google</a>.\n
+		Una vez instalada, tenes que ir a las opciones de esa aplicación,  “Voz”, “Idioma”, y configurarla para que reconozca el idioma español.\n
+		Si además queres que funcione offline, tenes que configurar el idioma “Español (España)” porque es la única variante que te permite descargar en “Reconocimiento sin conexión”.
+    </string>
+    
+    <string name="title_activity_help2">Help2Activity</string>
+    <string name="title_activity_help_tab">HelpTab</string>
+
+    <style name="ButtonText">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textSize">@dimen/calculator_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <style name="ButtonImage">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <declare-styleable name="com.admob.android.ads.AdView"></declare-styleable>
+
+    <string name="Discount">Descuento %</string>
+    <string name="Taxes">Recargo %</string>
+    <string name="Total">Total:</string>
+    <string name="title_activity_choose_currency">Mis Monedas</string>
+    <string name="action_settings">Settings</string>
+    <string name="AddCurrency">Agregar Moneda</string>
+    <string name="title_activity_add_currency">Agregar Moneda</string>
+    <string name="action_search">Buscar</string>
+    <string name="search_hint">Buscar Monedas</string>
+    <string name="app_label">¿Cuanto Te Roban?</string>
+    <string name="title_activity_search_currencies">SearchCurrenciesActivity</string>
+    <string name="title_activity_help_activity">HelpActivity2</string>
+    <string name="what_they_charge_you">Lo que te cobran</string>
+    <string name="in_us_dollar">en Dólar estadounidense</string>
+    <string name="in_arg_pesos">en Pesos argentinos</string>
+
+</resources>

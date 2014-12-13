@@ -1,0 +1,17 @@
+<resources>
+
+    <style name="CuantoTeRobanTheme" parent="CuantoTeRobanTheme.Base" />
+
+    <style name="CuantoTeRobanTheme.Base" parent="Theme.AppCompat.Light">
+
+        <!-- Set AppCompat’s color theming attrs -->
+        <item name="colorPrimary">@color/my_app_green</item>
+        <item name="colorPrimaryDark">@color/my_app_darker_green</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowActionModeOverlay">true</item>
+        
+        <item name="actionModeShareDrawable">@drawable/social_share</item>
+    </style>
+
+</resources>

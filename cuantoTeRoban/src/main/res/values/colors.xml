@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="my_app_green">#259b24</color>
+    <color name="my_app_darker_green">#0d5302</color>
+    <color name="my_app_lighter_green">#81c784</color>
+    <color name="my_app_lightest_green">#c8e6c9</color>
+    
+    <color name="white">#FFFFFF</color>
+    <color name="lightYellow">#FFFFCC</color>
+    <color name="lightBlue">#E6FFFF</color>
+    <color name="black">#000000</color>
+    <color name="navDrawerSelected">#e0e0e0</color>
+</resources>

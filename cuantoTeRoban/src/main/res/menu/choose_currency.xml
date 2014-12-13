@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:yourapp="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_add_currency"
+        android:orderInCategory="100"
+        android:title="@string/menu_add_currency"
+        android:icon="@drawable/content_new"
+        yourapp:showAsAction="always"/>
+</menu>

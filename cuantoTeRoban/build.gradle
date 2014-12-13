@@ -1,0 +1,25 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+    compileOptions.encoding = 'windows-1252'
+
+    defaultConfig {
+        applicationId "com.smartpocket.cuantoteroban"
+        minSdkVersion 7
+        targetSdkVersion 21
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile project(':androidsupportv4preferencefragment')
+    compile 'com.android.support:appcompat-v7:21.0.3'
+}

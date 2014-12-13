@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <Preference
+        android:key="currency_preference_screen"
+        android:summary="@string/currency_preference_screen_explained"
+        android:title="Configurar "
+        android:selectable="false" />
+
+    <EditTextPreference
+        android:defaultValue="7.5"
+        android:dialogTitle="@string/paypal_percentage"
+        android:inputType="numberDecimal"
+        android:key="paypal_percentage"
+        android:summary="@string/paypal_percentage_explained"
+        android:title="@string/paypal_percentage" />
+
+    <PreferenceCategory
+        android:key="agency_category"
+        android:title="@string/agency_exchange_rate_preferences" >
+        <EditTextPreference
+            android:defaultValue="0"
+            android:dialogTitle="@string/agency_exchange_rate"
+            android:inputType="numberDecimal"
+            android:key="agency_exchange_rate"
+            android:summary="@string/agency_exchange_rate_explained"
+            android:title="@string/agency_exchange_rate" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="agency_exchange_rate_inverted"
+            android:summaryOff="@string/exchange_rate_inverted_explained_off"
+            android:summaryOn="@string/exchange_rate_inverted_explained_on"
+            android:title="@string/exchange_rate_inverted" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="bank_category"
+        android:title="@string/bank_exchange_rate_preferences" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:disableDependentsState="true"
+            android:key="use_internet_bank_exchange_rate"
+            android:summaryOff="@string/use_internet_bank_exchange_rate_explained_off"
+            android:summaryOn="@string/use_internet_bank_exchange_rate_explained_on"
+            android:title="@string/use_internet_bank_exchange_rate" />
+
+        <EditTextPreference
+            android:defaultValue="0"
+            android:dependency="use_internet_bank_exchange_rate"
+            android:dialogTitle="@string/bank_exchange_rate"
+            android:inputType="numberDecimal"
+            android:key="bank_exchange_rate"
+            android:summary="@string/bank_exchange_rate_explained"
+            android:title="@string/bank_exchange_rate" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="use_internet_bank_exchange_rate"
+            android:key="bank_exchange_rate_inverted"
+            android:summaryOff="@string/exchange_rate_inverted_explained_off"
+            android:summaryOn="@string/exchange_rate_inverted_explained_on"
+            android:title="@string/exchange_rate_inverted" />
+
+        <EditTextPreference
+            android:defaultValue="0"
+            android:dialogTitle="@string/bank_exchange_rate_percentage"
+            android:inputType="numberSigned|numberDecimal"
+            android:key="bank_exchange_rate_percentage"
+            android:summary="@string/bank_exchange_rate_percentage_explained"
+            android:title="@string/bank_exchange_rate_percentage" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
