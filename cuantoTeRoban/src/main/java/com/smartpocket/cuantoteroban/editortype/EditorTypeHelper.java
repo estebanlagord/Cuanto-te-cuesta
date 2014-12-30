@@ -11,8 +11,8 @@ public class EditorTypeHelper {
 		int id = 0;
 		
 		switch (type) {
-			case AMMOUNT:
-				id = R.id.ammountEditText;
+			case AMOUNT:
+				id = R.id.amountEditText;
 				break;
 			case DISCOUNT:
 				id = R.id.discountEditText;
@@ -20,6 +20,12 @@ public class EditorTypeHelper {
 			case CREDIT_CARD:
 				id = R.id.withCreditCardValue;
 				break;
+            case SAVINGS:
+                id = R.id.withSavingsValue;
+                break;
+            case BLUE:
+                id = R.id.withBlueValue;
+                break;
 			case EXCHANGE_AGENCY:
 				id = R.id.exchangeAgencyValue;
 				break;

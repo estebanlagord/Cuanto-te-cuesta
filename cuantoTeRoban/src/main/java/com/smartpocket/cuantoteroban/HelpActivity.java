@@ -1,7 +1,5 @@
 package com.smartpocket.cuantoteroban;
 
-import java.util.Locale;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,9 +19,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 public class HelpActivity extends ActionBarActivity implements ActionBar.OnNavigationListener {
-	static final String[] TAB_TITLES = new String[] { "Introducción",        "Pesos",                "Tarjeta",            "Casa de cambio",               "PayPal",            "Mis Monedas"};
-	static final String[] PAGE_TITLES = new String[] { "Pantalla principal", "Cotización del banco", "Tarjeta de crédito", "Cotización en casa de cambio", "Cotización PayPal", "Mis Monedas"};
+	static final String[] TAB_TITLES = new String[] { "Introducción",        "Oficial"           , "Ahorro"           , "Tarjeta"           , "Blue"           , "Casa de cambio"              , "PayPal",            "Mis Monedas"};
+	static final String[] PAGE_TITLES = new String[] { "Pantalla principal", "Cotización oficial", "Cotización ahorro", "Tarjeta de crédito", "Cotización blue", "Cotización en casa de cambio", "Cotización PayPal", "Mis Monedas"};
     ViewPager mPager;
 
 	
@@ -116,16 +116,22 @@ public class HelpActivity extends ActionBarActivity implements ActionBar.OnNavig
 	    	case 1:
 				content = context.getResources().getText(R.string.pesosHelp);
 				break;
-			case 2:
+            case 2:
+                content = context.getResources().getText(R.string.savingsHelp);
+                break;
+			case 3:
 				content = context.getResources().getText(R.string.creditCardHelp);
 				break;
-			case 3:
+            case 4:
+                content = context.getResources().getText(R.string.blueHelp);
+                break;
+			case 5:
 				content = context.getResources().getText(R.string.agencyHelp);
 				break;
-			case 4:
+			case 6:
 				content = context.getResources().getText(R.string.payPalHelp);
 				break;
-			case 5:
+			case 7:
 				content = context.getResources().getText(R.string.chooseCurrencyHelp);
 				break; 
 			default:

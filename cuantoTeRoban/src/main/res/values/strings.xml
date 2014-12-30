@@ -18,26 +18,30 @@
     <string name="title_activity_about">Acerca de la aplicación</string>
     <string name="Ammount">Monto:</string>
     <string name="AmmountTip">$</string>
-    <string name="InPesos">Pesos: </string>
+    <string name="InPesos">Oficial: </string>
     <string name="WithCreditCard">Tarjeta:</string>
+    <string name="WithSavings">Ahorro:</string>
+    <string name="WithBlue">Blue:</string>
     <string name="ExchangeAgency">Casa de Cambio: </string>
     <string name="Paypal">PayPal: </string>
     <string name="WhatItCostsYou">Lo que te cuesta</string>
     <string name="application_preferences">Opciones</string>
     <string name="global_preferences">Opciones generales"</string>
-    <string name="bank_exchange_rate_preferences">Cotización del banco</string>
-    <string name="bank_exchange_rate">Cotizacion en el banco</string>
+    <string name="bank_exchange_rate_preferences">Cotización oficial</string>
+    <string name="bank_exchange_rate">Cotización oficial</string>
     <string name="bank_exchange_rate_explained">Valor de venta de la moneda, según el banco.</string>
     <string name="bank_exchange_rate_percentage">Porcentaje a sumar/restar</string>
-    <string name="bank_exchange_rate_percentage_explained">Setear en caso de que tu banco tenga una cotización diferente a la que figura en \"Cotización en el banco\".</string>
+    <string name="bank_exchange_rate_percentage_explained">Setear en caso de que tu banco tenga una cotización diferente a la que figura en \"Cotización oficial\".</string>
     <string name="agency_exchange_rate_preferences">Cotización en casa de cambio</string>
     <string name="agency_exchange_rate">Casa de cambio</string>
     <string name="agency_exchange_rate_explained">Valor de venta de la moneda, según la casa de cambio.</string>
     <string name="exchange_rate_inverted">Invertir cotización</string>
     <string name="exchange_rate_inverted_explained_off">X ARS = 1 ZZZ</string>
     <string name="exchange_rate_inverted_explained_on">1 ARS = X ZZZ</string>
-    <string name="afip_percentage">Porcentaje para AFIP</string>
+    <string name="afip_percentage">Porcentaje AFIP con tarjeta</string>
     <string name="afip_percentage_explained">¿Que porcentaje te roba la AFIP al comprar con tarjeta?</string>
+    <string name="savings_percentage">Porcentaje AFIP para ahorro</string>
+    <string name="savings_percentage_explained">¿Que porcentaje te roba la AFIP al comprar para ahorro?</string>
     <string name="paypal_percentage">Porcentaje para PayPal</string>
     <string name="paypal_percentage_explained">¿Que porcentaje se queda PayPal?</string>
     <string name="update_bank_exchange_rates">Actualizar cotizaciones</string>
@@ -46,8 +50,8 @@
     <string name="remember_last_conversion">Recordar última conversión</string>
     <string name="remember_last_conversion_explained">¿Recordar la última conversión realizada al reiniciar la aplicación?</string>
     <string name="use_internet_bank_exchange_rate">Usar cotización de Internet</string>
-    <string name="use_internet_bank_exchange_rate_explained_on">Se usará la cotización del banco descargada de Internet.</string>
-    <string name="use_internet_bank_exchange_rate_explained_off">La cotización del banco está definida por el usuario.</string>
+    <string name="use_internet_bank_exchange_rate_explained_on">Se usará la cotización oficial descargada de Internet.</string>
+    <string name="use_internet_bank_exchange_rate_explained_off">La cotización oficial está definida por el usuario.</string>
     <string name="source_currency">Moneda a convertir</string>
     <string name="source_currency_explained">Moneda a convertir</string>
     <string name="use_light_icons">Usar iconos claros</string>
@@ -63,8 +67,10 @@
     <string name="show_taxes">Mostrar \"Recargo %\"</string>
     <string name="show_taxes_on_explained">Se aplicará el recargo ingresado</string>
     <string name="show_taxes_off_explained">No se realizará ningún recargo</string>
-    <string name="show_pesos">Mostrar \"Pesos\"</string>
+    <string name="show_pesos">Mostrar \"Oficial\"</string>
+    <string name="show_savings">Mostrar \"Ahorro\"</string>
     <string name="show_credit_card">Mostrar \"Tarjeta\"</string>
+    <string name="show_blue">Mostrar \"Blue\"</string>
     <string name="show_exchange_agency">Mostrar \"Casa de Cambio\"</string>
     <string name="show_paypal">Mostrar \"PayPal\"</string>
 
@@ -75,37 +81,50 @@
     <string name="mainHelp">
         Para usar la aplicación podes empezar tocando la bandera (o el botón de la esquina superior izquierda) para elegir cual es la moneda de origen que vas a convertir hacia Pesos Argentinos.\n\n
         Luego podes ingresar un valor para <b>Monto</b>, que podría ser por ejemplo el precio de lo que te interesa comprar.\n
-        En caso de que el negocio ofrezca algún tipo de porcentaje de descuento, lo podes ingresar en el campo <b>Descuento</b>.\n		<b>Recargo</b> es útil cuando el precio dado a conocer no incluye algún porcentaje de impuesto local.\n
-        En caso de que el recargo o impuesto sea un valor fijo (en vez de un porcentaje), se puede calcular en el campo <b>Monto</b>, usando la calculadora.\n\n		<b><u>Nota</u>:</b> el valor <b>Total</b> muestra el resultado de aplicarle el % de <b>Descuento</b> al <b>Monto</b>, y a eso se le aplica el % de <b>Recargo</b>.\n
+        En caso de que el negocio ofrezca algún tipo de porcentaje de descuento, lo podes ingresar en el campo <b>Descuento</b>.\n
+		<b>Recargo</b> es útil cuando el precio dado a conocer no incluye algún porcentaje de impuesto local.\n
+        En caso de que el recargo o impuesto sea un valor fijo (en vez de un porcentaje), se puede calcular en el campo <b>Monto</b>, usando la calculadora.\n\n
+		<b><u>Nota</u>:</b> el valor <b>Total</b> muestra el resultado de aplicarle el % de <b>Descuento</b> al <b>Monto</b>, y a eso se le aplica el % de <b>Recargo</b>.\n
         Es importante notar que, por ejemplo, $100 - 10% + 10% no da como resultado $100, sino $99\n\n 
         
         <b><u>Nota 2</u>:</b> Todos los números que aparecen en la pantalla principal son editables. Esto quiere decir que si queres saber, por ejemplo, 
-        “¿A cuantos dólares equivalen 100 pesos, si el negocio me da además un descuento de 10 dólares?” podes fijar el valor de Pesos en 100 y el de Descuento en 10,
+        “¿A cuantos dólares equivalen 100 pesos, si el negocio me da además un descuento de 10 dólares?” podes fijar el valor de Oficial en 100 y el de Descuento en 10,
         para saber la respuesta. \n\n 
         
         Lo que figura por debajo de <i><b>Lo que te cuesta</b></i> son todos valores en Pesos Argentinos.\n
         Para conocer los detalles de esos cálculos podes consultar las otras secciones de esta ayuda.\n
-        ¡No te olvides de ir a la pantalla de <b>Opciones</b> para personalizar la aplicación!</string>
+        ¡No te olvides de ir a la pantalla de <b>Opciones</b> para personalizar la aplicación!
+    </string>
     <string name="pesosHelp">
-		La conversión de la moneda que figura al lado de la palabra <b>“Pesos”</b> es la que se define en el menú de Opciones, en la sección <b>“Cotización del banco”</b> (dentro de <b>“Preferencias para la moneda”</b>).\n\n
+		La conversión de la moneda que figura al lado de la palabra <b>“Oficial”</b> es la que se define en el menú de Opciones, en la sección <b>“Cotización oficial”</b> (dentro de <b>“Preferencias para la moneda”</b>).\n\n
 		Esta cotización se puede actualizar automáticamente desde Internet (<a href="http://es-us.finanzas.yahoo.com/divisas/convertidor/">Yahoo Finanzas</a>), o puede ser especificada manualmente por el usuario.\n\n
 		Cuando está activa la opción <b>“Actualizar automáticamente”</b>, las cotizaciones se descargarán periódicamente desde Internet (al abrir la aplicación), aunque también se pueden actualizar manualmente usando el botón <b>“Actualizar”</b> de la pantalla principal.\n\n
 		En caso de definir la cotización manualmente (cuando la opción <b>“Actualizar automáticamente”</b> está desactivada), normalmente se ingresa en la pantalla de configuración la cantidad de pesos que hay que vender para comprar 1 unidad de la moneda extranjera. Si preferís especificar cuantas unidades de la moneda extranjera equivalen a 1 Peso Argentino, se puede ingresar ese valor y activar la opción <b>“Invertir Cotización”</b>.\n\n
 		Cuando definas una cotización manualmente, probablemente quieras probar de convertir el valor “$1” para asegurarte de que esté bien configurado.\n\n
 		Puede haber casos en que tu banco utilice una cotización un poco diferente a la que está definida. En ese caso podes configurar un porcentaje de ajuste utilizando la opción <b>“Porcentaje a sumar/restar”</b>. Este porcentaje puede ser positivo o negativo.</string>
+    <string name="savingsHelp">
+        La conversión de la moneda que figura como <b>“Ahorro”</b> se calcula tomando como base el valor que se muestra para “Oficial”, y sumándole el porcentaje que te roba la <b>AFIP</b> al comprar monedas para ahorro.\n\n
+		Cuando escribí esta ayuda ese porcentaje para AFIP al comprar para ahorro era del %20, pero se puede actualizar en la opción <b>“Porcentaje AFIP para ahorro”</b>.
+    </string>
     <string name="creditCardHelp">
-		La conversión de la moneda que figura como <b>“Tarjeta”</b> se calcula tomando como base el valor que se muestra para “Pesos”, y sumándole el porcentaje que te roba la <b>AFIP</b>.\n\n
-		Cuando escribí esta ayuda, ese porcentaje para AFIP era %35, pero como lo cambian cuando quieren de un día para el otro, ese valor lo podes actualizar en la opción <b>“Porcentaje para AFIP”</b>.</string>
+		La conversión de la moneda que figura como <b>“Tarjeta”</b> se calcula tomando como base el valor que se muestra para “Oficial”, y sumándole el porcentaje que te roba la <b>AFIP</b> al comprar con tarjeta de débito/crédito.\n\n
+		Cuando escribí esta ayuda, ese porcentaje para AFIP era %35, pero como lo cambian cuando quieren de un día para el otro, ese valor lo podes actualizar en la opción <b>“Porcentaje AFIP con tarjeta”</b>.</string>
+    <string name="blueHelp">
+        La conversión de la moneda que figura como <b>“Blue”</b> se calcula usando la cotización informal del <b>Dólar Blue</b> (estadounidense). Esta cotización se actualiza automáticamente junto con las oficiales.\n
+        Tené en cuenta que esta cotización varía bastante dependiendo de cual sea la ciudad donde compres, y otros factores.\n\n
+        Al convertir una moneda que no sea el Dólar Estadounidense, el campo de cotización <b>Blue</b> muestra el resultado de convertir dicha moneda primero hacia el dólar oficial, y después hacia Pesos argentinos usando la cotización Blue.\n
+        Esta conversión sería útil por ejemplo si uno viajara al exterior con dólares blue, para comprar moneda local en el país de destino.
+    </string>
     <string name="agencyHelp">
 		La conversión de la moneda que figura como <b>“Casa de Cambio”</b> es la que se define en el menú de Opciones, en la sección <b>“Cotización en casa de cambio”</b>.\n\n
 		Esta cotización debe ser definida manualmente, porque va a depender mucho del lugar en particular que uses para vender tus Pesos Argentinos, ya sea un lugar oficial de venta o no.\n
-		Como ésta es opción es diferente para cada moneda, se configura en la sección <b>“Preferencias para la moneda”</b> de las Opciones.\n\n
+		Como ésta opción es diferente para cada moneda, se configura en la sección <b>“Preferencias para la moneda”</b> de las Opciones.\n\n
 		Normalmente se ingresa la cantidad de pesos que hay que vender para comprar 1 unidad de la moneda extranjera. Si preferís especificar cuantas unidades de la moneda extranjera equivalen a 1 Peso Argentino, se puede ingresar ese valor y activar la opción <b>“Invertir Cotización”</b>.</string>
     <string name="payPalHelp">
 		Cuando se realiza una transferencia usando <b>PayPal</b>, la empresa cobra un porcentaje del monto transferido. Este porcentaje depende del país en el cual se retire el dinero.\n
 		Para averiguarlo hay que ingresar a PayPal con la cuenta de la persona que va a recibir el dinero y buscar ésta información en la Ayuda.\n\n
 		Una vez que se conozca ese porcentaje, hay que ingresarlo en la opción <b>“Porcentaje para PayPal”</b> de la aplicación. Como ésta es una opción que podría ser diferente para cada moneda, se configura en la sección <b>“Preferencias para la moneda”</b> de las Opciones.\n\n
-		La conversión que figura como “PayPal” se calcula tomando como base el valor que se muestra para “Pesos”. A eso se le suma el “Porcentaje para Paypal”, y al resultado se le suma el “Porcentaje para AFIP”. </string>
+		La conversión que figura como “PayPal” se calcula tomando como base el valor que se muestra para “Oficial”. A eso se le suma el “Porcentaje para Paypal”, y al resultado se le suma el “Porcentaje AFIP con tarjeta”. </string>
     <string name="chooseCurrencyHelp">
         Al tocar la bandera o el botón de la esquina superior izquierda en la pantalla principal, aparece la lista <b>Mis Monedas</b>.\n\n
         Las cotizaciones para las monedas de ésta lista se actualizan automáticamente de Internet (al abrir la aplicación), siempre y cuando la opción “Actualizar cotizaciones” esté activa.\n

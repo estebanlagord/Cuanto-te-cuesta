@@ -1,11 +1,5 @@
 package com.smartpocket.cuantoteroban;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
-
-import com.smartpocket.cuantoteroban.editortype.EditorType;
-import com.smartpocket.cuantoteroban.preferences.PreferencesManager;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -14,21 +8,28 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.TextView;
 
-public class AmmountTextWatcher implements TextWatcher {
+import com.smartpocket.cuantoteroban.editortype.EditorType;
+import com.smartpocket.cuantoteroban.preferences.PreferencesManager;
+
+import java.text.NumberFormat;
+import java.text.ParseException;
+
+public class AmountTextWatcher implements TextWatcher {
 
 	public static TextView lastOneChanged = null;
 	
 	private static final int FRACTION_DIGITS = 2;
 	private static final String VALUE_ARG = "value";
 	private static MainActivity mainActivity;
-	private static TextView ammountValue, discountValue, taxesValue, totalValue, pesosValue, creditCardValue, exchangeAgencyValue, payPalValue;
+	private static TextView amountValue, discountValue, taxesValue, totalValue, pesosValue, savingsValue, creditCardValue, blueValue, exchangeAgencyValue, payPalValue;
 	private static NumberFormat nf = NumberFormat.getInstance();
 	private static double bankExchangeRate;
 	private static boolean invertBankExchangeRate;
 	private static double bankExchangeRatePercentage;
 	private static double agencyExchangeRate;
 	private static boolean invertAgencyExchangeRate;
-	private static double afipPercentage;
+    private static double savingsPercentage;
+    private static double afipPercentage;
 	private static double payPalPercentage;
 	private static double discount;
 	private static double taxes;
@@ -36,25 +37,27 @@ public class AmmountTextWatcher implements TextWatcher {
 	private EditorType thisInstanceType;
 	private boolean initialized = false;
 	
-	public AmmountTextWatcher(MainActivity mainActivity, EditorType editorType) {
+	public AmountTextWatcher(MainActivity mainActivity, EditorType editorType) {
 		this.thisInstanceType = editorType;
 		
 		if (!initialized) {
 			initialized = true;
-			AmmountTextWatcher.mainActivity = mainActivity;
+			AmountTextWatcher.mainActivity = mainActivity;
 			
 			nf.setMinimumFractionDigits(FRACTION_DIGITS);
 			nf.setMaximumFractionDigits(FRACTION_DIGITS);
 			
-			ammountValue        = (TextView)mainActivity.findViewById(R.id.ammountEditText);
+			amountValue = (TextView)mainActivity.findViewById(R.id.amountEditText);
 			discountValue       = (TextView)mainActivity.findViewById(R.id.discountEditText);
 			taxesValue          = (TextView)mainActivity.findViewById(R.id.taxesEditText);
 			totalValue          = (TextView)mainActivity.findViewById(R.id.totalEditText);
 			pesosValue          = (TextView)mainActivity.findViewById(R.id.inPesosValue);
+            savingsValue        = (TextView)mainActivity.findViewById(R.id.withSavingsValue);
+            blueValue           = (TextView)mainActivity.findViewById(R.id.withBlueValue);
 			creditCardValue     = (TextView)mainActivity.findViewById(R.id.withCreditCardValue);
 			exchangeAgencyValue = (TextView)mainActivity.findViewById(R.id.exchangeAgencyValue);
 			payPalValue         = (TextView)mainActivity.findViewById(R.id.payPalValue);
-	
+
 			preferencesChanged();
 		}
 	}
@@ -69,7 +72,8 @@ public class AmmountTextWatcher implements TextWatcher {
 		invertAgencyExchangeRate   = PreferencesManager.getInstance().isAgencyExchangeRateInverted();
 		discount                   = PreferencesManager.getInstance().getDiscount();
 		taxes                      = PreferencesManager.getInstance().getTaxes();
-		
+        savingsPercentage          = PreferencesManager.getInstance().getSavingsPercentage();
+
 		if (invertBankExchangeRate){
 			if (bankExchangeRate != 0)
 				bankExchangeRate = 1/bankExchangeRate;
@@ -91,27 +95,27 @@ public class AmmountTextWatcher implements TextWatcher {
 	}
 
 	@Override
-	public synchronized void afterTextChanged(Editable ammountField) {
+	public synchronized void afterTextChanged(Editable amountField) {
 		mainActivity.disableEditTextListeners();
 
-		if (ammountField.toString().length() > 0) {
+		if (amountField.toString().length() > 0) {
 			
 			// turn "." into "0."
-			if (ammountField.toString().startsWith(".")) {
-				ammountField.insert(0, "0");
+			if (amountField.toString().startsWith(".")) {
+				amountField.insert(0, "0");
 			}
-			String valueStr = ammountField.toString();
+			String valueStr = amountField.toString();
 			try {
 				double number = nf.parse(valueStr).doubleValue();
-				//Log.d("Ammount Text Watcher", "Changing " + thisInstanceType.toString() + " to " + number);
+				//Log.d("Amount Text Watcher", "Changing " + thisInstanceType.toString() + " to " + number);
 
 				switch (thisInstanceType) {
-				case AMMOUNT:
-					lastOneChanged = ammountValue;
+				case AMOUNT:
+					lastOneChanged = amountValue;
 					if(valueStr.length() > 0)
-						updateValuesFromAmmount(number);
+						updateValuesFromAmount(number);
 					else
-						clearOtherTextViews(ammountValue);
+						clearOtherTextViews(amountValue);
 					break;
 				case DISCOUNT:
 					updateValuesFromDiscount(number);
@@ -140,6 +144,20 @@ public class AmmountTextWatcher implements TextWatcher {
 					else
 						clearOtherTextViews(creditCardValue);
 					break;
+                case SAVINGS:
+                    lastOneChanged = savingsValue;
+                    if (valueStr.length() > 0)
+                        updateValuesFromSavings(number);
+                    else
+                        clearOtherTextViews(savingsValue);
+                    break;
+                case BLUE:
+                    lastOneChanged = blueValue;
+                    if (valueStr.length() > 0)
+                        updateValuesFromBlue(number);
+                    else
+                        clearOtherTextViews(blueValue);
+                    break;
 				case EXCHANGE_AGENCY:
 					lastOneChanged = exchangeAgencyValue;
 					if (valueStr.length() > 0)
@@ -177,8 +195,8 @@ public class AmmountTextWatcher implements TextWatcher {
 	}
 	
 	private void clearOtherTextViews(TextView thisOne){
-		if (thisOne != ammountValue)
-			ammountValue.setText("");
+		if (thisOne != amountValue)
+			amountValue.setText("");
 		if (thisOne != pesosValue)
 			pesosValue.setText("");
 		if (thisOne != creditCardValue)
@@ -187,25 +205,31 @@ public class AmmountTextWatcher implements TextWatcher {
 			exchangeAgencyValue.setText("");
 		if (thisOne != payPalValue)
 			payPalValue.setText("");
+        if (thisOne != savingsValue)
+            savingsValue.setText("");
+        if (thisOne != blueValue)
+            blueValue.setText("");
 	}
 
-	private void updateValuesFromAmmount(double ammount) {
-		double total = ammountToTotal(ammount);
+	private void updateValuesFromAmount(double amount) {
+		double total = amountToTotal(amount);
 		
 		updateTotal(total);
 		updatePesos(total);
 		updateCreditCard(total);
 		updateAgency(total);
 		updatePayPal(total);
+        updateSavings(total);
+        updateBlue(total);
 	}
 	
 	private void updateValuesFromDiscount(double discount) {
-		if (AmmountTextWatcher.discount != discount) {
+		if (AmountTextWatcher.discount != discount) {
 			PreferencesManager.getInstance().setDiscount(discount);
-			AmmountTextWatcher.discount = discount;
+			AmountTextWatcher.discount = discount;
 	
 			if (lastOneChanged != null){
-				// recalcular todo
+				// recalculate everything
 				mainActivity.enableEditTextListeners();
 				lastOneChanged.setText(lastOneChanged.getText());
 			}
@@ -213,12 +237,12 @@ public class AmmountTextWatcher implements TextWatcher {
 	}
 	
 	private void updateValuesFromTaxes(double taxes) {
-		if (AmmountTextWatcher.taxes != taxes){
+		if (AmountTextWatcher.taxes != taxes){
 			PreferencesManager.getInstance().setTaxes(taxes);
-			AmmountTextWatcher.taxes = taxes;
+			AmountTextWatcher.taxes = taxes;
 	
 			if (lastOneChanged != null){
-				// recalcular todo
+                // recalculate everything
 				mainActivity.enableEditTextListeners();
 				lastOneChanged.setText(lastOneChanged.getText());
 			}
@@ -226,57 +250,91 @@ public class AmmountTextWatcher implements TextWatcher {
 	}
 	
 	private void updateValuesFromTotal(double total) {
-		updateAmmount(total);
+		updateAmount(total);
 		updatePesos(total);
 		updateCreditCard(total);
 		updateAgency(total);
 		updatePayPal(total);
+        updateSavings(total);
+        updateBlue(total);
 	}
 	
 	private void updateValuesFromPesos(double pesos) {
 		double total = pesosToTotal(pesos);
 		
-		updateAmmount(total);
+		updateAmount(total);
 		updateTotal(total);
 		updateCreditCard(total);
 		updateAgency(total);
 		updatePayPal(total);
+        updateSavings(total);
+        updateBlue(total);
 	}
 	
 	private void updateValuesFromCreditCard(double creditCard) {
 		double total = creditCardToTotal(creditCard);
 		
-		updateAmmount(total);
+		updateAmount(total);
 		updateTotal(total);
 		updatePesos(total);
 		updateAgency(total);
 		updatePayPal(total);
+        updateSavings(total);
+        updateBlue(total);
 	}
+
+    private void updateValuesFromSavings(double savings) {
+        double total = savingsToTotal(savings);
+
+        updateAmount(total);
+        updateTotal(total);
+        updatePesos(total);
+        updateCreditCard(total);
+        updateAgency(total);
+        updatePayPal(total);
+        updateBlue(total);
+    }
+
+    private void updateValuesFromBlue(double blue) {
+        double total = blueToTotal(blue);
+
+        updateAmount(total);
+        updateTotal(total);
+        updatePesos(total);
+        updateCreditCard(total);
+        updateAgency(total);
+        updatePayPal(total);
+        updateSavings(total);
+    }
 	
 	private void updateValuesFromAgency(double agency) {
 		double total = agencyToTotal(agency);
 		
-		updateAmmount(total);
+		updateAmount(total);
 		updateTotal(total);
 		updatePesos(total);
 		updateCreditCard(total);
 		updatePayPal(total);
+        updateSavings(total);
+        updateBlue(total);
 	}
 	
 	private void updateValuesFromPayPal(double payPal) {
 		double total = payPalWithCreditCardToTotal(payPal);
 		
-		updateAmmount(total);
+		updateAmount(total);
 		updateTotal(total);
 		updatePesos(total);
 		updateCreditCard(total);
 		updateAgency(total);
+        updateSavings(total);
+        updateBlue(total);
 	}
 	
-	private void updateAmmount(double total){
-		double ammount = totalToAmmount(total);
-		ammount = Utilities.round(ammount, FRACTION_DIGITS);
-		ammountValue.setText(nf.format(ammount));
+	private void updateAmount(double total){
+		double amount = totalToAmount(total);
+		amount = Utilities.round(amount, FRACTION_DIGITS);
+		amountValue.setText(nf.format(amount));
 	}
 	
 	private void updateDiscount() {
@@ -308,6 +366,18 @@ public class AmmountTextWatcher implements TextWatcher {
 		creditCard = Utilities.round(creditCard, FRACTION_DIGITS);
 		creditCardValue.setText(nf.format(creditCard));
 	}
+
+    private void updateSavings(double total){
+        double savings = totalToSavings(total);
+        savings = Utilities.round(savings, FRACTION_DIGITS);
+        savingsValue.setText(nf.format(savings));
+    }
+
+    private void updateBlue(double total){
+        double blue = totalToBlue(total);
+        blue = Utilities.round(blue, FRACTION_DIGITS);
+        blueValue.setText(nf.format(blue));
+    }
 	
 	private void updateAgency(double total){
 		double agency = totalToAgency(total);
@@ -321,7 +391,7 @@ public class AmmountTextWatcher implements TextWatcher {
 		payPalValue.setText(nf.format(payPalWithCreditCard));
 	}
 	
-	private double totalToAmmount(double total) {
+	private double totalToAmount(double total) {
 		double totalWithoutTaxes = total / (1 + taxes / 100);
 		//double totalWithoutTaxesOrDiscounts = totalWithoutTaxes / (1 - discount / 100); //THIS IS SOMETIMES  DIVIDING BY 0
 		double totalWithoutTaxesOrDiscounts = 0;
@@ -331,10 +401,10 @@ public class AmmountTextWatcher implements TextWatcher {
 		return totalWithoutTaxesOrDiscounts;
 	}
 	
-	private double ammountToTotal(double ammount) {
-		double ammountWithDiscount = ammount - (discount * ammount / 100);
-		double ammountWithDiscountAfterTaxes = ammountWithDiscount + (taxes * ammountWithDiscount / 100);
-		return ammountWithDiscountAfterTaxes;
+	private double amountToTotal(double amount) {
+		double amountWithDiscount = amount - (discount * amount / 100);
+		double amountWithDiscountAfterTaxes = amountWithDiscount + (taxes * amountWithDiscount / 100);
+		return amountWithDiscountAfterTaxes;
 	}
 	
 	private double totalToPesos(double total) {
@@ -354,7 +424,7 @@ public class AmmountTextWatcher implements TextWatcher {
 	
 	private double totalToCreditCard(double total){
 		double pesos = totalToPesos(total);
-		double withCreditCard = pesos + (afipPercentage * pesos / 100);  // suma 15%
+		double withCreditCard = pesos + (afipPercentage * pesos / 100);  // suma 35 de AFIP%
 		return withCreditCard;
 	}
 	
@@ -363,6 +433,32 @@ public class AmmountTextWatcher implements TextWatcher {
 		double total = pesosToTotal(pesos);
 		return total;
 	}
+
+    private double totalToSavings(double total){
+        double pesos = totalToPesos(total);
+        double withSavings = pesos + (savingsPercentage * pesos / 100); // suma 20% de ahorro
+        return withSavings;
+    }
+
+    private double savingsToTotal(double savings){
+        double pesos = savings / (1 + savingsPercentage / 100);  // quita el 20% de ahorro
+        double total = pesosToTotal(pesos);
+        return total;
+    }
+
+    private double totalToBlue(double total){
+        double toDollarRate = PreferencesManager.getInstance().getExchangeRateToDollar();
+        double blueRate = PreferencesManager.getInstance().getBlueDollarToARSRate();
+        double result = total * toDollarRate * blueRate;
+        return result;
+    }
+
+    private double blueToTotal(double blue){
+        double toDollarRate = PreferencesManager.getInstance().getExchangeRateToDollar();
+        double blueRate = PreferencesManager.getInstance().getBlueDollarToARSRate();
+        double result = blue / blueRate / toDollarRate;
+        return result;
+    }
 	
 	private double totalToAgency(double total) {
 		double agency = total * agencyExchangeRate;

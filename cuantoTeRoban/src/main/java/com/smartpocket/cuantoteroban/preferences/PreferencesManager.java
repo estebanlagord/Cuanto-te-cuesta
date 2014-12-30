@@ -1,5 +1,18 @@
 package com.smartpocket.cuantoteroban.preferences;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.util.Log;
+
+import com.smartpocket.cuantoteroban.AmountTextWatcher;
+import com.smartpocket.cuantoteroban.Currency;
+import com.smartpocket.cuantoteroban.CurrencyManager;
+import com.smartpocket.cuantoteroban.MainActivity;
+import com.smartpocket.cuantoteroban.R;
+import com.smartpocket.cuantoteroban.editortype.EditorType;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,19 +20,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import android.app.Activity;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.util.Log;
-
-import com.smartpocket.cuantoteroban.AmmountTextWatcher;
-import com.smartpocket.cuantoteroban.Currency;
-import com.smartpocket.cuantoteroban.CurrencyManager;
-import com.smartpocket.cuantoteroban.MainActivity;
-import com.smartpocket.cuantoteroban.R;
-import com.smartpocket.cuantoteroban.editortype.EditorType;
 
 public class PreferencesManager {
 	private static final PreferencesManager instance = new PreferencesManager();
@@ -31,11 +31,13 @@ public class PreferencesManager {
 	private static final String TAXES = "taxes";
 	
 	private static final String INTERNET_EXCHANGE_RATE = "internet_exchange_rate";
+    private static final String EXCHANGE_RATE_TO_DOLLAR = "exchange_rate_to_dollar";
 	public static final String BANK_EXCHANGE_RATE = "bank_exchange_rate";
 	public static final String BANK_EXCHANGE_RATE_INVERTED = "bank_exchange_rate_inverted";
 	public static final String BANK_EXCHANGE_RATE_PERCENTAGE = "bank_exchange_rate_percentage";
 	public static final String PAYPAL_PERCENTAGE = "paypal_percentage";
 	public static final String AFIP_PERCENTAGE = "afip_percentage";
+    public static final String SAVINGS_PERCENTAGE = "savings_percentage";
 	public static final String AGENCY_EXCHANGE_RATE = "agency_exchange_rate";
 	public static final String AGENCY_EXCHANGE_RATE_INVERTED = "agency_exchange_rate_inverted";
 	public static final String LAST_UPDATE_DATE = "last_update_date";
@@ -45,9 +47,11 @@ public class PreferencesManager {
 	public static final String CURRENT_CURRENCY = "source_currency";
 	public static final String CHOSEN_CURRENCIES = "chosen_currencies";
 	public static final String CURRENCIES_SEPARATOR = ",";
+    public static final String BLUE_DOLLAR_ARS = "blue_dollar_ars";
 	
 	public static final double DEFAULT_PAYPAL_PERCENTAGE = 7.5;
 	public static final double DEFAULT_AFIP_PERCENTAGE = 35;
+    public static final double DEFAULT_SAVINGS_PERCENTAGE = 20;
 	public static final double DEFAULT_AGENCY_EXCHANGE_RATE = 0;
 	public static final double DEFAULT_BANK_EXCHANGE_RATE = 0;
 	public static final double DEFAULT_BANK_EXCHANGE_RATE_PERCENTAGE = 0;
@@ -63,6 +67,8 @@ public class PreferencesManager {
 	public static final String SHOW_TAXES = "show_taxes";
 	public static final String SHOW_PESOS = "show_pesos";
 	public static final String SHOW_CREDIT_CARD = "show_credit_card";
+    public static final String SHOW_SAVINGS = "show_savings";
+    public static final String SHOW_BLUE = "show_blue";
 	public static final String SHOW_EXCHANGE_AGENCY = "show_exchange_agency";
 	public static final String SHOW_PAYPAL = "show_paypal";
 	private static final String DEFAULT_CURRENCY = "USD";
@@ -90,7 +96,7 @@ public class PreferencesManager {
 			setDiscount(0);
 			setTaxes(0);
 			setLastConversionValue(0);
-			AmmountTextWatcher.lastOneChanged = null;
+			AmountTextWatcher.lastOneChanged = null;
 		}
 	}
 	
@@ -142,6 +148,7 @@ public class PreferencesManager {
 		result.add(BANK_EXCHANGE_RATE_PERCENTAGE);
 		result.add(PAYPAL_PERCENTAGE);
 		result.add(AFIP_PERCENTAGE);
+        result.add(SAVINGS_PERCENTAGE);
 		result.add(AGENCY_EXCHANGE_RATE);
 		result.add(AGENCY_EXCHANGE_RATE_INVERTED);
 		result.add(LAST_UPDATE_DATE);
@@ -220,6 +227,20 @@ public class PreferencesManager {
 		}
 		return result;
 	}
+
+    public double getSavingsPercentage() {
+        String resultStr = getPreferencesByApp().getString(SAVINGS_PERCENTAGE, String.valueOf(DEFAULT_SAVINGS_PERCENTAGE));
+        double result = DEFAULT_SAVINGS_PERCENTAGE;
+        try{
+            result = Double.parseDouble(resultStr);
+        } catch(NumberFormatException e) {
+            // update the value so it won't throw an exception next time
+            Editor editor = getPreferencesByApp().edit();
+            editor.putString(SAVINGS_PERCENTAGE, String.valueOf(DEFAULT_SAVINGS_PERCENTAGE));
+            editor.commit();
+        }
+        return result;
+    }
 	
 	public boolean isAutomaticUpdateEnabled() {
 		return getPreferencesByApp().getBoolean(ARE_UPDATES_ENABLED, true);
@@ -308,6 +329,17 @@ public class PreferencesManager {
 		editor.putFloat(TAXES, (float)taxes);
 		editor.commit();
 	}
+
+    public double getBlueDollarToARSRate() {
+        double result = getPreferencesByApp().getFloat(BLUE_DOLLAR_ARS, 0);
+        return result;
+    }
+
+    public void setBlueDollarToArsRate(double blueRate) {
+        Editor editor = getPreferencesByApp().edit();
+        editor.putFloat(BLUE_DOLLAR_ARS, (float)blueRate);
+        editor.commit();
+    }
 	
 
 	public double getPayPalPercentage() {
@@ -404,6 +436,26 @@ public class PreferencesManager {
 		editor.commit();
 	}
 
+    public double getExchangeRateToDollar() {
+        String resultStr = getPreferencesForCurrentCurrency().getString(EXCHANGE_RATE_TO_DOLLAR, String.valueOf(DEFAULT_INTERNET_EXCHANGE_RATE));
+        double result = DEFAULT_INTERNET_EXCHANGE_RATE;
+        try{
+            result = Double.parseDouble(resultStr);
+        } catch(NumberFormatException e) {
+            // update the value so it won't throw an exception next time
+            Editor editor = getPreferencesForCurrentCurrency().edit();
+            editor.putString(EXCHANGE_RATE_TO_DOLLAR, String.valueOf(DEFAULT_INTERNET_EXCHANGE_RATE));
+            editor.commit();
+        }
+        return result;
+    }
+
+    public void setExchangeRateToDollar(Currency curr, double value){
+        Editor editor = getPreferencesByCurrency().get(curr).edit();
+        editor.putString(EXCHANGE_RATE_TO_DOLLAR, Double.toString(value));
+        editor.commit();
+    }
+
 	public void updateAllBankExchangeRatesWhichAreUsingInternetRates() {
 		for (Currency curr: getChosenCurrencies()){
 			// if "Use Internet Bank Exchange Rate" is enabled for this currency, update its "Bank Exchange Rate" value using the one from Internet
@@ -432,6 +484,14 @@ public class PreferencesManager {
 	public boolean isShowCreditCard() {
 		return getPreferencesByApp().getBoolean(SHOW_CREDIT_CARD, true);
 	}
+
+    public boolean isShowSavings() {
+        return getPreferencesByApp().getBoolean(SHOW_SAVINGS, true);
+    }
+
+    public boolean isShowBlue() {
+        return getPreferencesByApp().getBoolean(SHOW_BLUE, true);
+    }
 	
 	public boolean isShowExchangeAgency() {
 		return getPreferencesByApp().getBoolean(SHOW_EXCHANGE_AGENCY, true);

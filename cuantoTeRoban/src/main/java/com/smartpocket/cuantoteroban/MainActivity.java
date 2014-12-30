@@ -7,10 +7,6 @@ package com.smartpocket.cuantoteroban;
 // Yahoo dice: 4.775
 // AMEX dice:  4.800
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -53,12 +49,15 @@ import com.smartpocket.cuantoteroban.editortype.EditorTypeHelper;
 import com.smartpocket.cuantoteroban.preferences.PreferencesActivity;
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+
 @SuppressLint("RtlHardcoded")
 @SuppressWarnings("deprecation")
 public class MainActivity extends ActionBarActivity implements DeleteCurrencyDialogListener {
 
 	private static final int FRACTION_DIGITS = 2;
-	public static final String PREFS_NAME = "MyPrefsFile";
 	public static Typeface TYPEFACE_ROBOTO_MEDIUM;
 	public static Typeface TYPEFACE_ROBOTO_BLACK;
 	public static Typeface TYPEFACE_ROBOTO_CONDENSED_ITALIC;
@@ -68,16 +67,16 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 	private ListView mDrawerList;
 	
 	
-	private EditText ammountText, discountText, taxesText, totalText, pesosText, creditCardText, agencyText, payPalText;
-	private AmmountTextWatcher ammountTextWatcher, discountTextWatcher, taxesTextWatcher, totalTextWatcher,
-	                           pesosTextWatcher, creditCardTextWatcher, agencyTextWatcher, payPalTextWatcher;
+	private EditText amountText, discountText, taxesText, totalText, pesosText, creditCardText, savingsText, blueText, agencyText, payPalText;
+	private AmountTextWatcher amountTextWatcher, discountTextWatcher, taxesTextWatcher, totalTextWatcher, pesosTextWatcher,
+	                           creditCardTextWatcher, savingsTextWatcher, blueTextWatcher, agencyTextWatcher, payPalTextWatcher;
 	private EditText currentEditTextBeingEdited;
 	
 	private EditorType currentEditorType; //used for copy-paste
 	private DecimalFormat shortNumberFormat = (DecimalFormat)DecimalFormat.getInstance();
-	public static enum RequestCode {SETTINGS, CALCULATOR, CHOOSE_CURRENCY, ADD_CURRENCY};
+	public static enum RequestCode {SETTINGS, CALCULATOR, CHOOSE_CURRENCY, ADD_CURRENCY}
 	private boolean areTextWatchersEnabled = false;
-	enum DiscountOrTax {DISCOUNT, TAXES};
+	enum DiscountOrTax {DISCOUNT, TAXES}
 	private static MainActivity theInstance = null;
 	private MenuItem refreshItem;
 	private ImageView rotatingRefreshButtonView;
@@ -232,18 +231,20 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 	private void setupListeners() {
 		
 		// Edit Text listeners
-       	ammountTextWatcher    = new AmmountTextWatcher(this, EditorType.AMMOUNT);
-       	discountTextWatcher   = new AmmountTextWatcher(this, EditorType.DISCOUNT);
-       	taxesTextWatcher      = new AmmountTextWatcher(this, EditorType.TAXES);
-       	totalTextWatcher      = new AmmountTextWatcher(this, EditorType.TOTAL);
-       	pesosTextWatcher      = new AmmountTextWatcher(this, EditorType.PESOS);
-       	creditCardTextWatcher = new AmmountTextWatcher(this, EditorType.CREDIT_CARD);
-       	agencyTextWatcher     = new AmmountTextWatcher(this, EditorType.EXCHANGE_AGENCY);
-       	payPalTextWatcher     = new AmmountTextWatcher(this, EditorType.PAYPAL);
+       	amountTextWatcher = new AmountTextWatcher(this, EditorType.AMOUNT);
+       	discountTextWatcher   = new AmountTextWatcher(this, EditorType.DISCOUNT);
+       	taxesTextWatcher      = new AmountTextWatcher(this, EditorType.TAXES);
+       	totalTextWatcher      = new AmountTextWatcher(this, EditorType.TOTAL);
+       	pesosTextWatcher      = new AmountTextWatcher(this, EditorType.PESOS);
+       	creditCardTextWatcher = new AmountTextWatcher(this, EditorType.CREDIT_CARD);
+        savingsTextWatcher    = new AmountTextWatcher(this, EditorType.SAVINGS);
+        blueTextWatcher = new AmountTextWatcher(this, EditorType.BLUE);
+       	agencyTextWatcher     = new AmountTextWatcher(this, EditorType.EXCHANGE_AGENCY);
+       	payPalTextWatcher     = new AmountTextWatcher(this, EditorType.PAYPAL);
        	
-		ammountText = (EditText)findViewById(R.id.ammountEditText);
-        ammountText.setOnClickListener(new OnClickListenerShowCalc(ammountText, getResources().getString(R.string.Ammount), EditorType.AMMOUNT));
-        ammountText.setOnLongClickListener(onLongClickShowCopyPaste(ammountText, EditorType.AMMOUNT));
+		amountText = (EditText)findViewById(R.id.amountEditText);
+        amountText.setOnClickListener(new OnClickListenerShowCalc(amountText, getResources().getString(R.string.Ammount), EditorType.AMOUNT));
+        amountText.setOnLongClickListener(onLongClickShowCopyPaste(amountText, EditorType.AMOUNT));
         
         discountText = (EditText)findViewById(R.id.discountEditText);
         discountText.setOnClickListener(new OnClickListenerShowCalc(discountText, getResources().getString(R.string.Discount), EditorType.DISCOUNT));
@@ -264,6 +265,14 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
         creditCardText = (EditText)findViewById(R.id.withCreditCardValue);
         creditCardText.setOnClickListener(new OnClickListenerShowCalc(creditCardText, getResources().getString(R.string.WithCreditCard), EditorType.CREDIT_CARD));
         creditCardText.setOnLongClickListener(onLongClickShowCopyPaste(creditCardText, EditorType.CREDIT_CARD));
+
+        savingsText = (EditText)findViewById(R.id.withSavingsValue);
+        savingsText.setOnClickListener(new OnClickListenerShowCalc(savingsText, getResources().getString(R.string.WithSavings), EditorType.SAVINGS));
+        savingsText.setOnLongClickListener(onLongClickShowCopyPaste(savingsText, EditorType.SAVINGS));
+
+        blueText = (EditText)findViewById(R.id.withBlueValue);
+        blueText.setOnClickListener(new OnClickListenerShowCalc(blueText, getResources().getString(R.string.WithBlue), EditorType.BLUE));
+        blueText.setOnLongClickListener(onLongClickShowCopyPaste(blueText, EditorType.BLUE));
         
         agencyText = (EditText)findViewById(R.id.exchangeAgencyValue);
         agencyText.setOnClickListener(new OnClickListenerShowCalc(agencyText, getResources().getString(R.string.ExchangeAgency), EditorType.EXCHANGE_AGENCY));
@@ -316,12 +325,14 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 	public synchronized void disableEditTextListeners(){
 		if (areTextWatchersEnabled) {
 			//Log.d("Main Activity", "\tDisabled Edit Text Listeners");
-			ammountText.removeTextChangedListener(ammountTextWatcher);
+			amountText.removeTextChangedListener(amountTextWatcher);
 			discountText.removeTextChangedListener(discountTextWatcher);
 			taxesText.removeTextChangedListener(taxesTextWatcher);
 			totalText.removeTextChangedListener(totalTextWatcher);
 			pesosText.removeTextChangedListener(pesosTextWatcher);
 			creditCardText.removeTextChangedListener(creditCardTextWatcher);
+            savingsText.removeTextChangedListener(savingsTextWatcher);
+            blueText.removeTextChangedListener(blueTextWatcher);
 			agencyText.removeTextChangedListener(agencyTextWatcher);
 			payPalText.removeTextChangedListener(payPalTextWatcher);
 			areTextWatchersEnabled = false;
@@ -333,12 +344,14 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 		if (!areTextWatchersEnabled) {
 			//Log.d("Main Activity", "Enabled Edit Text Listeners");
 			areTextWatchersEnabled = true;
-			ammountText.addTextChangedListener(ammountTextWatcher);
+			amountText.addTextChangedListener(amountTextWatcher);
 			discountText.addTextChangedListener(discountTextWatcher);
 			taxesText.addTextChangedListener(taxesTextWatcher);
 			totalText.addTextChangedListener(totalTextWatcher);
 			pesosText.addTextChangedListener(pesosTextWatcher);
 			creditCardText.addTextChangedListener(creditCardTextWatcher);
+            savingsText.addTextChangedListener(savingsTextWatcher);
+            blueText.addTextChangedListener(blueTextWatcher);
 			agencyText.addTextChangedListener(agencyTextWatcher);
 			payPalText.addTextChangedListener(payPalTextWatcher);
 		}
@@ -393,9 +406,9 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
     public boolean onCreateOptionsMenu(Menu menu) {
     	menu.clear();
     	getMenuInflater().inflate(R.menu.activity_main, menu);
-    	
+
     	refreshItem = menu.findItem(R.id.menu_update);
-    	
+
     	LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         rotatingRefreshButtonView = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
 
@@ -403,6 +416,8 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
         
        	// this is necessary because the update begins before onCreateOptionsMenu is called
         updateRefreshProgress();
+
+        // testing line
         
         // Set up ShareActionProvider's default share intent
         MenuItem shareItem = menu.findItem(R.id.menu_share);
@@ -411,12 +426,11 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
         mShareActionProvider.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
 			
 			@Override
-			public boolean onShareTargetSelected(ShareActionProvider arg0, Intent arg1) {
+			public boolean onShareTargetSelected(ShareActionProvider arg0, Intent shareIntent) {
 				try {
 					// copiar el texto al portapapeles, para poder pegarlo por ejemplo en Facebook
 					ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 					//Intent shareIntent = getUpdatedShareIntent();
-					Intent shareIntent = arg1;
 					String shareContent = shareIntent.getExtras().get(Intent.EXTRA_TEXT).toString();
 					
 					clipboard.setText(shareContent);
@@ -520,13 +534,17 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 			// get preference values again
 			recalculateConversionRates();
 			// recalcular los valores cuando se vuelva de la pantalla de preferencias
-			TextView lastOneChanged = AmmountTextWatcher.lastOneChanged;
-			if (lastOneChanged == ammountText) {
-				ammountText.setText(ammountText.getText());
+			TextView lastOneChanged = AmountTextWatcher.lastOneChanged;
+			if (lastOneChanged == amountText) {
+				amountText.setText(amountText.getText());
 			} else if (lastOneChanged == pesosText) {
 				pesosText.setText(pesosText.getText());
 			} else if (lastOneChanged == creditCardText) {
 				creditCardText.setText(creditCardText.getText());
+            } else if (lastOneChanged == savingsText) {
+                savingsText.setText(savingsText.getText());
+            } else if (lastOneChanged == blueText) {
+                blueText.setText(blueText.getText());
 			} else if (lastOneChanged == agencyText) {
 				agencyText.setText(agencyText.getText());
 			} else if (lastOneChanged == payPalText) {
@@ -594,9 +612,11 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
     private Intent getUpdatedShareIntent() {
     	boolean showDiscount = false; 
     	boolean	showTaxes = false;
-    	boolean	showTotal = false;
+    	boolean	showTotal;
     	boolean	showPesos = PreferencesManager.getInstance().isShowPesos();
     	boolean	showCreditCard = PreferencesManager.getInstance().isShowCreditCard();
+        boolean showSavings = PreferencesManager.getInstance().isShowSavings();
+        boolean showBlue = PreferencesManager.getInstance().isShowBlue();
     	boolean	showAgency = false;
     	boolean	showPayPal = PreferencesManager.getInstance().isShowPaypal();
     	
@@ -627,7 +647,7 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
     	}
     	
     	StringBuilder sharedText = new StringBuilder("Lo que te cobran en " + PreferencesManager.getInstance().getCurrentCurrency().getName() + ":");
-    	sharedText.append("\nMonto: $" + ammountText.getText().toString());
+    	sharedText.append("\nMonto: $" + amountText.getText().toString());
     	
     	if (showDiscount)
     		sharedText.append("\nDescuento: " + discountText.getText().toString() + "%");
@@ -641,9 +661,13 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
     	sharedText.append("\n\nLo que te cuesta en Pesos argentinos:");
     	
     	if (showPesos)
-    		sharedText.append("\nPesos: $" + pesosText.getText().toString());
+    		sharedText.append("\nOficial: $" + pesosText.getText().toString());
+        if (showSavings)
+            sharedText.append("\nAhorro: $" + savingsText.getText().toString());
     	if (showCreditCard)
     		sharedText.append("\nTarjeta: $" + creditCardText.getText().toString());
+        if (showBlue)
+            sharedText.append("\nBlue: $" + blueText.getText().toString());
     	if (showAgency)
     		sharedText.append("\nCasa de Cambio: $" + agencyText.getText().toString());
     	if (showPayPal)
@@ -663,10 +687,10 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
     	Typeface defaultFont = android.graphics.Typeface.DEFAULT;
     	Typeface bold = TYPEFACE_ROBOTO_BLACK;
     	
-    	if (lastOneChanged == ammountText)
-    		ammountText.setTypeface(bold);
+    	if (lastOneChanged == amountText)
+    		amountText.setTypeface(bold);
     	else
-    		ammountText.setTypeface(defaultFont);
+    		amountText.setTypeface(defaultFont);
     	
     	if (lastOneChanged == discountText)
     		discountText.setTypeface(bold);
@@ -687,7 +711,17 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
     		pesosText.setTypeface(bold);
     	else
     		pesosText.setTypeface(defaultFont);
-    	
+
+        if (lastOneChanged == savingsText)
+            savingsText.setTypeface(bold);
+        else
+            savingsText.setTypeface(defaultFont);
+
+        if (lastOneChanged == blueText)
+            blueText.setTypeface(bold);
+        else
+            blueText.setTypeface(defaultFont);
+
     	if (lastOneChanged == creditCardText)
     		creditCardText.setTypeface(bold);
     	else
@@ -705,7 +739,7 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
     }
     
 	public void recalculateConversionRates() {
-		AmmountTextWatcher.preferencesChanged();
+		AmountTextWatcher.preferencesChanged();
 		restoreLastConversion(); // recalculates the conversions
 	}
 	
@@ -719,11 +753,11 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 				double lastConversionValue = PreferencesManager.getInstance().getLastConversionValue();
 				
 				if (editorType == null)
-					editorType = EditorType.AMMOUNT;
+					editorType = EditorType.AMOUNT;
 				
 				switch (editorType) {
-					case AMMOUNT:
-						currentEditTextBeingEdited = ammountText;
+					case AMOUNT:
+						currentEditTextBeingEdited = amountText;
 						break;
 					case DISCOUNT:
 						currentEditTextBeingEdited = discountText;
@@ -740,6 +774,12 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 					case CREDIT_CARD:
 						currentEditTextBeingEdited = creditCardText;
 						break;
+                    case SAVINGS:
+                        currentEditTextBeingEdited = savingsText;
+                        break;
+                    case BLUE:
+                        currentEditTextBeingEdited = blueText;
+                        break;
 					case EXCHANGE_AGENCY:
 						currentEditTextBeingEdited = agencyText;
 						break;
@@ -818,6 +858,8 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 		View totalView    = findViewById(R.id.tableRowTotal);
 		View pesosView    =  findViewById(R.id.tableRowPesos);
 		View cardView     =  findViewById(R.id.tableRowWithCard);
+        View savingsView  =  findViewById(R.id.tableRowSavings);
+        View blueView     =  findViewById(R.id.tableRowBlue);
 		View agencyView   =  findViewById(R.id.tableRowExchangeAgency);
 		View paypalView   =  findViewById(R.id.tableRowPayPal);
 		
@@ -848,12 +890,22 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 			pesosView.setVisibility(View.VISIBLE);
 		else
 			pesosView.setVisibility(View.GONE);
-		
+
+        if (PreferencesManager.getInstance().isShowSavings())
+            savingsView.setVisibility(View.VISIBLE);
+        else
+            savingsView.setVisibility(View.GONE);
+
 		if (PreferencesManager.getInstance().isShowCreditCard())
 			cardView.setVisibility(View.VISIBLE);
 		else
 			cardView.setVisibility(View.GONE);
-		
+
+        if (PreferencesManager.getInstance().isShowBlue())
+            blueView.setVisibility(View.VISIBLE);
+        else
+            blueView.setVisibility(View.GONE);
+
 		if (PreferencesManager.getInstance().isShowExchangeAgency())
 			agencyView.setVisibility(View.VISIBLE);
 		else
@@ -867,7 +919,7 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 	
 	private void setFonts() {
 		((TextView)findViewById(R.id.whatTheyChargeYou)).setTypeface(TYPEFACE_ROBOTO_BLACK);
-		((TextView)findViewById(R.id.ammountTextView)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
+		((TextView)findViewById(R.id.amountTextView)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
 		//((TextView)findViewById(R.id.discountTextView)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
 		//((TextView)findViewById(R.id.taxesTextView)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
 		((TextView)findViewById(R.id.totalTextView)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
@@ -875,6 +927,8 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 		((TextView)findViewById(R.id.whatItCostsYou)).setTypeface(TYPEFACE_ROBOTO_BLACK);
 		((TextView)findViewById(R.id.textViewInPesos)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
 		((TextView)findViewById(R.id.textViewWithCard)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
+        ((TextView)findViewById(R.id.textViewSavings)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
+        ((TextView)findViewById(R.id.textViewBlue)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
 		((TextView)findViewById(R.id.textViewAgency)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
 	}
 	

@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/ammountTextView"
+                    android:id="@+id/amountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -70,7 +70,7 @@
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
 
                 <EditText
-                    android:id="@+id/ammountEditText"
+                    android:id="@+id/amountEditText"
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
@@ -252,11 +252,11 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:gravity="right"
-                        android:paddingRight="@dimen/padding_small" >
+                        android:paddingRight="@dimen/padding_small"
+                        android:layout_marginBottom="5dp">
 
                         <ImageView
-                            android:id="@+id/imagePeso"
-                            android:layout_width="92dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:adjustViewBounds="true"
@@ -278,6 +278,55 @@
             </TableRow>
 
             <TableRow
+                android:id="@+id/tableRowSavings"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1.0" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.55"
+                    android:gravity="top" >
+
+                    <TextView
+                        android:id="@+id/textViewSavings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:text="@string/WithSavings"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:paddingRight="@dimen/padding_small"
+                        android:gravity="right"
+                        android:layout_marginBottom="5dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ahorro"
+                            android:layout_gravity="center_vertical" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/withSavingsValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.45"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/AmmountTip"
+                    android:inputType="none"
+                    android:longClickable="false" />
+            </TableRow>
+
+            <TableRow
                 android:id="@+id/tableRowWithCard"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -286,7 +335,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_weight="0.55" >
+                    android:layout_weight="0.55">
 
                     <TextView
                         android:id="@+id/textViewWithCard"
@@ -301,18 +350,70 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:gravity="right"
-                        android:paddingRight="@dimen/padding_small" >
+                        android:paddingRight="@dimen/padding_small"
+                        android:layout_marginBottom="5dp">
 
                         <ImageView
-                            android:id="@+id/chooseCurrencyFlag"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
                             android:src="@drawable/tarjeta_de_credito" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <EditText
                     android:id="@+id/withCreditCardValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.45"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/AmmountTip"
+                    android:inputType="none"
+                    android:longClickable="false" />
+            </TableRow>
+
+
+
+            <TableRow
+                android:id="@+id/tableRowBlue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1.0" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.55" >
+
+                    <TextView
+                        android:id="@+id/textViewBlue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingRight="@dimen/padding_medium"
+                        android:text="@string/WithBlue"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="right"
+                        android:paddingRight="@dimen/padding_small"
+                        android:layout_marginBottom="5dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/dolarblue" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/withBlueValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.45"
@@ -334,6 +435,7 @@
                     android:id="@+id/textViewAgency"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="0.55"
                     android:text="@string/ExchangeAgency"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />

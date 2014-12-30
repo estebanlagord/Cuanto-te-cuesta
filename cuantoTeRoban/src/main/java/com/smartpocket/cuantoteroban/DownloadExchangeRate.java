@@ -1,5 +1,14 @@
 package com.smartpocket.cuantoteroban;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.TextView;
+
+import com.smartpocket.cuantoteroban.preferences.PreferencesManager;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,20 +16,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import com.smartpocket.cuantoteroban.preferences.PreferencesManager;
-
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.widget.TextView;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
 	
@@ -29,70 +33,133 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
 	//private static final String EXCHANGE_RATE_URL = "http://download.finance.yahoo.com/d/quotes.csv?s=BRLARS=x,USDARS=x,EURARS=x,CLPARS=x,UYUARS=x,MXNARS=x,GBPARS=x&f=l1";
 	private static final String EXCHANGE_RATE_URL_PRE = "http://download.finance.yahoo.com/d/quotes.csv?s=";
 	private static final String EXCHANGE_RATE_URL_POS = "&f=l1";
-	private final SimpleDateFormat displayDateFormat = new SimpleDateFormat(    "dd/MMM HH:mm", new Locale("es", "AR"));
+    private static final String BLUE_DOLLAR_URL = "http://www.ambito.com/economia/mercados/monedas/dolar/info/?ric=ARSB=";
+    private final SimpleDateFormat displayDateFormat = new SimpleDateFormat(    "dd/MMM HH:mm", new Locale("es", "AR"));
 	private final SimpleDateFormat prefDateFormat    = new SimpleDateFormat("MM/dd/yyyy HH:mm", new Locale("es", "AR"));
 	private final MainActivity mainActivity;
 	private final boolean force;
 	private final TextView lastUpdateStr;
 	//private final ProgressBar progressCircle;
-	private enum Results { SUCCESS, PARSE_ERROR, CONNECTION_ERROR, NO_INTERNET };
+	private enum Results { SUCCESS, NO_INTERNET, PARSE_ERROR, CONNECTION_ERROR,  PARSE_ERROR_BLUE, CONNECTION_ERROR_BLUE };
 
 
 	DownloadExchangeRate(MainActivity mainActivity, boolean force) {
 		this.mainActivity = mainActivity;
 		this.force = force;
 		lastUpdateStr = (TextView)this.mainActivity.findViewById(R.id.textLastUpdateValue);
-		//progressCircle = (ProgressBar)this.mainActivity.findViewById(R.id.progressBar);
-
 	}
 
 	@Override
 	protected synchronized String doInBackground(String... sUrl) {
-		InputStream input = null;
 		String result = null;
 		
 		if(!isNetworkAvailable())
 			return Results.NO_INTERNET.name();
-		
-		try {
-			URL url = new URL(getExchangeRateURL());
-			URLConnection connection = url.openConnection();
-			connection.connect();
 
-			// download the file
-			input = new BufferedInputStream(url.openStream());
-			BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        result = loadExchangeRates();
+        boolean wasLoadExchangeRatesSuccessful = Results.valueOf(result) == Results.SUCCESS;
+        boolean isShowingBlueConversion = PreferencesManager.getInstance().isShowBlue();
 
-			//for (Currency curr : CurrencyManager.getInstance().getAllCurrencies()) {
-			for (Currency curr : PreferencesManager.getInstance().getChosenCurrencies()) {
-				Double newInternetExchangeRate = Double.parseDouble(reader.readLine());
-				PreferencesManager.getInstance().setInternetExchangeRate(curr, newInternetExchangeRate);
-				/*
-				if (newInternetExchangeRate == 0)
-					System.out.println("Moneda con problema: " + curr.getCode() + " " + curr.getName());
-				else
-					System.out.println("Procesando: " + curr.getCode() + " " + curr.getName());
-				*/
-			}
-			
-			result = Results.SUCCESS.name();
+        if (wasLoadExchangeRatesSuccessful && isShowingBlueConversion)
+            result = loadBlueDollarRate();
 
-		} catch (NumberFormatException e) {
-			result = Results.PARSE_ERROR.name();
-		} catch (NullPointerException e) {
-			result = Results.PARSE_ERROR.name();
-		} catch (Exception e){
-			result = Results.CONNECTION_ERROR.name();
-		} finally{
-			try {
-				if (input != null)
-					input.close();
-			} catch (IOException e) {}
-		}
-		
-    	return result;
+        return result;
 	}
-	
+
+    private String loadExchangeRates() {
+        InputStream input = null;
+        String result;
+        try {
+            URL url = new URL(getExchangeRateURL());
+            URLConnection connection = url.openConnection();
+            connection.connect();
+
+            // download the file
+            input = new BufferedInputStream(url.openStream());
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+
+            //for (Currency curr : CurrencyManager.getInstance().getAllCurrencies()) {
+            for (Currency curr : PreferencesManager.getInstance().getChosenCurrencies()) {
+                Double newInternetExchangeRate = Double.parseDouble(reader.readLine());
+                PreferencesManager.getInstance().setInternetExchangeRate(curr, newInternetExchangeRate);
+                /*
+                if (newInternetExchangeRate == 0)
+                    System.out.println("Moneda con problema: " + curr.getCode() + " " + curr.getName());
+                else
+                    System.out.println("Procesando: " + curr.getCode() + " " + curr.getName());
+                */
+
+                // process USDXXX conversions
+
+                Double newExchangeRateToDollar = Double.parseDouble(reader.readLine());
+                PreferencesManager.getInstance().setExchangeRateToDollar(curr, newExchangeRateToDollar);
+            }
+
+            result = Results.SUCCESS.name();
+
+        } catch (NumberFormatException e) {
+            result = Results.PARSE_ERROR.name();
+        } catch (NullPointerException e) {
+            result = Results.PARSE_ERROR.name();
+        } catch (Exception e){
+            result = Results.CONNECTION_ERROR.name();
+        } finally{
+            try {
+                if (input != null)
+                    input.close();
+            } catch (IOException e) {}
+        }
+        return result;
+    }
+
+    private String loadBlueDollarRate() {
+        InputStream input = null;
+        String result;
+        try {
+            URL url = new URL(BLUE_DOLLAR_URL);
+            URLConnection connection = url.openConnection();
+            connection.connect();
+
+            // download the file
+            input = new BufferedInputStream(url.openStream());
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+            final String token = "id=\"venta\"".toLowerCase();
+
+            String line = reader.readLine();
+            while (line != null) {
+
+                if (line.toLowerCase().contains(token)) {
+                    Pattern p = Pattern.compile("[0-9,]+");
+                    Matcher m = p.matcher(line);
+                    if (m.find()) {
+                        String numberStr = m.group();
+                        numberStr = numberStr.replaceAll(",", "."); // replace , for .
+                        NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
+                        double blueRate = nf.parse(numberStr).doubleValue();
+                        Log.i("DownloadExchangeRate parser", "Found blue: " + blueRate);
+                        PreferencesManager.getInstance().setBlueDollarToArsRate(blueRate);
+                        break;
+                    }
+                }
+                line = reader.readLine();
+            }
+            result = Results.SUCCESS.name();
+
+        } catch (NumberFormatException e) {
+            result = Results.PARSE_ERROR_BLUE.name();
+        } catch (NullPointerException e) {
+            result = Results.PARSE_ERROR_BLUE.name();
+        } catch (Exception e){
+            result = Results.CONNECTION_ERROR_BLUE.name();
+        } finally{
+            try {
+                if (input != null)
+                    input.close();
+            } catch (IOException e) {}
+        }
+        return result;
+    }
+
     @Override
     protected synchronized void onPreExecute() {
         super.onPreExecute();
@@ -108,19 +175,25 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
     @Override
     protected synchronized void onPostExecute(String result) {
     	super.onPostExecute(result);
-    	String dateStr = PreferencesManager.getInstance().getLastUpdateDate();
+    	String dateStr;
     	
     	switch (Results.valueOf(result)) {
+        case NO_INTERNET:
+            if (force)
+                Utilities.showToast("No hay conexión a Internet");
+            break;
 		case PARSE_ERROR:
-			Utilities.showToast("Error al parsear las cotizaciones de Internet");
-			break;
-		case NO_INTERNET:
-			if (force)
-				Utilities.showToast("No hay conexión a Internet");
+			Utilities.showToast("Error al leer las cotizaciones de Internet");
 			break;
 		case CONNECTION_ERROR:
 			Utilities.showToast("No se pudieron actualizar las cotizaciones desde Internet");
 			break;
+        case PARSE_ERROR_BLUE:
+            Utilities.showToast("Error al leer la cotización del dólar blue de Internet");
+            break;
+        case CONNECTION_ERROR_BLUE:
+            Utilities.showToast("No se pudo actualizar la cotización del dólar blue desde Internet");
+            break;
 		default:
 			// SUCCESS
 			Date date = new Date();
@@ -211,7 +284,8 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
 		
 		for (int i = 0; i< currencies.size() ; i++) {
 			Currency curr = currencies.get(i);
-			result.append(curr.getCode().toUpperCase(Locale.US) + "ARS=x");
+            String code = curr.getCode().toUpperCase(Locale.US);
+            result.append(code + "ARS=x," + code + "USD=x");
 			if (i < currencies.size() - 1)
 				result.append(',');
 		}
