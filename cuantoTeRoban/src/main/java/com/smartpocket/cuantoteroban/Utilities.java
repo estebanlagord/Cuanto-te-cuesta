@@ -1,11 +1,11 @@
 package com.smartpocket.cuantoteroban;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Locale;
-
-import android.content.Context;
-import android.widget.Toast;
 
 public class Utilities {
 	/**
@@ -16,7 +16,10 @@ public class Utilities {
 	 */
 	public static double round(double number, int numDigitsToShow){
 		double result;
-		
+
+        if(Double.isNaN(number) || Double.isInfinite(number))
+            number = 0;
+
 		BigDecimal bigDecimal = new BigDecimal(number);
 		BigDecimal roundedBigDecimal = bigDecimal.setScale(numDigitsToShow, RoundingMode.HALF_UP);
 		result = roundedBigDecimal.doubleValue();
@@ -46,6 +49,4 @@ public class Utilities {
 		Toast toast = Toast.makeText(context, text, duration);
 		toast.show();
 	}
-	
-	
 }

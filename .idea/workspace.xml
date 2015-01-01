@@ -64,6 +64,9 @@
     <rightPanel url="file://$PROJECT_DIR$" />
     <splitter proportion="0.5" />
   </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="PARALLEL_COMPILATION" value="true" />
+  </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
@@ -76,63 +79,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/MainActivity.java">
+      <file leaf-file-name="AmountTextWatcher.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/AmountTextWatcher.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="5918" max-vertical-offset="19278">
-              <caret line="366" column="56" selection-start-line="366" selection-start-column="56" selection-end-line="366" selection-end-column="56" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="strings.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/res/values/strings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6880734" vertical-offset="1505" max-vertical-offset="3349">
-              <caret line="115" column="140" selection-start-line="115" selection-start-column="140" selection-end-line="115" selection-end-column="140" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="7305" max-vertical-offset="8449">
+              <caret line="455" column="19" selection-start-line="455" selection-start-column="19" selection-end-line="455" selection-end-column="19" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="preferences.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/res/xml/preferences.xml">
+      <file leaf-file-name="Utilities.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/Utilities.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="1683">
-              <caret line="93" column="19" selection-start-line="93" selection-start-column="19" selection-end-line="93" selection-end-column="19" />
+            <state vertical-scroll-proportion="0.3684971" vertical-offset="0" max-vertical-offset="901">
+              <caret line="20" column="23" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="preferences_for_currency.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/res/xml/preferences_for_currency.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="1360">
-              <caret line="39" column="61" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="61" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HelpActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/HelpActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3111">
-              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-              <folding>
-                <element signature="e#4232#4281#0" expanded="true" />
-                <element signature="e#4325#4375#0" expanded="true" />
-                <element signature="e#4434#4486#0" expanded="true" />
-                <element signature="e#4536#4591#0" expanded="true" />
-                <element signature="e#4650#4699#0" expanded="true" />
-                <element signature="e#4749#4800#0" expanded="true" />
-                <element signature="e#4838#4889#0" expanded="true" />
-                <element signature="e#4927#4986#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -1646,13 +1608,14 @@
         <option value="$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/AmountTextWatcher.java" />
         <option value="$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/preferences/PreferencesManager.java" />
         <option value="$PROJECT_DIR$/cuantoTeRoban/src/main/res/layout-land/activity_main.xml" />
-        <option value="$PROJECT_DIR$/cuantoTeRoban/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/MainActivity.java" />
         <option value="$PROJECT_DIR$/cuantoTeRoban/src/main/res/layout/activity_main.xml" />
         <option value="$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/DownloadExchangeRate.java" />
         <option value="$PROJECT_DIR$/cuantoTeRoban/src/main/res/xml/preferences.xml" />
         <option value="$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/HelpActivity.java" />
         <option value="$PROJECT_DIR$/cuantoTeRoban/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/Utilities.java" />
+        <option value="$PROJECT_DIR$/cuantoTeRoban/src/main/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -1738,15 +1701,9 @@
               <option name="myItemId" value="Cuanto Te Roban" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Cuanto Te Roban" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cuantoTeRoban" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+              <option name="myItemId" value="Gradle Scripts" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1757,68 +1714,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="cuantoTeRoban" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="xml" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Cuanto Te Roban" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cuantoTeRoban" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Cuanto Te Roban" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cuantoTeRoban" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Cuanto Te Roban" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cuantoTeRoban" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="activity_main.xml" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResGroupNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1897,11 +1792,17 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Cuanto Te Roban" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1911,22 +1812,22 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="options.lastSelected" value="Errors" />
+    <property name="options.lastSelected" value="gradle.compiler" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
     <property name="recentsLimit" value="5" />
     <property name="android.project.structure.last.selected" value="androidsupportv4preferencefragment" />
     <property name="android.project.structure.proportion" value="0.15" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="4df15c17210c7f79" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_7_Android_4.3" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../android-workspace/Cuanto Te Roban - market versions/4.0 (21)" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../android-workspace/Cuanto Te Roban - market versions/4.0.1 (22)" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager2.WIDTH" value="468" />
     <property name="FullScreen" value="false" />
     <property name="LayoutCode.rearrangeEntriesJava" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="ExportApk.ApkPath" value="C:\Workspaces\android-workspace\Cuanto Te Roban - market versions\4.0 (21)" />
+    <property name="ExportApk.ApkPath" value="C:\Workspaces\android-workspace\Cuanto Te Roban - market versions\4.0.1 (22)" />
     <property name="ExportApk.Flavors" value="" />
     <property name="ExportApk.BuildType" value="release" />
   </component>
@@ -2137,10 +2038,8 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39010283" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3280543" sideWeight="0.37297735" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32916668" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3280543" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2710356" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -2155,13 +2054,15 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32969153" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26992288" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26992288" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32777777" sideWeight="0.5347896" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34861112" sideWeight="0.5565553" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39010283" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32916668" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -2169,11 +2070,11 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3280543" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3280543" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27056554" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32969153" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3280543" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32916668" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32969153" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26992288" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="combo" />
@@ -2191,8 +2092,8 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33888888" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.55277777" sideWeight="0.44344473" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32969153" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -2216,14 +2117,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="357">
-          <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/androidsupportv4preferencefragment/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="238" max-vertical-offset="442">
@@ -2271,8 +2164,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="1139" max-vertical-offset="7038">
           <caret line="95" column="29" selection-start-line="95" selection-start-column="29" selection-end-line="95" selection-end-column="29" />
           <folding>
-            <element signature="e#9639#9661#0" expanded="true" />
-            <element signature="e#10785#10807#0" expanded="true" />
+            <element signature="e#9639#9661#0" expanded="false" />
+            <element signature="e#10785#10807#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2284,9 +2177,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="5532" max-vertical-offset="17612">
           <caret line="389" column="4" selection-start-line="389" selection-start-column="4" selection-end-line="389" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2310,7 +2201,45 @@
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="527" max-vertical-offset="7259">
           <caret line="31" column="38" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
-          <folding />
+          <folding>
+            <element signature="e#978#1001#0" expanded="false" />
+            <element signature="e#1833#1863#0" expanded="false" />
+            <element signature="e#2230#2252#0" expanded="false" />
+            <element signature="e#3122#3139#0" expanded="false" />
+            <element signature="e#3539#3562#0" expanded="false" />
+            <element signature="e#3802#3822#0" expanded="false" />
+            <element signature="e#4444#4462#0" expanded="false" />
+            <element signature="e#4864#4887#0" expanded="false" />
+            <element signature="e#6040#6055#0" expanded="false" />
+            <element signature="e#6454#6477#0" expanded="false" />
+            <element signature="e#7671#7686#0" expanded="false" />
+            <element signature="e#8084#8107#0" expanded="false" />
+            <element signature="e#8347#8367#0" expanded="false" />
+            <element signature="e#8719#8741#0" expanded="false" />
+            <element signature="e#8783#8805#0" expanded="false" />
+            <element signature="e#9107#9130#0" expanded="false" />
+            <element signature="e#9966#9990#0" expanded="false" />
+            <element signature="e#10418#10440#0" expanded="false" />
+            <element signature="e#11690#11707#0" expanded="false" />
+            <element signature="e#12074#12096#0" expanded="false" />
+            <element signature="e#13120#13140#0" expanded="false" />
+            <element signature="e#14102#14123#0" expanded="false" />
+            <element signature="e#14438#14460#0" expanded="false" />
+            <element signature="e#15476#15496#0" expanded="false" />
+            <element signature="e#16417#16440#0" expanded="false" />
+            <element signature="e#16482#16506#0" expanded="false" />
+            <element signature="e#16873#16895#0" expanded="false" />
+            <element signature="e#17870#17890#0" expanded="false" />
+            <element signature="e#18803#18826#0" expanded="false" />
+            <element signature="e#18868#18886#0" expanded="false" />
+            <element signature="e#19253#19275#0" expanded="false" />
+            <element signature="e#20239#20259#0" expanded="false" />
+            <element signature="e#20930#20954#0" expanded="false" />
+            <element signature="e#21497#21517#0" expanded="false" />
+            <element signature="e#22961#22981#0" expanded="false" />
+            <element signature="e#23399#23422#0" expanded="false" />
+            <element signature="e#23631#23651#0" expanded="false" />
+          </folding>
         </state>
       </provider>
       <provider selected="true" editor-type-id="android-designer">
@@ -2494,13 +2423,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gradle.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6632948" vertical-offset="0" max-vertical-offset="692">
-          <caret line="27" column="33" selection-start-line="27" selection-start-column="33" selection-end-line="27" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cuantoTeRoban/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
@@ -2527,7 +2449,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="170">
           <caret line="2" column="115" selection-start-line="2" selection-start-column="115" selection-end-line="2" selection-end-column="115" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2558,43 +2479,43 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="2720" max-vertical-offset="8976">
           <caret line="172" column="0" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
           <folding>
-            <element signature="e#978#1001#0" expanded="true" />
-            <element signature="e#1833#1863#0" expanded="true" />
-            <element signature="e#2230#2252#0" expanded="true" />
-            <element signature="e#3122#3139#0" expanded="true" />
-            <element signature="e#3539#3562#0" expanded="true" />
-            <element signature="e#3802#3822#0" expanded="true" />
-            <element signature="e#4444#4462#0" expanded="true" />
-            <element signature="e#4864#4887#0" expanded="true" />
-            <element signature="e#6040#6055#0" expanded="true" />
-            <element signature="e#6454#6477#0" expanded="true" />
-            <element signature="e#7671#7686#0" expanded="true" />
-            <element signature="e#8084#8107#0" expanded="true" />
-            <element signature="e#8347#8367#0" expanded="true" />
-            <element signature="e#8719#8741#0" expanded="true" />
-            <element signature="e#8783#8805#0" expanded="true" />
-            <element signature="e#9107#9130#0" expanded="true" />
-            <element signature="e#9966#9990#0" expanded="true" />
-            <element signature="e#10418#10440#0" expanded="true" />
-            <element signature="e#11690#11707#0" expanded="true" />
-            <element signature="e#12074#12096#0" expanded="true" />
-            <element signature="e#13120#13140#0" expanded="true" />
-            <element signature="e#14102#14123#0" expanded="true" />
-            <element signature="e#14438#14460#0" expanded="true" />
-            <element signature="e#15476#15496#0" expanded="true" />
-            <element signature="e#16417#16440#0" expanded="true" />
-            <element signature="e#16482#16506#0" expanded="true" />
-            <element signature="e#16873#16895#0" expanded="true" />
-            <element signature="e#17870#17890#0" expanded="true" />
-            <element signature="e#18803#18826#0" expanded="true" />
-            <element signature="e#18868#18886#0" expanded="true" />
-            <element signature="e#19253#19275#0" expanded="true" />
-            <element signature="e#20239#20259#0" expanded="true" />
-            <element signature="e#20930#20954#0" expanded="true" />
-            <element signature="e#21497#21517#0" expanded="true" />
-            <element signature="e#22961#22981#0" expanded="true" />
-            <element signature="e#23399#23422#0" expanded="true" />
-            <element signature="e#23631#23651#0" expanded="true" />
+            <element signature="e#978#1001#0" expanded="false" />
+            <element signature="e#1833#1863#0" expanded="false" />
+            <element signature="e#2230#2252#0" expanded="false" />
+            <element signature="e#3122#3139#0" expanded="false" />
+            <element signature="e#3539#3562#0" expanded="false" />
+            <element signature="e#3802#3822#0" expanded="false" />
+            <element signature="e#4444#4462#0" expanded="false" />
+            <element signature="e#4864#4887#0" expanded="false" />
+            <element signature="e#6040#6055#0" expanded="false" />
+            <element signature="e#6454#6477#0" expanded="false" />
+            <element signature="e#7671#7686#0" expanded="false" />
+            <element signature="e#8084#8107#0" expanded="false" />
+            <element signature="e#8347#8367#0" expanded="false" />
+            <element signature="e#8719#8741#0" expanded="false" />
+            <element signature="e#8783#8805#0" expanded="false" />
+            <element signature="e#9107#9130#0" expanded="false" />
+            <element signature="e#9966#9990#0" expanded="false" />
+            <element signature="e#10418#10440#0" expanded="false" />
+            <element signature="e#11690#11707#0" expanded="false" />
+            <element signature="e#12074#12096#0" expanded="false" />
+            <element signature="e#13120#13140#0" expanded="false" />
+            <element signature="e#14102#14123#0" expanded="false" />
+            <element signature="e#14438#14460#0" expanded="false" />
+            <element signature="e#15476#15496#0" expanded="false" />
+            <element signature="e#16417#16440#0" expanded="false" />
+            <element signature="e#16482#16506#0" expanded="false" />
+            <element signature="e#16873#16895#0" expanded="false" />
+            <element signature="e#17870#17890#0" expanded="false" />
+            <element signature="e#18803#18826#0" expanded="false" />
+            <element signature="e#18868#18886#0" expanded="false" />
+            <element signature="e#19253#19275#0" expanded="false" />
+            <element signature="e#20239#20259#0" expanded="false" />
+            <element signature="e#20930#20954#0" expanded="false" />
+            <element signature="e#21497#21517#0" expanded="false" />
+            <element signature="e#22961#22981#0" expanded="false" />
+            <element signature="e#23399#23422#0" expanded="false" />
+            <element signature="e#23631#23651#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2606,15 +2527,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1054">
           <caret line="20" column="46" selection-start-line="20" selection-start-column="46" selection-end-line="20" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1938">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2623,21 +2535,13 @@
         <state vertical-scroll-proportion="0.52434456" vertical-offset="3940" max-vertical-offset="8772">
           <caret line="240" column="42" selection-start-line="240" selection-start-column="42" selection-end-line="240" selection-end-column="42" />
           <folding>
-            <element signature="e#9639#9661#0" expanded="true" />
-            <element signature="e#10785#10807#0" expanded="true" />
+            <element signature="e#9639#9661#0" expanded="false" />
+            <element signature="e#10785#10807#0" expanded="false" />
           </folding>
         </state>
       </provider>
       <provider editor-type-id="android-designer">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/AmountTextWatcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.63909775" vertical-offset="7021" max-vertical-offset="8449">
-          <caret line="435" column="0" selection-start-line="435" selection-start-column="0" selection-end-line="435" selection-end-column="0" />
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/DownloadExchangeRate.java">
@@ -2648,37 +2552,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5918" max-vertical-offset="19278">
-          <caret line="366" column="56" selection-start-line="366" selection-start-column="56" selection-end-line="366" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/HelpFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.098265894" vertical-offset="0" max-vertical-offset="1037">
           <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/res/xml/preferences.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="1683">
-          <caret line="93" column="19" selection-start-line="93" selection-start-column="19" selection-end-line="93" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/res/xml/preferences_for_currency.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="1360">
-          <caret line="39" column="61" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="61" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2686,16 +2563,33 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3111">
           <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/res/xml/preferences_for_currency.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34393063" vertical-offset="408" max-vertical-offset="1360">
+          <caret line="38" column="35" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
           <folding>
-            <element signature="e#4232#4281#0" expanded="true" />
-            <element signature="e#4325#4375#0" expanded="true" />
-            <element signature="e#4434#4486#0" expanded="true" />
-            <element signature="e#4536#4591#0" expanded="true" />
-            <element signature="e#4650#4699#0" expanded="true" />
-            <element signature="e#4749#4800#0" expanded="true" />
-            <element signature="e#4838#4889#0" expanded="true" />
-            <element signature="e#4927#4986#0" expanded="true" />
+            <element signature="e#1651#1691#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/res/xml/preferences.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8526012" vertical-offset="991" max-vertical-offset="1683">
+          <caret line="93" column="19" selection-start-line="93" selection-start-column="19" selection-end-line="93" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradle.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.5612245" vertical-offset="0" max-vertical-offset="561">
+          <caret line="27" column="33" selection-start-line="27" selection-start-column="33" selection-end-line="27" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2703,6 +2597,38 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6880734" vertical-offset="1505" max-vertical-offset="3349">
           <caret line="115" column="140" selection-start-line="115" selection-start-column="140" selection-end-line="115" selection-end-column="140" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5918" max-vertical-offset="19278">
+          <caret line="366" column="56" selection-start-line="366" selection-start-column="56" selection-end-line="366" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/AmountTextWatcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="7305" max-vertical-offset="8449">
+          <caret line="455" column="19" selection-start-line="455" selection-start-column="19" selection-end-line="455" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.14739884" vertical-offset="0" max-vertical-offset="1938">
+          <caret line="6" column="30" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cuantoTeRoban/src/main/java/com/smartpocket/cuantoteroban/Utilities.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3684971" vertical-offset="0" max-vertical-offset="901">
+          <caret line="20" column="23" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
           <folding />
         </state>
       </provider>
