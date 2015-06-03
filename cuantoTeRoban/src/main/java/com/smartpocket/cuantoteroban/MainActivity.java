@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -40,7 +41,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.smartpocket.cuantoteroban.calc.Calculator;
@@ -80,6 +80,7 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 	private static MainActivity theInstance = null;
 	private MenuItem refreshItem;
 	private ImageView rotatingRefreshButtonView;
+	private SwipeRefreshLayout mSwipeRefreshLayout;
 	private Animation refreshButtonRotation;
 	private ActionMode mActionMode;
 	private ShareActionProvider mShareActionProvider;
@@ -105,6 +106,9 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
     	
     	Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
+
+		mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+		mSwipeRefreshLayout.setColorSchemeResources(R.color.my_app_green);
 
         /*ActionBar actionBar = getSupportActionBar();
         //actionBar.setDisplayShowTitleEnabled(false);
@@ -301,6 +305,14 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
         deleteDiscountView.setOnClickListener(new OnClickListenerDeleteDiscountOrTax(DiscountOrTax.DISCOUNT));
         View deleteTaxesView = findViewById(R.id.deleteTaxes);
         deleteTaxesView.setOnClickListener(new OnClickListenerDeleteDiscountOrTax(DiscountOrTax.TAXES));
+
+		// swipe to refresh
+		mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				updateExchangeRate(true);
+			}
+		});
 	}
 
 	private OnLongClickListener onLongClickShowCopyPaste(final EditText editText, final EditorType type) {
@@ -384,21 +396,23 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 			{
 				rotatingRefreshButtonView.startAnimation(refreshButtonRotation);
 				MenuItemCompat.setActionView(refreshItem, rotatingRefreshButtonView);
+				mSwipeRefreshLayout.setRefreshing(true);
 			} else{
 				if (MenuItemCompat.getActionView(refreshItem) != null){
 					MenuItemCompat.getActionView(refreshItem).clearAnimation();
 					MenuItemCompat.setActionView(refreshItem, null);
 				}
+				mSwipeRefreshLayout.setRefreshing(false);
 			}
 		}
 		
-		ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar1);
+		/*ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar1);
 		if (progressBar != null) {
 			if (DownloadExchangeRate.updateInProgress)
 				progressBar.setVisibility(View.VISIBLE);
 			else
 				progressBar.setVisibility(View.INVISIBLE);
-		}
+		}*/
 	}
 	
 	
