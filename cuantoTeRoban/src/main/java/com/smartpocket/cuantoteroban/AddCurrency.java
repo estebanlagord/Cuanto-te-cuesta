@@ -1,11 +1,5 @@
 package com.smartpocket.cuantoteroban;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
 import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
@@ -27,7 +21,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.SectionIndexer;
 import android.widget.SimpleAdapter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class AddCurrency extends ActionBarActivity {
 	private static enum COLUMN_NAMES {FLAG, NAME, CODE};
@@ -114,11 +117,12 @@ public class AddCurrency extends ActionBarActivity {
         }
  
         // fill in the grid_item layout
-        SimpleAdapter adapter = new SimpleAdapter(this, fillMaps, R.layout.add_currency_row, from, to);
+        SimpleAdapter adapter = new AddCurrencyAdapter(this, fillMaps, R.layout.add_currency_row, from, to);
         
 		ListView listView = (ListView)findViewById(R.id.unused_currencies_list);
 		listView.setAdapter(adapter);
-		
+		listView.setFastScrollEnabled(true);
+
 	}
 
 	@TargetApi(Build.VERSION_CODES.FROYO)
@@ -197,6 +201,57 @@ public class AddCurrency extends ActionBarActivity {
 		return true;
 	}
 
+	class AddCurrencyAdapter extends SimpleAdapter implements SectionIndexer{
+		//Set<Character> sections = new TreeSet<Character>();
+		Map<String, Integer> mapIndex = new TreeMap<String, Integer>();
+		String[] sections;
 
+		/**
+		 * Constructor
+		 *
+		 * @param context  The context where the View associated with this SimpleAdapter is running
+		 * @param data     A List of Maps. Each entry in the List corresponds to one row in the list. The
+		 *                 Maps contain the data for each row, and should include all the entries specified in
+		 *                 "from"
+		 * @param resource Resource identifier of a view layout that defines the views for this list
+		 *                 item. The layout file should include at least those named views defined in "to"
+		 * @param from     A list of column names that will be added to the Map associated with each
+		 *                 item.
+		 * @param to       The views that should display column in the "from" parameter. These should all be
+		 *                 TextViews. The first N views in this list are given the values of the first N columns
+		 */
+		public AddCurrencyAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
+			super(context, data, resource, from, to);
+
+			for (int x = 0; x < data.size() ; x++) {
+			//for (Map<String, ?> map : data) {
+				Map<String, ?> map = data.get(x);
+				String name = map.get(COLUMN_NAMES.NAME.name()).toString().toUpperCase();
+				if (name != null && name.length() > 0) {
+						String ch = name.substring(0, 1);
+						if (!mapIndex.containsKey(ch))
+							mapIndex.put(ch, x);
+				}
+			}
+
+			Set<String> sectionLetters = mapIndex.keySet();
+			sections = sectionLetters.toArray(new String[sectionLetters.size()]);
+		}
+
+		@Override
+		public Object[] getSections() {
+			return sections;
+		}
+
+		@Override
+		public int getPositionForSection(int sectionIndex) {
+			return mapIndex.get(sections[sectionIndex]);
+		}
+
+		@Override
+		public int getSectionForPosition(int position) {
+			return 0;
+		}
+	}
 
 }

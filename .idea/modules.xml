@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Cuanto Te Roban.iml" filepath="$PROJECT_DIR$/Cuanto Te Roban.iml" />
       <module fileurl="file://$PROJECT_DIR$/CuantoTeRoban.iml" filepath="$PROJECT_DIR$/CuantoTeRoban.iml" />
       <module fileurl="file://$PROJECT_DIR$/androidsupportv4preferencefragment/androidsupportv4preferencefragment.iml" filepath="$PROJECT_DIR$/androidsupportv4preferencefragment/androidsupportv4preferencefragment.iml" />
       <module fileurl="file://$PROJECT_DIR$/cuantoTeRoban/cuantoTeRoban.iml" filepath="$PROJECT_DIR$/cuantoTeRoban/cuantoTeRoban.iml" />
