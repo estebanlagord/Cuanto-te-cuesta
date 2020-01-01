@@ -10,13 +10,13 @@ import android.preference.PreferenceCategory;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.smartpocket.cuantoteroban.Currency;
 import com.smartpocket.cuantoteroban.R;
 
-public class PreferencesActivityForCurrency extends ActionBarActivity {
+public class PreferencesActivityForCurrency extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

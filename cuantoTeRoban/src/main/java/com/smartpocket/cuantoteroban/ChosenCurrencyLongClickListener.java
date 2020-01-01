@@ -77,15 +77,15 @@ public class ChosenCurrencyLongClickListener implements OnItemLongClickListener 
 	    @Override
 	    public Dialog onCreateDialog(Bundle savedInstanceState) {
 	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-	        builder.setTitle("¿Borrar?")
-	        		.setMessage("¿Queres borrar la moneda " + currency.getName() + " de esta lista?")
+	        builder.setTitle("Â¿Borrar?")
+	        		.setMessage("Â¿Queres borrar la moneda " + currency.getName() + " de esta lista?")
 	        		.setNegativeButton("Cancelar", null)
 	        		.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 	                   public void onClick(DialogInterface dialog, int id) {
 	                	   Currency currentCurrency = PreferencesManager.getInstance().getCurrentCurrency();
 	                	   if (currency.equals(currentCurrency)) {
 	                		   AlertDialog.Builder builder2 = new AlertDialog.Builder(getActivity());
-	                		   builder2.setMessage("No se puede borrar la moneda " + currency.getName() + " porque es la que se está mostrando ahora en la pantalla principal.");
+	                		   builder2.setMessage("No se puede borrar la moneda " + currency.getName() + " porque es la que se estÃ¡ mostrando ahora en la pantalla principal.");
 	                		   builder2.setNeutralButton("OK", null);
 	                		   Dialog d = builder2.create();
 	                		   d.show();

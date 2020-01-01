@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -21,9 +21,9 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
-public class HelpActivity extends ActionBarActivity implements ActionBar.OnNavigationListener {
-	static final String[] TAB_TITLES = new String[] { "Introducci髇",        "Oficial"           , "Ahorro"           , "Tarjeta"           , "Blue"           , "Casa de cambio"              , "PayPal",            "Mis Monedas"};
-	static final String[] PAGE_TITLES = new String[] { "Pantalla principal", "Cotizaci髇 oficial", "Cotizaci髇 ahorro", "Tarjeta de cr閐ito", "Cotizaci髇 blue", "Cotizaci髇 en casa de cambio", "Cotizaci髇 PayPal", "Mis Monedas"};
+public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavigationListener {
+	static final String[] TAB_TITLES = new String[] { "Introducci贸n",        "Oficial"           , "Ahorro"           , "Tarjeta"           , "Blue"           , "Casa de cambio"              , "PayPal",            "Mis Monedas"};
+	static final String[] PAGE_TITLES = new String[] { "Pantalla principal", "Cotizaci贸n oficial", "Cotizaci贸n ahorro", "Tarjeta de cr茅dito", "Cotizaci贸n blue", "Cotizaci贸n en casa de cambio", "Cotizaci贸n PayPal", "Mis Monedas"};
     ViewPager mPager;
 
 	

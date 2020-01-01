@@ -33,12 +33,12 @@ public class Utilities {
 		
 		String result = str.trim().toLowerCase(Locale.US);
 		
-		result = result.replaceAll("[áäâàã]", "a");
-		result = result.replaceAll("[éëêè]",  "e");
-		result = result.replaceAll("[íïîì]",  "i");
-		result = result.replaceAll("[óöôò]",  "o");
-		result = result.replaceAll("[úüûù]",  "u");
-		result = result.replaceAll("[ñ]",     "n");
+		result = result.replaceAll("[Ã¡Ã¤Ã¢Ã Ã£]", "a");
+		result = result.replaceAll("[Ã©Ã«ÃªÃ¨]",  "e");
+		result = result.replaceAll("[Ã­Ã¯Ã®Ã¬]",  "i");
+		result = result.replaceAll("[Ã³Ã¶Ã´Ã²]",  "o");
+		result = result.replaceAll("[ÃºÃ¼Ã»Ã¹]",  "u");
+		result = result.replaceAll("[Ã±]",     "n");
 		
 		return result;
 	}

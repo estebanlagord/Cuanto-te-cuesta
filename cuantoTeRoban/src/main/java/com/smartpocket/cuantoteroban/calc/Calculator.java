@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.text.ClipboardManager;
@@ -35,15 +35,15 @@ import com.smartpocket.cuantoteroban.editortype.EditorType;
 import com.smartpocket.cuantoteroban.editortype.EditorTypeHelper;
 
 @SuppressWarnings("deprecation")
-public class Calculator extends ActionBarActivity {
+public class Calculator extends AppCompatActivity {
 
 	public static final String RESULT = "result";
 	public static final String RESULT_TYPE = "result_type";
 	private static final int FRACTION_DIGITS = 4;
-	private static final String INVALID_EXPRESSION = "La expresión no es válida";
-	public static final String INVALID_PERCENTAGE = "El porcentaje debe ser un número entre 0 y 100";
-	public static final String INVALID_DISCOUNT100 = "El descuento no puede ser del 100% porque el valor quedaría en $0";
-	private static final String INFINITE_OR_NAN= "El resultado de la operación no es un número válido.\n¿Dividiste por 0?";
+	private static final String INVALID_EXPRESSION = "La expresiï¿½n no es vï¿½lida";
+	public static final String INVALID_PERCENTAGE = "El porcentaje debe ser un nï¿½mero entre 0 y 100";
+	public static final String INVALID_DISCOUNT100 = "El descuento no puede ser del 100% porque el valor quedarï¿½a en $0";
+	private static final String INFINITE_OR_NAN= "El resultado de la operaciï¿½n no es un nï¿½mero vï¿½lido.\nï¿½Dividiste por 0?";
 	private static final int DELETE_FREQUENCY = 200;
 	private String resultTextNameStr;
 	private DecimalFormat localNumberFormat = (DecimalFormat)DecimalFormat.getInstance();

@@ -495,7 +495,7 @@ public class AmountTextWatcher implements TextWatcher {
 			String value = getArguments().getString(VALUE_ARG);
 			
 	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-	        builder.setMessage("El valor ingresado no es un número válido: " + value)
+	        builder.setMessage("El valor ingresado no es un nÃºmero vÃ¡lido: " + value)
 	               .setPositiveButton("Aceptar", null);
 
 	        return builder.create();

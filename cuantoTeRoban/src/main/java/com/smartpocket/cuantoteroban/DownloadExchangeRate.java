@@ -180,7 +180,7 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
     	switch (Results.valueOf(result)) {
         case NO_INTERNET:
             if (force)
-                Utilities.showToast("No hay conexi髇 a Internet");
+                Utilities.showToast("No hay conexi贸n a Internet");
             break;
 		case PARSE_ERROR:
 			Utilities.showToast("Error al leer las cotizaciones de Internet");
@@ -189,10 +189,10 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
 			Utilities.showToast("No se pudieron actualizar las cotizaciones desde Internet");
 			break;
         case PARSE_ERROR_BLUE:
-            Utilities.showToast("Error al leer la cotizaci髇 del d髄ar blue de Internet");
+            Utilities.showToast("Error al leer la cotizaci贸n del d贸lar blue de Internet");
             break;
         case CONNECTION_ERROR_BLUE:
-            Utilities.showToast("No se pudo actualizar la cotizaci髇 del d髄ar blue desde Internet");
+            Utilities.showToast("No se pudo actualizar la cotizaci贸n del d贸lar blue desde Internet");
             break;
 		default:
 			// SUCCESS

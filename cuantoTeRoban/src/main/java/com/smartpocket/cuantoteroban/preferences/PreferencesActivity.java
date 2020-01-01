@@ -1,8 +1,5 @@
 package com.smartpocket.cuantoteroban.preferences;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,14 +12,17 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.smartpocket.cuantoteroban.Currency;
 import com.smartpocket.cuantoteroban.CurrencyManager;
 import com.smartpocket.cuantoteroban.R;
 
-public class PreferencesActivity extends ActionBarActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PreferencesActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

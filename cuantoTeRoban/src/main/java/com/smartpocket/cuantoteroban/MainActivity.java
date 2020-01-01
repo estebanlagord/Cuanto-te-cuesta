@@ -20,8 +20,8 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
@@ -55,7 +55,7 @@ import java.text.ParseException;
 
 @SuppressLint("RtlHardcoded")
 @SuppressWarnings("deprecation")
-public class MainActivity extends ActionBarActivity implements DeleteCurrencyDialogListener {
+public class MainActivity extends AppCompatActivity implements DeleteCurrencyDialogListener {
 
 	private static final int FRACTION_DIGITS = 2;
 	public static Typeface TYPEFACE_ROBOTO_MEDIUM;
@@ -74,7 +74,7 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 	
 	private EditorType currentEditorType; //used for copy-paste
 	private DecimalFormat shortNumberFormat = (DecimalFormat)DecimalFormat.getInstance();
-	public static enum RequestCode {SETTINGS, CALCULATOR, CHOOSE_CURRENCY, ADD_CURRENCY}
+	public enum RequestCode {SETTINGS, CALCULATOR, CHOOSE_CURRENCY, ADD_CURRENCY}
 	private boolean areTextWatchersEnabled = false;
 	enum DiscountOrTax {DISCOUNT, TAXES}
 	private static MainActivity theInstance = null;
