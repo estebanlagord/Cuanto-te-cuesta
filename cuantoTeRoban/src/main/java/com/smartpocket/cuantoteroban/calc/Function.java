@@ -9,7 +9,6 @@ public class Function extends Operator
      * creates a function with a name and a list of args
      * 
      * @param name
-     * @param args
      */
     public Function (String name)
     {

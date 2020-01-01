@@ -79,8 +79,9 @@ public class AddCurrency extends AppCompatActivity {
 	
 	@Override
 	protected void onNewIntent(Intent intent) {
-	    setIntent(intent);
-	    handleIntent(intent);
+		super.onNewIntent(intent);
+		setIntent(intent);
+		handleIntent(intent);
 	}
 	
 	private void handleIntent(Intent intent) {

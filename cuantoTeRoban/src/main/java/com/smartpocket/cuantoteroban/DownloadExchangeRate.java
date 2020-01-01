@@ -136,7 +136,7 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
                         numberStr = numberStr.replaceAll(",", "."); // replace , for .
                         NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
                         double blueRate = nf.parse(numberStr).doubleValue();
-                        Log.i("DownloadExchangeRate parser", "Found blue: " + blueRate);
+                        Log.i("DownloadExchangeRate", "Found blue: " + blueRate);
                         PreferencesManager.getInstance().setBlueDollarToArsRate(blueRate);
                         break;
                     }
