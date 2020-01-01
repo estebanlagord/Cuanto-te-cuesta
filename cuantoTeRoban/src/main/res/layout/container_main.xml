@@ -5,7 +5,7 @@
 
     <include layout="@layout/toolbar" />
 
-    <android.support.v4.widget.DrawerLayout
+    <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
@@ -27,13 +27,13 @@
             <include layout="@layout/activity_main" />
         </LinearLayout>-->
 
-        <android.support.v4.widget.SwipeRefreshLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/activity_main_swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <include layout="@layout/activity_main" />
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <ListView
             android:id="@+id/left_drawer"
@@ -44,6 +44,6 @@
             android:choiceMode="singleChoice"
             android:divider="#26FFFFFF"
             android:dividerHeight="1dp" />
-    </android.support.v4.widget.DrawerLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </LinearLayout>

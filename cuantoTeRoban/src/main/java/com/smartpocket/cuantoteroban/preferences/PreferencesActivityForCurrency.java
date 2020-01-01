@@ -1,17 +1,16 @@
 package com.smartpocket.cuantoteroban.preferences;
 
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.EditTextPreference;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceCategory;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.preference.PreferenceFragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.preference.CheckBoxPreference;
+import androidx.preference.EditTextPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.smartpocket.cuantoteroban.Currency;
 import com.smartpocket.cuantoteroban.R;
@@ -35,7 +34,7 @@ public class PreferencesActivityForCurrency extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.content_frame, new MyPreferenceForCurrencyFragment()).commit();
     }
     
-    public static class MyPreferenceForCurrencyFragment extends PreferenceFragment 
+    public static class MyPreferenceForCurrencyFragment extends PreferenceFragmentCompat
     {
     	private static final String CURRENT_VALUE = "Valor actual: ";
         private static final String CURRENCY_TOKEN = "[ZZZ]";
@@ -74,16 +73,16 @@ public class PreferencesActivityForCurrency extends AppCompatActivity {
             		updateSummaryForPreference(preference, null);
     				
             		if (preference instanceof EditTextPreference){
-	    				preference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+	    				preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 	    					@Override
 	    					public boolean onPreferenceClick(Preference preference) {
-	    						((EditTextPreference)preference).getEditText().selectAll(); //select all the value in the Edit Text
+//	    						((EditTextPreference)preference).getEditText().selectAll(); //select all the value in the Edit Text
 	    						return false;
 	    					}
 	    				});
             		}
     				
-    				preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+    				preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 						@Override
 						public boolean onPreferenceChange(Preference preference, Object newValue) {
 							updateSummaryForPreference(preference, newValue);
@@ -94,8 +93,13 @@ public class PreferencesActivityForCurrency extends AppCompatActivity {
             }
         }
 
+		@Override
+		public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
 
-        private void updateSummaryForPreference(Preference pref, Object newValue){
+		}
+
+
+		private void updateSummaryForPreference(Preference pref, Object newValue){
         	if (pref instanceof EditTextPreference) {
     	    	EditTextPreference textPref = (EditTextPreference) pref;
     	    	if (newValue==null)
