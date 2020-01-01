@@ -104,10 +104,10 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
     	super.onCreate(savedInstanceState);
     	setContentView(R.layout.container_main);
     	
-    	Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+    	Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
 
-		mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+		mSwipeRefreshLayout = findViewById(R.id.activity_main_swipe_refresh_layout);
 		mSwipeRefreshLayout.setColorSchemeResources(R.color.my_app_green);
 
         /*ActionBar actionBar = getSupportActionBar();
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 	private void setupNavDrawer() {
 		final ActionBar actionBar = getSupportActionBar();
 		
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerList = findViewById(R.id.left_drawer);
         // Set the adapter for the list view
         mDrawerList.setAdapter(new ChosenCurrenciesAdapter(this));
         
@@ -246,43 +246,43 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
        	agencyTextWatcher     = new AmountTextWatcher(this, EditorType.EXCHANGE_AGENCY);
        	payPalTextWatcher     = new AmountTextWatcher(this, EditorType.PAYPAL);
        	
-		amountText = (EditText)findViewById(R.id.amountEditText);
+		amountText = findViewById(R.id.amountEditText);
         amountText.setOnClickListener(new OnClickListenerShowCalc(amountText, getResources().getString(R.string.Ammount), EditorType.AMOUNT));
         amountText.setOnLongClickListener(onLongClickShowCopyPaste(amountText, EditorType.AMOUNT));
         
-        discountText = (EditText)findViewById(R.id.discountEditText);
+        discountText = findViewById(R.id.discountEditText);
         discountText.setOnClickListener(new OnClickListenerShowCalc(discountText, getResources().getString(R.string.Discount), EditorType.DISCOUNT));
         discountText.setOnLongClickListener(onLongClickShowCopyPaste(discountText, EditorType.DISCOUNT));
         
-        taxesText = (EditText)findViewById(R.id.taxesEditText);
+        taxesText = findViewById(R.id.taxesEditText);
         taxesText.setOnClickListener(new OnClickListenerShowCalc(taxesText, getResources().getString(R.string.Taxes), EditorType.TAXES));
         taxesText.setOnLongClickListener(onLongClickShowCopyPaste(taxesText, EditorType.TAXES));
         
-        totalText = (EditText)findViewById(R.id.totalEditText);
+        totalText = findViewById(R.id.totalEditText);
         totalText.setOnClickListener(new OnClickListenerShowCalc(totalText, getResources().getString(R.string.Total), EditorType.TOTAL));
         totalText.setOnLongClickListener(onLongClickShowCopyPaste(totalText, EditorType.TOTAL));
         
-        pesosText = (EditText)findViewById(R.id.inPesosValue);
+        pesosText = findViewById(R.id.inPesosValue);
         pesosText.setOnClickListener(new OnClickListenerShowCalc(pesosText, getResources().getString(R.string.InPesos), EditorType.PESOS));
         pesosText.setOnLongClickListener(onLongClickShowCopyPaste(pesosText, EditorType.PESOS));
         
-        creditCardText = (EditText)findViewById(R.id.withCreditCardValue);
+        creditCardText = findViewById(R.id.withCreditCardValue);
         creditCardText.setOnClickListener(new OnClickListenerShowCalc(creditCardText, getResources().getString(R.string.WithCreditCard), EditorType.CREDIT_CARD));
         creditCardText.setOnLongClickListener(onLongClickShowCopyPaste(creditCardText, EditorType.CREDIT_CARD));
 
-        savingsText = (EditText)findViewById(R.id.withSavingsValue);
+        savingsText = findViewById(R.id.withSavingsValue);
         savingsText.setOnClickListener(new OnClickListenerShowCalc(savingsText, getResources().getString(R.string.WithSavings), EditorType.SAVINGS));
         savingsText.setOnLongClickListener(onLongClickShowCopyPaste(savingsText, EditorType.SAVINGS));
 
-        blueText = (EditText)findViewById(R.id.withBlueValue);
+        blueText = findViewById(R.id.withBlueValue);
         blueText.setOnClickListener(new OnClickListenerShowCalc(blueText, getResources().getString(R.string.WithBlue), EditorType.BLUE));
         blueText.setOnLongClickListener(onLongClickShowCopyPaste(blueText, EditorType.BLUE));
         
-        agencyText = (EditText)findViewById(R.id.exchangeAgencyValue);
+        agencyText = findViewById(R.id.exchangeAgencyValue);
         agencyText.setOnClickListener(new OnClickListenerShowCalc(agencyText, getResources().getString(R.string.ExchangeAgency), EditorType.EXCHANGE_AGENCY));
         agencyText.setOnLongClickListener(onLongClickShowCopyPaste(agencyText, EditorType.EXCHANGE_AGENCY));
         
-        payPalText = (EditText)findViewById(R.id.payPalValue);
+        payPalText = findViewById(R.id.payPalValue);
         payPalText.setOnClickListener(new OnClickListenerShowCalc(payPalText, getResources().getString(R.string.Paypal), EditorType.PAYPAL));
         payPalText.setOnLongClickListener(onLongClickShowCopyPaste(payPalText, EditorType.PAYPAL));
         
@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
         //enableEditTextListeners();
         
         // Change currency listener
-        ImageView foreignCurrencyFlag = (ImageView)findViewById(R.id.countryFlag);
+        ImageView foreignCurrencyFlag = findViewById(R.id.countryFlag);
         //foreignCurrencyFlag.setOnTouchListener(new OnTouchListenerShowNavDrawer());
         foreignCurrencyFlag.setOnClickListener(new OnClickListenerShowNavDrawer());
         
@@ -821,7 +821,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 
 	private void updateFlag(boolean fadeFlag) {
 		final Currency chosenCurrency = PreferencesManager.getInstance().getCurrentCurrency();
-		final ImageView countryFlagView = (ImageView)findViewById(R.id.countryFlag);
+		final ImageView countryFlagView = findViewById(R.id.countryFlag);
 		final int newFlagIdentifier = chosenCurrency.getFlagIdentifier();
 		
 		if(fadeFlag) {
@@ -848,7 +848,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 			countryFlagView.setImageResource(newFlagIdentifier);
 		}
 				
-		TextView chosenCurrencyName = (TextView)findViewById(R.id.currencyName);
+		TextView chosenCurrencyName = findViewById(R.id.currencyName);
 		chosenCurrencyName.setText("en " + chosenCurrency.getName());
 	}
 

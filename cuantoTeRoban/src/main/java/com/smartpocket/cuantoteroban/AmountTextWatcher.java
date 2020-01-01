@@ -47,16 +47,16 @@ public class AmountTextWatcher implements TextWatcher {
 			nf.setMinimumFractionDigits(FRACTION_DIGITS);
 			nf.setMaximumFractionDigits(FRACTION_DIGITS);
 			
-			amountValue = (TextView)mainActivity.findViewById(R.id.amountEditText);
-			discountValue       = (TextView)mainActivity.findViewById(R.id.discountEditText);
-			taxesValue          = (TextView)mainActivity.findViewById(R.id.taxesEditText);
-			totalValue          = (TextView)mainActivity.findViewById(R.id.totalEditText);
-			pesosValue          = (TextView)mainActivity.findViewById(R.id.inPesosValue);
-            savingsValue        = (TextView)mainActivity.findViewById(R.id.withSavingsValue);
-            blueValue           = (TextView)mainActivity.findViewById(R.id.withBlueValue);
-			creditCardValue     = (TextView)mainActivity.findViewById(R.id.withCreditCardValue);
-			exchangeAgencyValue = (TextView)mainActivity.findViewById(R.id.exchangeAgencyValue);
-			payPalValue         = (TextView)mainActivity.findViewById(R.id.payPalValue);
+			amountValue = mainActivity.findViewById(R.id.amountEditText);
+			discountValue       = mainActivity.findViewById(R.id.discountEditText);
+			taxesValue          = mainActivity.findViewById(R.id.taxesEditText);
+			totalValue          = mainActivity.findViewById(R.id.totalEditText);
+			pesosValue          = mainActivity.findViewById(R.id.inPesosValue);
+            savingsValue        = mainActivity.findViewById(R.id.withSavingsValue);
+            blueValue           = mainActivity.findViewById(R.id.withBlueValue);
+			creditCardValue     = mainActivity.findViewById(R.id.withCreditCardValue);
+			exchangeAgencyValue = mainActivity.findViewById(R.id.exchangeAgencyValue);
+			payPalValue         = mainActivity.findViewById(R.id.payPalValue);
 
 			preferencesChanged();
 		}

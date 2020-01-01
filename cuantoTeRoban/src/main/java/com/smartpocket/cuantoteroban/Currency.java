@@ -96,12 +96,9 @@ public class Currency implements Comparable<Currency>{
 			return false;
 		Currency other = (Currency) obj;
 		if (code == null) {
-			if (other.code != null)
-				return false;
-		} else if (!code.equals(other.code))
-			return false;
-		return true;
-	}
+            return other.code == null;
+		} else return code.equals(other.code);
+    }
 
 	@Override
 	public String toString() {

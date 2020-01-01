@@ -33,14 +33,15 @@ import java.util.Set;
 import java.util.TreeMap;
 
 public class AddCurrency extends AppCompatActivity {
-	private static enum COLUMN_NAMES {FLAG, NAME, CODE};
+	private enum COLUMN_NAMES {FLAG, NAME, CODE}
+
 	private SearchView searchView = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_currency);
-		Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+		Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
 		
 		ActionBar actionBar = getSupportActionBar();
@@ -49,7 +50,7 @@ public class AddCurrency extends AppCompatActivity {
 		
 	    handleIntent(getIntent());
 		
-	    ListView listView = (ListView)findViewById(R.id.unused_currencies_list);
+	    ListView listView = findViewById(R.id.unused_currencies_list);
 	    listView.setFastScrollEnabled(true);
 
 	    listView.setOnItemClickListener(new OnItemClickListener() {
@@ -119,7 +120,7 @@ public class AddCurrency extends AppCompatActivity {
         // fill in the grid_item layout
         SimpleAdapter adapter = new AddCurrencyAdapter(this, fillMaps, R.layout.add_currency_row, from, to);
         
-		ListView listView = (ListView)findViewById(R.id.unused_currencies_list);
+		ListView listView = findViewById(R.id.unused_currencies_list);
 		listView.setAdapter(adapter);
 		listView.setFastScrollEnabled(true);
 

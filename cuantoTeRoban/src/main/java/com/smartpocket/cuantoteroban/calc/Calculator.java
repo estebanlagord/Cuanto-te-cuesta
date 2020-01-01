@@ -74,7 +74,7 @@ public class Calculator extends AppCompatActivity {
 		this.editorType = EditorTypeHelper.getEditorType(b.getString("type"));
         
         setContentView(R.layout.calculator);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+        Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
         
 		ActionBar actionBar = getSupportActionBar();
@@ -89,29 +89,29 @@ public class Calculator extends AppCompatActivity {
 		//localNumberFormat.setRoundingMode(RoundingMode.HALF_UP);
 		localNumberFormat.setGroupingUsed(false);
         
-		previous = (TextView) findViewById(R.id.previous);
-        calcDialogDisplay = (EditText) findViewById(R.id.calc_dialog_display);
-        enterTotal = (TextView) findViewById(R.id.enter_total);
-        allClear = (ImageView) findViewById(R.id.all_clear);
-        clear = (ImageView) findViewById(R.id.clear);
-        seven = (TextView) findViewById(R.id.seven);
-        eight = (TextView) findViewById(R.id.eight);
-        nine = (TextView) findViewById(R.id.nine);
-        division =(TextView) findViewById(R.id.division);
-        four = (TextView) findViewById(R.id.four);
-        five = (TextView) findViewById(R.id.five);
-        six =(TextView) findViewById(R.id.six);
-        multiply = (TextView) findViewById(R.id.multiply);
-        one = (TextView) findViewById(R.id.one);
-        two = (TextView) findViewById(R.id.two);
-        three = (TextView) findViewById(R.id.three);
-        subtract = (TextView) findViewById(R.id.substract);
-        decimal = (TextView) findViewById(R.id.decimal);
-        zero = (TextView) findViewById(R.id.zero);
-        equals = (TextView) findViewById(R.id.equals);
-        addition = (TextView) findViewById(R.id.addition);
-        left = (TextView) findViewById(R.id.left);
-        right = (TextView) findViewById(R.id.right);
+		previous = findViewById(R.id.previous);
+        calcDialogDisplay = findViewById(R.id.calc_dialog_display);
+        enterTotal = findViewById(R.id.enter_total);
+        allClear = findViewById(R.id.all_clear);
+        clear = findViewById(R.id.clear);
+        seven = findViewById(R.id.seven);
+        eight = findViewById(R.id.eight);
+        nine = findViewById(R.id.nine);
+        division = findViewById(R.id.division);
+        four = findViewById(R.id.four);
+        five = findViewById(R.id.five);
+        six = findViewById(R.id.six);
+        multiply = findViewById(R.id.multiply);
+        one = findViewById(R.id.one);
+        two = findViewById(R.id.two);
+        three = findViewById(R.id.three);
+        subtract = findViewById(R.id.substract);
+        decimal = findViewById(R.id.decimal);
+        zero = findViewById(R.id.zero);
+        equals = findViewById(R.id.equals);
+        addition = findViewById(R.id.addition);
+        left = findViewById(R.id.left);
+        right = findViewById(R.id.right);
 
         //calcDialogDisplay.setKeyListener(DigitsKeyListener.getInstance(true,true));
 
@@ -307,7 +307,7 @@ public class Calculator extends AppCompatActivity {
 			String newText = "";
 			if (start > 0) {
 				newText = text.substring(0, start-1);
-				newText += text.substring(start, text.length());
+				newText += text.substring(start);
 			}
 			
 			calcDialogDisplay.setText(newText);
@@ -409,7 +409,7 @@ public class Calculator extends AppCompatActivity {
 			int start = calcDialogDisplay.getSelectionStart();
 			String result = text.substring(0, start) + str;
 			if (text.length() > start)
-				result += text.substring(start, text.length());
+				result += text.substring(start);
 			calcDialogDisplay.setText(result);
 			calcDialogDisplay.setSelection(start+1);
 		}

@@ -104,5 +104,5 @@ public class ChosenCurrencyLongClickListener implements OnItemLongClickListener 
 }
 
 interface DeleteCurrencyDialogListener {
-    public void onDialogPositiveClick(DialogFragment dialog);
+    void onDialogPositiveClick(DialogFragment dialog);
 }

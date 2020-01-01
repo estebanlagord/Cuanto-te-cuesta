@@ -73,7 +73,7 @@ public class Operator
      */
     public String getOperator ()
     {
-        return this.operString.substring(2, operString.length());
+        return this.operString.substring(2);
     }
  
     public String toString ()
@@ -138,9 +138,6 @@ public class Operator
         return this.leftAssociative;
     }
  
-    /**
-     * @param evaluate
-     */
     public double evaluate (double[] args)
     {
         if (operString.equals("bl+"))

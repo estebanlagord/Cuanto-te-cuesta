@@ -43,7 +43,7 @@ public class EditorTypeHelper {
 				break;
 		}
 		
-		EditText result = (EditText) activity.findViewById(id);
+		EditText result = activity.findViewById(id);
 		return result;
 	}
 

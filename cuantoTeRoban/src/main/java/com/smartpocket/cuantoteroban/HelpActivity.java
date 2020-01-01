@@ -31,7 +31,7 @@ public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavig
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_help2);
-		Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+		Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
 		
 		final ActionBar actionBar = getSupportActionBar();
@@ -47,7 +47,7 @@ public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavig
         
         
         MyAdapter myAdapter = new MyAdapter(getSupportFragmentManager(), getApplicationContext());
-        mPager = (ViewPager)findViewById(R.id.pager);
+        mPager = findViewById(R.id.pager);
         mPager.setAdapter(myAdapter);
        
         ActionBar.TabListener tabListener = new ActionBar.TabListener() {
@@ -184,7 +184,7 @@ public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavig
 	            text.setPadding(10, 20, 10, 10);
 	            text.setMovementMethod(LinkMovementMethod.getInstance());
 	            
-	            ScrollView scrollView = (ScrollView) rootView.findViewById(R.id.helpScrollView);
+	            ScrollView scrollView = rootView.findViewById(R.id.helpScrollView);
 	            scrollView.addView(text);
 	            
 	            return rootView;

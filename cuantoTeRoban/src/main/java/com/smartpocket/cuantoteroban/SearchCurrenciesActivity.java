@@ -12,9 +12,9 @@ import android.os.Bundle;
 import android.widget.SimpleAdapter;
 
 public class SearchCurrenciesActivity extends ListActivity {
-	private static enum COLUMN_NAMES {FLAG, CURRENCY_NAME};
-	
-	@Override
+	private enum COLUMN_NAMES {FLAG, CURRENCY_NAME}
+
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.search);

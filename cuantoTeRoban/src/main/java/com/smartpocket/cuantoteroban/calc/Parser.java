@@ -239,36 +239,15 @@ public class Parser
         }
         if (op1.isLeftAssociative())
         {
-            if (op1Prec <= op2Prec)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return op1Prec <= op2Prec;
         }
         else if (op1.isRightAssociative())
         {
-            if (op1Prec < op2Prec)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return op1Prec < op2Prec;
         }
         else
         {
-            if (op1Prec < op2Prec)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return op1Prec < op2Prec;
         }
     }
  
@@ -336,7 +315,7 @@ public class Parser
                     while (reader.hasNext())
                     {
                         String temp = reader.next();
-                        if (temp.charAt(0) == 'u' && temp.substring(2, temp.length()).equals(operMatcher.group()))
+                        if (temp.charAt(0) == 'u' && temp.substring(2).equals(operMatcher.group()))
                         {
                             // found matching operator
                             operFlags += temp.charAt(1);
@@ -355,7 +334,7 @@ public class Parser
                     while (reader.hasNext())
                     {
                         String temp = reader.next();
-                        if (temp.charAt(0) == 'b' && temp.substring(2, temp.length()).equals(operMatcher.group()))
+                        if (temp.charAt(0) == 'b' && temp.substring(2).equals(operMatcher.group()))
                         {
                             // found matching operator
                             operFlags += temp.charAt(1);
@@ -525,11 +504,11 @@ public class Parser
             }
             else if (getType(held) == FUNCTION)
             {
-                return ((Function) held) + "(" + this.toStringHelper() + ")";
+                return held + "(" + this.toStringHelper() + ")";
             }
             else if (getType(held) == NUMBER)
             {
-                return ((Double) held).toString();
+                return held.toString();
             }
             else
             {

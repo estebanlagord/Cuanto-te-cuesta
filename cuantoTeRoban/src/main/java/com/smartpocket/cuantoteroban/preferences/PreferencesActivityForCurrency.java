@@ -22,7 +22,7 @@ public class PreferencesActivityForCurrency extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pref_with_toolbar);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -55,11 +55,11 @@ public class PreferencesActivityForCurrency extends AppCompatActivity {
             String newTitle = titlePref.getTitle() + currentCurrency.getCode();
             titlePref.setTitle(newTitle);
             
-            PreferenceCategory agencyCat = (PreferenceCategory)findPreference("agency_category");
+            PreferenceCategory agencyCat = findPreference("agency_category");
             String newAgencyCatTitle = agencyCat.getTitle().toString() + " (" + currentCurrency.getCode() + ")";
             agencyCat.setTitle(newAgencyCatTitle);
             
-            PreferenceCategory bankCat = (PreferenceCategory)findPreference("bank_category");
+            PreferenceCategory bankCat = findPreference("bank_category");
             String newBankTitle = bankCat.getTitle().toString() + " (" + currentCurrency.getCode() + ")";
             bankCat.setTitle(newBankTitle);
             
@@ -124,8 +124,8 @@ public class PreferencesActivityForCurrency extends AppCompatActivity {
     		final String SPACE = " ";
     		
     		String chosenCurrencyCode = PreferencesManager.getInstance().getCurrentCurrency().getCode();
-    		CheckBoxPreference invertAgencyRatePref = (CheckBoxPreference)findPreference(PreferencesManager.AGENCY_EXCHANGE_RATE_INVERTED);
-    		CheckBoxPreference invertBankRatePref = (CheckBoxPreference)findPreference(PreferencesManager.BANK_EXCHANGE_RATE_INVERTED);
+    		CheckBoxPreference invertAgencyRatePref = findPreference(PreferencesManager.AGENCY_EXCHANGE_RATE_INVERTED);
+    		CheckBoxPreference invertBankRatePref = findPreference(PreferencesManager.BANK_EXCHANGE_RATE_INVERTED);
     		
     		String summaryOn = invertAgencyRatePref.getSummaryOn().toString();
     		summaryOn = summaryOn.subSequence(0, summaryOn.lastIndexOf(SPACE) + 1).toString();
@@ -141,18 +141,18 @@ public class PreferencesActivityForCurrency extends AppCompatActivity {
     	}
 
     	private void updateValueForBankExchangeRate() {
-    		CheckBoxPreference isUseInternetRateEnabledPref = (CheckBoxPreference)findPreference(PreferencesManager.USE_INTERNET_BANK_EXCHANGE_RATE);
+    		CheckBoxPreference isUseInternetRateEnabledPref = findPreference(PreferencesManager.USE_INTERNET_BANK_EXCHANGE_RATE);
 
     		// if "Automatic Updates" are enabled, we want to update the value for the Bank Exchange Rate
     		if (isUseInternetRateEnabledPref.isChecked()){
     			
     			// find the Internet exchange rate for the new currency 
     			String chosenCurrencyValue = Double.toString(PreferencesManager.getInstance().getInternetExchangeRate());
-    			EditTextPreference bankExchangeRatePref = (EditTextPreference)findPreference(PreferencesManager.BANK_EXCHANGE_RATE);
+    			EditTextPreference bankExchangeRatePref = findPreference(PreferencesManager.BANK_EXCHANGE_RATE);
     			bankExchangeRatePref.setText(chosenCurrencyValue);
     			
     			// we also want to uncheck the "Invert rate" checkbox
-    			CheckBoxPreference invertBankRatePref = (CheckBoxPreference)findPreference(PreferencesManager.BANK_EXCHANGE_RATE_INVERTED);
+    			CheckBoxPreference invertBankRatePref = findPreference(PreferencesManager.BANK_EXCHANGE_RATE_INVERTED);
     			invertBankRatePref.setChecked(false);
     		}
     	}

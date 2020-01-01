@@ -64,8 +64,8 @@ public class ChosenCurrenciesAdapter extends BaseAdapter {
 		Currency currency = (Currency)getItem(position);
 		
 		convertView = inflater.inflate(R.layout.choose_currency_row, null);
-		ImageView flag = (ImageView) convertView.findViewById(R.id.chooseCurrencyFlag);
-		TextView name = (TextView) convertView.findViewById(R.id.chooseCurrencyName);
+		ImageView flag = convertView.findViewById(R.id.chooseCurrencyFlag);
+		TextView name = convertView.findViewById(R.id.chooseCurrencyName);
 		
 		flag.setImageResource(currency.getFlagIdentifier());
 		name.setText(currency.getName());

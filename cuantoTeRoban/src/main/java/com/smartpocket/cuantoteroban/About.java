@@ -13,20 +13,20 @@ public class About extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about);
-		Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+		Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
 		
 		ActionBar actionBar = getSupportActionBar();
         //actionBar.setLogo(R.drawable.logo);
         actionBar.setDisplayHomeAsUpEnabled(true);
 		
-		TextView appName = (TextView)findViewById(R.id.appNameView);
-		TextView versionTitle = (TextView)findViewById(R.id.versionTitle);
-		TextView versionNumber = (TextView)findViewById(R.id.versionNumber);
-		TextView thanksTitle = (TextView)findViewById(R.id.thanksTitle);
-		TextView thanksContent = (TextView)findViewById(R.id.thanksContent);
-		TextView notThanksTitle = (TextView)findViewById(R.id.notThanksTitle);
-		TextView notThanksContent = (TextView)findViewById(R.id.notThanksContent);
+		TextView appName = findViewById(R.id.appNameView);
+		TextView versionTitle = findViewById(R.id.versionTitle);
+		TextView versionNumber = findViewById(R.id.versionNumber);
+		TextView thanksTitle = findViewById(R.id.thanksTitle);
+		TextView thanksContent = findViewById(R.id.thanksContent);
+		TextView notThanksTitle = findViewById(R.id.notThanksTitle);
+		TextView notThanksContent = findViewById(R.id.notThanksContent);
 		
 		try {
 			versionNumber.setText(this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName);

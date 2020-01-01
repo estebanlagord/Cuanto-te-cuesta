@@ -40,13 +40,13 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
 	private final boolean force;
 	private final TextView lastUpdateStr;
 	//private final ProgressBar progressCircle;
-	private enum Results { SUCCESS, NO_INTERNET, PARSE_ERROR, CONNECTION_ERROR,  PARSE_ERROR_BLUE, CONNECTION_ERROR_BLUE };
+	private enum Results { SUCCESS, NO_INTERNET, PARSE_ERROR, CONNECTION_ERROR,  PARSE_ERROR_BLUE, CONNECTION_ERROR_BLUE }
 
 
-	DownloadExchangeRate(MainActivity mainActivity, boolean force) {
+    DownloadExchangeRate(MainActivity mainActivity, boolean force) {
 		this.mainActivity = mainActivity;
 		this.force = force;
-		lastUpdateStr = (TextView)this.mainActivity.findViewById(R.id.textLastUpdateValue);
+		lastUpdateStr = this.mainActivity.findViewById(R.id.textLastUpdateValue);
 	}
 
 	@Override
@@ -251,11 +251,7 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
 				lastUpdateCal.setTime(lastUpdate);
 				lastUpdateCal.add(Calendar.HOUR_OF_DAY, updateFrequency);
 
-				if (lastUpdateCal.before(now)){
-					return true;
-				} else {
-					return false;
-				}
+                return lastUpdateCal.before(now);
 			} catch (ParseException e) {
 				return true;
 			}
