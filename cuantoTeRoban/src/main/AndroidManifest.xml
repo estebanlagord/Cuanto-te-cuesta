@@ -6,9 +6,7 @@
     android:versionCode="23"
     android:versionName="4.1" >
 
-    <uses-sdk
-        android:minSdkVersion="7"
-        android:targetSdkVersion="21" />
+    <uses-sdk android:targetSdkVersion="29" />
     <!-- 10 ; 15 -->
 
     <uses-permission android:name="android.permission.INTERNET" >

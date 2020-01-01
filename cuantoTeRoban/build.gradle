@@ -1,14 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "23.0.2"
-    compileOptions.encoding = 'windows-1252'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.2'
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 
     defaultConfig {
         applicationId "com.smartpocket.cuantoteroban"
-        minSdkVersion 7
-        targetSdkVersion 21
+        minSdkVersion 21
+        targetSdkVersion 29
     }
 
     buildTypes {
@@ -20,6 +23,6 @@ android {
 }
 
 dependencies {
-    compile project(':androidsupportv4preferencefragment')
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    implementation project(':androidsupportv4preferencefragment')
+    implementation 'com.android.support:appcompat-v7:25.3.1'
 }

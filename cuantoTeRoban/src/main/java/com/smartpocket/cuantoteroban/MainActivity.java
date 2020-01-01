@@ -448,7 +448,7 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 					String shareContent = shareIntent.getExtras().get(Intent.EXTRA_TEXT).toString();
 					
 					clipboard.setText(shareContent);
-					Utilities.showToast("Conversión copiada al portapapeles.\nLa podes pegar en cualquier aplicación.");
+					Utilities.showToast("ConversiÃ³n copiada al portapapeles.\nLa podes pegar en cualquier aplicaciÃ³n.");
 				} catch (Exception e){}
 				return false;
 			}
@@ -687,12 +687,12 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
     	if (showPayPal)
     		sharedText.append("\nPayPal: $" + payPalText.getText().toString());
     	
-    	sharedText.append("\n\nCalculado por la aplicación ¿Cuanto Te Roban? para Android." +
+    	sharedText.append("\n\nCalculado por la aplicaciÃ³n Â¿Cuanto Te Roban? para Android." +
     			"\nBajala gratis desde: http://play.google.com/store/apps/details?id=com.smartpocket.cuantoteroban"); 
     	
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, "¿Cuanto Te Roban?");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Â¿Cuanto Te Roban?");
         intent.putExtra(Intent.EXTRA_TEXT, sharedText.toString());
 		return intent;
 	}
@@ -1019,11 +1019,11 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 					} catch (NumberFormatException e) {
 						String shortContent = content;
 						if (shortContent == null)
-							shortContent = "(vacío)";
+							shortContent = "(vacÃ­o)";
 						else if (shortContent.length() > 20)
 							shortContent = shortContent.substring(0, 20) + "...";
 						
-						Utilities.showToast("El contenido del portapapeles no es un número válido: " + shortContent);
+						Utilities.showToast("El contenido del portapapeles no es un nÃºmero vÃ¡lido: " + shortContent);
 					} finally {
 						mode.finish(); // Action picked, so close the CAB
 					}
@@ -1090,9 +1090,9 @@ public class MainActivity extends ActionBarActivity implements DeleteCurrencyDia
 			String title;
 				
 			if (type == DiscountOrTax.DISCOUNT)
-				title = "¿Borrar \"Descuento %\" ?";
+				title = "Â¿Borrar \"Descuento %\" ?";
 			else
-				title = "¿Borrar \"Recargo %\" ?";
+				title = "Â¿Borrar \"Recargo %\" ?";
 				
 			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 			builder.setTitle(title);
