@@ -44,7 +44,7 @@ public class Utilities {
 	}
 	
 	public static void showToast(String text) {
-    	Context context = MainActivity.getInstance().getApplicationContext();
+    	Context context = MyApplication.Companion.applicationContext();
     	int duration = Toast.LENGTH_LONG;
 		Toast toast = Toast.makeText(context, text, duration);
 		toast.show();

@@ -103,6 +103,3 @@ public class ChosenCurrencyLongClickListener implements OnItemLongClickListener 
 	}
 }
 
-interface DeleteCurrencyDialogListener {
-    void onDialogPositiveClick(DialogFragment dialog);
-}

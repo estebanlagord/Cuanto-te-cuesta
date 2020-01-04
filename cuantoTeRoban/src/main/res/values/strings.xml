@@ -141,7 +141,7 @@
 		Una vez instalada, tenes que ir a las opciones de esa aplicación,  “Voz”, “Idioma”, y configurarla para que reconozca el idioma español.\n
 		Si además queres que funcione offline, tenes que configurar el idioma “Español (España)” porque es la única variante que te permite descargar en “Reconocimiento sin conexión”.
     </string>
-    
+
     <string name="title_activity_help2">Help2Activity</string>
     <string name="title_activity_help_tab">HelpTab</string>
 

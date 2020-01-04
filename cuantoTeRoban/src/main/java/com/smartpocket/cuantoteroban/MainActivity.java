@@ -57,7 +57,7 @@ import java.text.ParseException;
 @SuppressWarnings("deprecation")
 public class MainActivity extends AppCompatActivity implements DeleteCurrencyDialogListener {
 
-	private static final int FRACTION_DIGITS = 2;
+	public static final int FRACTION_DIGITS = 2;
 	public static Typeface TYPEFACE_ROBOTO_MEDIUM;
 	public static Typeface TYPEFACE_ROBOTO_BLACK;
 	public static Typeface TYPEFACE_ROBOTO_CONDENSED_ITALIC;
@@ -86,11 +86,14 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 	private ShareActionProvider mShareActionProvider;
 	private AlertDialog currentDialog;
 
+//	private MainActivityVM viewModel;
+
 		
 	public MainActivity() {
 		theInstance = this;
 	}
-	
+
+	@Deprecated
 	public static MainActivity getInstance() {
 		if (theInstance == null)
 			throw new IllegalStateException("The MainActivity instance is null!");
@@ -134,7 +137,19 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
        	updateExchangeRate(false);
 
        	setupListeners();
-    }
+
+//		setupViewModel();
+	}
+
+/*	private void setupViewModel() {
+		viewModel = ViewModelProviders.of(this).get(MainActivityVM.class);
+		viewModel.getOfficialLiveData().observe(this, officialValue -> {
+			pesosText.setText(officialValue.toString());
+		});
+		viewModel.getCardLiveData().observe(this, cardValue -> {
+			creditCardText.setText(cardValue.toString());
+		});
+	}*/
 
 	@Override
 	protected void onResume() {

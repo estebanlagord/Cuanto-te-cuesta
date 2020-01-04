@@ -1,6 +1,7 @@
 package com.smartpocket.cuantoteroban.preferences;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -9,7 +10,7 @@ import android.util.Log;
 import com.smartpocket.cuantoteroban.AmountTextWatcher;
 import com.smartpocket.cuantoteroban.Currency;
 import com.smartpocket.cuantoteroban.CurrencyManager;
-import com.smartpocket.cuantoteroban.MainActivity;
+import com.smartpocket.cuantoteroban.MyApplication;
 import com.smartpocket.cuantoteroban.R;
 import com.smartpocket.cuantoteroban.editortype.EditorType;
 
@@ -103,16 +104,14 @@ public class PreferencesManager {
 	public static PreferencesManager getInstance(){
 		return instance;
 	}
-	
-	private Activity getMainActivityInstance() {
-		if (mainActivity == null)
-			mainActivity = MainActivity.getInstance();
-		return mainActivity;
+
+	private Context getAppContext() {
+		return MyApplication.Companion.applicationContext();
 	}
-	
+
 	protected SharedPreferences getPreferencesByApp(){
 		if (preferencesByApp == null) {
-			preferencesByApp = getMainActivityInstance().getSharedPreferences(PREFS_NAME_SHARED, 0);
+			preferencesByApp = getAppContext().getSharedPreferences(PREFS_NAME_SHARED, 0);
 		
 			if (preferencesByApp == null)
 				throw new IllegalStateException("Unable to get Shared preferences for the application");
@@ -261,7 +260,7 @@ public class PreferencesManager {
 	}
 	
 	public String getLastUpdateDate() {
-		return getPreferencesByApp().getString(LAST_UPDATE_DATE, getMainActivityInstance().getResources().getString(R.string.LastUpdateNever));
+		return getPreferencesByApp().getString(LAST_UPDATE_DATE, getAppContext().getResources().getString(R.string.LastUpdateNever));
 	}
 	
 	public void setLastUpdateDate(String dateStr) {
@@ -513,7 +512,7 @@ public class PreferencesManager {
 	
 	private int getCurrentAppVersion() {
 		try {
-			int versionNumber = getMainActivityInstance().getPackageManager().getPackageInfo(getMainActivityInstance().getPackageName(), 0).versionCode;
+			int versionNumber = getAppContext().getPackageManager().getPackageInfo(getAppContext().getPackageName(), 0).versionCode;
 			return versionNumber;
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
@@ -550,8 +549,8 @@ public class PreferencesManager {
 	 */
 	public void migratePreferencesFromVersion3() {
 		try {
-			File sharedPrefsDir = new File(getMainActivityInstance().getFilesDir(), "../shared_prefs");
-			String oldPrefsFile = getMainActivityInstance().getApplicationContext().getPackageName() + "_preferences"; 
+			File sharedPrefsDir = new File(getAppContext().getFilesDir(), "../shared_prefs");
+			String oldPrefsFile = getAppContext().getApplicationContext().getPackageName() + "_preferences";
 			File oldPrefsFilePath   = new File(sharedPrefsDir, oldPrefsFile + ".xml");
 			File oldInternetCurrenciesFile = new File(sharedPrefsDir, "MyPrefsFile.xml");
 			
@@ -581,7 +580,7 @@ public class PreferencesManager {
 				final String agencyExchangeRate         = "agency_exchange_rate";
 				final String agencyExchangeRateInverted = "agency_exchange_rate_inverted";
 				
-				SharedPreferences oldPrefs = getMainActivityInstance().getSharedPreferences(oldPrefsFile, 0);
+				SharedPreferences oldPrefs = getAppContext().getSharedPreferences(oldPrefsFile, 0);
 				
 				log("Migrating preferences...");
 				
