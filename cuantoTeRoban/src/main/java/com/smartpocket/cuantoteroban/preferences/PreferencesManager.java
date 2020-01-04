@@ -140,7 +140,7 @@ public class PreferencesManager {
 	}
 	
 	public Set<String> getAllPreferenceKeys(){
-		Set<String> result = new HashSet<String>();
+		Set<String> result = new HashSet<>();
 		result.add(INTERNET_EXCHANGE_RATE);
 		result.add(BANK_EXCHANGE_RATE);
 		result.add(BANK_EXCHANGE_RATE_INVERTED);
@@ -175,12 +175,12 @@ public class PreferencesManager {
 			currentCurrency = curr;
 			Editor editor = getPreferencesByApp().edit();
 			editor.putString(CURRENT_CURRENCY, curr.getCode());
-			editor.commit();
+			editor.apply();
 		}
 	}
 	
 	public List<Currency> getChosenCurrencies() {
-		List<Currency> result = new ArrayList<Currency>();
+		List<Currency> result = new ArrayList<>();
 		String chosenCurrencies = getPreferencesByApp().getString(CHOSEN_CURRENCIES, null);
 		
 		if (chosenCurrencies == null) {
@@ -208,7 +208,7 @@ public class PreferencesManager {
 		
 		Editor editor = getPreferencesByApp().edit();
 		editor.putString(CHOSEN_CURRENCIES, value);
-		editor.commit();
+		editor.apply();
 	}
 	
 	
@@ -222,7 +222,7 @@ public class PreferencesManager {
 			// update the value so it won't throw an exception next time
 			Editor editor = getPreferencesByApp().edit();
 			editor.putString(AFIP_PERCENTAGE, String.valueOf(DEFAULT_AFIP_PERCENTAGE));
-			editor.commit();
+			editor.apply();
 		}
 		return result;
 	}
@@ -236,7 +236,7 @@ public class PreferencesManager {
             // update the value so it won't throw an exception next time
             Editor editor = getPreferencesByApp().edit();
             editor.putString(SAVINGS_PERCENTAGE, String.valueOf(DEFAULT_SAVINGS_PERCENTAGE));
-            editor.commit();
+            editor.apply();
         }
         return result;
     }
@@ -254,7 +254,7 @@ public class PreferencesManager {
 			// update the value so it won't throw an exception next time
 			Editor editor = getPreferencesByApp().edit();
 			editor.putString(UPDATE_FREQUENCY, String.valueOf(DEFAULT_UPDATE_FREQUENCY));
-			editor.commit();
+			editor.apply();
 		}
 		return intResult;
 	}
@@ -266,7 +266,7 @@ public class PreferencesManager {
 	public void setLastUpdateDate(String dateStr) {
 		Editor editor = getPreferencesByApp().edit();
 		editor.putString(LAST_UPDATE_DATE, dateStr);
-		editor.commit();
+		editor.apply();
 	}
 	
 	public boolean isRememberLastConversion() {
@@ -286,7 +286,7 @@ public class PreferencesManager {
 	public void setLastConversionType(EditorType type) {
 		Editor editor = getPreferencesByApp().edit();
 		editor.putString(LAST_CONVERSION_TEXT, type.name());
-		editor.commit();
+		editor.apply();
 	}
 	
 	public double getLastConversionValue() {
@@ -304,40 +304,37 @@ public class PreferencesManager {
 	public void setLastConversionValue(double value) {
 		Editor editor = getPreferencesByApp().edit();
 		editor.putString(LAST_CONVERSION_VALUE, Double.toString(value));
-		editor.commit();
+		editor.apply();
 	}
 	
 	public double getDiscount() {
-		double result = getPreferencesByApp().getFloat(DISCOUNT, 0);
-		return result;
+		return (double) getPreferencesByApp().getFloat(DISCOUNT, 0);
 	}
 	
 	public void setDiscount(double discount) {
 		Editor editor = getPreferencesByApp().edit();
 		editor.putFloat(DISCOUNT, (float)discount);
-		editor.commit();
+		editor.apply();
 	}
 	
 	public double getTaxes() {
-		double result = getPreferencesByApp().getFloat(TAXES, 0);
-		return result;
+		return (double) getPreferencesByApp().getFloat(TAXES, 0);
 	}
 	
 	public void setTaxes(double taxes) {
 		Editor editor = getPreferencesByApp().edit();
 		editor.putFloat(TAXES, (float)taxes);
-		editor.commit();
+		editor.apply();
 	}
 
     public double getBlueDollarToARSRate() {
-        double result = getPreferencesByApp().getFloat(BLUE_DOLLAR_ARS, 0);
-        return result;
+		return (double) getPreferencesByApp().getFloat(BLUE_DOLLAR_ARS, 0);
     }
 
     public void setBlueDollarToArsRate(double blueRate) {
         Editor editor = getPreferencesByApp().edit();
         editor.putFloat(BLUE_DOLLAR_ARS, (float)blueRate);
-        editor.commit();
+        editor.apply();
     }
 	
 
@@ -350,7 +347,7 @@ public class PreferencesManager {
 			// update the value so it won't throw an exception next time
 			Editor editor = getPreferencesForCurrentCurrency().edit();
 			editor.putString(PAYPAL_PERCENTAGE, String.valueOf(DEFAULT_PAYPAL_PERCENTAGE));
-			editor.commit();
+			editor.apply();
 		}
 		return result;
 	}
@@ -364,7 +361,7 @@ public class PreferencesManager {
 			// update the value so it won't throw an exception next time
 			Editor editor = getPreferencesForCurrentCurrency().edit();
 			editor.putString(AGENCY_EXCHANGE_RATE, String.valueOf(DEFAULT_AGENCY_EXCHANGE_RATE));
-			editor.commit();
+			editor.apply();
 		}
 		return result;
 	}
@@ -386,7 +383,7 @@ public class PreferencesManager {
 			// update the value so it won't throw an exception next time
 			Editor editor = getPreferencesForCurrentCurrency().edit();
 			editor.putString(BANK_EXCHANGE_RATE, String.valueOf(DEFAULT_BANK_EXCHANGE_RATE));
-			editor.commit();
+			editor.apply();
 		}
 		return result;
 	}
@@ -394,7 +391,7 @@ public class PreferencesManager {
 	public void setBankExchangeRate(double value) {
 		Editor editor = getPreferencesForCurrentCurrency().edit();
 		editor.putString(BANK_EXCHANGE_RATE, Double.toString(value));
-		editor.commit();
+		editor.apply();
 	}
 	
 	public boolean isBankExchangeRateInverted() {
@@ -410,7 +407,7 @@ public class PreferencesManager {
 			// update the value so it won't throw an exception next time
 			Editor editor = getPreferencesForCurrentCurrency().edit();
 			editor.putString(BANK_EXCHANGE_RATE_PERCENTAGE, String.valueOf(DEFAULT_BANK_EXCHANGE_RATE_PERCENTAGE));
-			editor.commit();
+			editor.apply();
 		}
 		return result;
 	}
@@ -424,7 +421,7 @@ public class PreferencesManager {
 			// update the value so it won't throw an exception next time
 			Editor editor = getPreferencesForCurrentCurrency().edit();
 			editor.putString(INTERNET_EXCHANGE_RATE, String.valueOf(DEFAULT_INTERNET_EXCHANGE_RATE));
-			editor.commit();
+			editor.apply();
 		}
 		return result;
 	}
@@ -432,7 +429,7 @@ public class PreferencesManager {
 	public void setInternetExchangeRate(Currency curr, double value){
 		Editor editor = getPreferencesByCurrency().get(curr).edit();
 		editor.putString(INTERNET_EXCHANGE_RATE, Double.toString(value));
-		editor.commit();
+		editor.apply();
 	}
 
     public double getExchangeRateToDollar() {
@@ -444,7 +441,7 @@ public class PreferencesManager {
             // update the value so it won't throw an exception next time
             Editor editor = getPreferencesForCurrentCurrency().edit();
             editor.putString(EXCHANGE_RATE_TO_DOLLAR, String.valueOf(DEFAULT_INTERNET_EXCHANGE_RATE));
-            editor.commit();
+            editor.apply();
         }
         return result;
     }
@@ -452,18 +449,18 @@ public class PreferencesManager {
     public void setExchangeRateToDollar(Currency curr, double value){
         Editor editor = getPreferencesByCurrency().get(curr).edit();
         editor.putString(EXCHANGE_RATE_TO_DOLLAR, Double.toString(value));
-        editor.commit();
+        editor.apply();
     }
 
 	public void updateAllBankExchangeRatesWhichAreUsingInternetRates() {
 		for (Currency curr: getChosenCurrencies()){
 			// if "Use Internet Bank Exchange Rate" is enabled for this currency, update its "Bank Exchange Rate" value using the one from Internet
-			Boolean isUseInternetBankExchangeRateEnabled = getPreferencesByCurrency().get(curr).getBoolean(USE_INTERNET_BANK_EXCHANGE_RATE, true);
+			boolean isUseInternetBankExchangeRateEnabled = getPreferencesByCurrency().get(curr).getBoolean(USE_INTERNET_BANK_EXCHANGE_RATE, true);
 			if (isUseInternetBankExchangeRateEnabled){
 				String internetValue = getPreferencesByCurrency().get(curr).getString(INTERNET_EXCHANGE_RATE, String.valueOf(DEFAULT_INTERNET_EXCHANGE_RATE));
 				Editor editor = getPreferencesByCurrency().get(curr).edit();
 				editor.putString(BANK_EXCHANGE_RATE, internetValue);
-				editor.commit();
+				editor.apply();
 			}
 		}
 	}
@@ -506,14 +503,12 @@ public class PreferencesManager {
 	
 		
 	private int getCurrentPreferencesVersion() {
-		int result = getPreferencesByApp().getInt(CURRENT_PREFS_VERSION, 0);
-		return result;
+		return getPreferencesByApp().getInt(CURRENT_PREFS_VERSION, 0);
 	}
 	
 	private int getCurrentAppVersion() {
 		try {
-			int versionNumber = getAppContext().getPackageManager().getPackageInfo(getAppContext().getPackageName(), 0).versionCode;
-			return versionNumber;
+			return getAppContext().getPackageManager().getPackageInfo(getAppContext().getPackageName(), 0).versionCode;
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 			return -1;
@@ -528,7 +523,7 @@ public class PreferencesManager {
 			int newVersion = getCurrentAppVersion();
 			Editor editor = getPreferencesByApp().edit();
 			editor.putInt(CURRENT_PREFS_VERSION, newVersion);
-			editor.commit();
+			editor.apply();
 		}
 	}
 	
@@ -540,7 +535,7 @@ public class PreferencesManager {
 	public void setIsNavDrawerNew(boolean isNew) {
 		Editor editor = getPreferencesByApp().edit();
 		editor.putBoolean(IS_NAV_DRAWER_NEW, isNew);
-		editor.commit();
+		editor.apply();
 	}
 	
 	/**
@@ -631,8 +626,8 @@ public class PreferencesManager {
 					editorApp.putString(AFIP_PERCENTAGE, afip);
 					log("AFIP percentage: " + afip);
 					
-					editorCurr.commit();
-					editorApp.commit();
+					editorCurr.apply();
+					editorApp.apply();
 					log("Finished migrating preferences!");
 					
 					// delete old files
@@ -670,12 +665,11 @@ public class PreferencesManager {
 				if (currentAFIP > 14 && currentAFIP < 16) {
 					Editor editor = getPreferencesByApp().edit();
 					editor.putString(AFIP_PERCENTAGE, "20");
-					editor.commit();
+					editor.apply();
 				}
 			}
 			
 		} catch (Exception e) {
-			return;
 		}
 	}
 	
@@ -686,7 +680,7 @@ public class PreferencesManager {
 		try {
 			if (getCurrentPreferencesVersion() < 11) {
 				// update the list of favorite preferences: BRL, USD, EUR, CLP, UYU, MXN, GBP
-				List<Currency> allPreviousCurrencies = new ArrayList<Currency>();
+				List<Currency> allPreviousCurrencies = new ArrayList<>();
 				for(String str : new String[]{"USD", "EUR", "GBP", "CLP", "MXN", "UYU", "BRL"}) {
 					Currency curr = CurrencyManager.getInstance().findCurrency(str);
 					if (curr != null)
@@ -695,7 +689,6 @@ public class PreferencesManager {
 				setChosenCurrencies(allPreviousCurrencies);
 			}
 		} catch (Exception e) {
-			return;
 		}
 	}
 	
@@ -712,12 +705,10 @@ public class PreferencesManager {
 				if (currentAFIP > oldAFIP-1 && currentAFIP < oldAFIP+1) {
 					Editor editor = getPreferencesByApp().edit();
 					editor.putString(AFIP_PERCENTAGE, String.valueOf(DEFAULT_AFIP_PERCENTAGE));
-					editor.commit();
+					editor.apply();
 				}
 			}
 			
-		} catch (Exception e) {
-			return;
-		}
+		} catch (Exception e) { }
 	}
 }
