@@ -3,7 +3,10 @@ package com.smartpocket.cuantoteroban
 import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Typeface
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
@@ -13,6 +16,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -25,6 +29,7 @@ import com.smartpocket.cuantoteroban.MainActivity.RequestCode
 import com.smartpocket.cuantoteroban.calc.Calculator
 import com.smartpocket.cuantoteroban.editortype.EditorType
 import com.smartpocket.cuantoteroban.editortype.EditorTypeHelper
+import com.smartpocket.cuantoteroban.preferences.PreferencesActivity
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.container_main.*
@@ -67,7 +72,6 @@ class MainActivity2 : AppCompatActivity() {
             showValue(it, amountEditText)
         })
         viewModel.officialLiveData.observe(this, Observer {
-            it
             showValue(it, inPesosValue)
         })
         viewModel.cardLiveData.observe(this, Observer {
@@ -76,6 +80,36 @@ class MainActivity2 : AppCompatActivity() {
         viewModel.blueLiveData.observe(this, Observer {
             showValue(it, withBlueValue)
         })
+        viewModel.currentEditorType.observe(this, Observer {
+            showCurrentEditor(it)
+        })
+    }
+
+    private fun showCurrentEditor(editorType: EditorType) {
+        when (editorType) {
+            EditorType.AMOUNT -> highlightOnly(amountEditText)
+            EditorType.PESOS -> highlightOnly(inPesosValue)
+            EditorType.CREDIT_CARD -> highlightOnly(withCreditCardValue)
+            EditorType.EXCHANGE_AGENCY -> highlightOnly(exchangeAgencyValue)
+            EditorType.PAYPAL -> highlightOnly(payPalValue)
+            EditorType.DISCOUNT -> highlightOnly(discountEditText)
+            EditorType.TAXES -> highlightOnly(taxesEditText)
+            EditorType.TOTAL -> highlightOnly(totalEditText)
+            EditorType.SAVINGS -> highlightOnly(withSavingsValue)
+            EditorType.BLUE -> highlightOnly(withBlueValue)
+        }
+    }
+
+    private fun highlightOnly(editText: TextView) {
+        listOf<TextView>(amountEditText, discountEditText, taxesEditText, totalEditText, inPesosValue,
+                withCreditCardValue, withSavingsValue, withBlueValue)
+                .forEach {
+                    if (it == editText) {
+                        it.setTypeface(null, Typeface.BOLD)
+                    } else {
+                        it.setTypeface(null, Typeface.NORMAL)
+                    }
+                }
     }
 
     private fun showValue(value: Double, textView: TextView) {
@@ -127,7 +161,7 @@ class MainActivity2 : AppCompatActivity() {
     }
 
     private fun setupNavDrawer() {
-        val actionBar = supportActionBar
+        val actionBar = supportActionBar as ActionBar
         mDrawerLayout = drawer_layout
         mDrawerToggle = object : ActionBarDrawerToggle(
                 this,  /* host Activity */
@@ -138,7 +172,7 @@ class MainActivity2 : AppCompatActivity() {
             /** Called when a drawer has settled in a completely closed state.  */
             override fun onDrawerClosed(view: View) {
                 super.onDrawerClosed(view)
-                actionBar?.setTitle(R.string.app_name)
+                actionBar.setTitle(R.string.app_name)
                 //actionBar.setDisplayShowTitleEnabled(false);
                 invalidateOptionsMenu() // creates call to onPrepareOptionsMenu()
             }
@@ -146,7 +180,7 @@ class MainActivity2 : AppCompatActivity() {
             /** Called when a drawer has settled in a completely open state.  */
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
-                actionBar?.setTitle(R.string.title_activity_choose_currency)
+                actionBar.setTitle(R.string.title_activity_choose_currency)
                 //actionBar.setDisplayShowTitleEnabled(true);
 //                updateRefreshProgress()
                 invalidateOptionsMenu() // creates call to onPrepareOptionsMenu()
@@ -155,8 +189,8 @@ class MainActivity2 : AppCompatActivity() {
         }
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.addDrawerListener(mDrawerToggle)
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-        actionBar?.setHomeButtonEnabled(true)
+        actionBar.setDisplayHomeAsUpEnabled(true)
+        actionBar.setHomeButtonEnabled(true)
         mDrawerList = left_drawer
         // Set the adapter for the list view
         mDrawerList.adapter = ChosenCurrenciesAdapter(this)
@@ -217,5 +251,83 @@ class MainActivity2 : AppCompatActivity() {
             countryFlagView.setImageResource(newFlagIdentifier)
         }
         currencyName.text = "en " + currency.name
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menu.clear()
+        menuInflater.inflate(R.menu.activity_main, menu)
+/*        refreshItem = menu.findItem(R.id.menu_update)
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        rotatingRefreshButtonView = inflater.inflate(R.layout.refresh_action_view, null) as ImageView
+        refreshButtonRotation = AnimationUtils.loadAnimation(this, R.anim.clockwise_refresh)
+        // this is necessary because the update begins before onCreateOptionsMenu is called
+        updateRefreshProgress()
+        // testing line
+        // Set up ShareActionProvider's default share intent
+        val shareItem = menu.findItem(R.id.menu_share)
+        mShareActionProvider = MenuItemCompat.getActionProvider(shareItem) as ShareActionProvider
+        mShareActionProvider.setShareIntent(getUpdatedShareIntent())
+        mShareActionProvider.setOnShareTargetSelectedListener(ShareActionProvider.OnShareTargetSelectedListener { arg0, shareIntent ->
+            try { // copiar el texto al portapapeles, para poder pegarlo por ejemplo en Facebook
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                //Intent shareIntent = getUpdatedShareIntent();
+                val shareContent = shareIntent.extras!![Intent.EXTRA_TEXT].toString()
+                clipboard.text = shareContent
+                Utilities.showToast("Conversión copiada al portapapeles.\nLa podes pegar en cualquier aplicación.")
+            } catch (e: Exception) {
+            }
+            false
+        })*/
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean { // show/hide buttons depending on whether the nav drawer is open
+        val disabledWhenNavDrawerIsOpen = intArrayOf(R.id.menu_share, R.id.menu_about, R.id.menu_help, R.id.menu_settings, R.id.menu_share, R.id.menu_update)
+        val drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList)
+        if (drawerOpen) {
+            menu.findItem(R.id.menu_add_currency).isVisible = true
+            for (i in disabledWhenNavDrawerIsOpen) menu.findItem(i).isVisible = false
+        } else {
+            menu.findItem(R.id.menu_add_currency).isVisible = false
+            for (i in disabledWhenNavDrawerIsOpen) menu.findItem(i).isVisible = true
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // If the user pressed the app icon, and if the drawer is closed, change the preference
+        // to avoid opening automatically the nav drawer on next launch
+        if (item.itemId == android.R.id.home && !mDrawerLayout.isDrawerOpen(mDrawerList)) PreferencesManager.getInstance().setIsNavDrawerNew(false)
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        when (item.itemId) {
+            R.id.menu_settings -> {
+                //Intent settingsIntent = new Intent(this, PreferencesScreen.class);
+                val settingsIntent = Intent(this, PreferencesActivity::class.java)
+                startActivityForResult(settingsIntent, RequestCode.SETTINGS.ordinal)
+            }
+            R.id.menu_update -> {
+//                updateExchangeRate(true)
+//                recalculateConversionRates()
+            }
+            R.id.menu_add_currency -> {
+                val intent = Intent(this, AddCurrency::class.java)
+                startActivityForResult(intent, RequestCode.ADD_CURRENCY.ordinal)
+            }
+            R.id.menu_help -> {
+                val helpIntent = Intent(this, HelpActivity::class.java)
+                startActivity(helpIntent)
+            }
+            R.id.menu_about -> {
+                val aboutIntent = Intent(this, About::class.java)
+                startActivity(aboutIntent)
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
     }
 }

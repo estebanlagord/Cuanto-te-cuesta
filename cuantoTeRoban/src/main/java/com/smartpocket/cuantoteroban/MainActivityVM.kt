@@ -1,6 +1,5 @@
 package com.smartpocket.cuantoteroban
 
-import androidx.annotation.DrawableRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.smartpocket.cuantoteroban.editortype.EditorType
@@ -21,14 +20,13 @@ class MainActivityVM : ViewModel() {
     private val repository by lazy { CurrencyRepository() }
     val preferencesManager by lazy { PreferencesManager.getInstance() }
     val currencyManager = CurrencyManager.getInstance()
-    val selectedCurrency = currencyManager.findCurrency("USD")
 
-    val targetCurrencyLiveData = MutableLiveData<Currency>()
     val amountLiveData = MutableLiveData<Double>()
     val officialLiveData = MutableLiveData<Double>()
     val cardLiveData = MutableLiveData<Double>()
     val blueLiveData = MutableLiveData<Double>()
-    val currencyLiveData = MutableLiveData<Currency>()
+    val currencyLiveData = MutableLiveData<Currency>(preferencesManager.currentCurrency)
+    val currentEditorType = MutableLiveData<EditorType>()
 
     init {
         onSettingsChanged()
@@ -36,12 +34,13 @@ class MainActivityVM : ViewModel() {
 
     fun onAmountValueChanged(amount: Double) {
         coroutineScope.launch {
+            val currency = preferencesManager.currentCurrency
             amountLiveData.value = amount
-            val currencyResult = repository.getCurrencyExchange(selectedCurrency.code, "ARS", amount)
-            officialLiveData.value = currencyResult.official
-            cardLiveData.value = currencyResult.official * 1.3
+            val currencyResult = repository.getCurrencyExchange(currency, CurrencyManager.ARS, amount)
+            officialLiveData.value = currencyResult.official * amount
+            cardLiveData.value = currencyResult.official * amount * 1.3
             if (currencyResult is DolarResult)
-                blueLiveData.value = currencyResult.blue
+                blueLiveData.value = currencyResult.blue * amount
         }
     }
 
@@ -53,9 +52,18 @@ class MainActivityVM : ViewModel() {
             preferencesManager.lastConversionType = editorType
             preferencesManager.lastConversionValue = newValue
         }
+        currentEditorType.value = editorType
     }
 
     fun onSettingsChanged() {
         currencyLiveData.value = preferencesManager.currentCurrency
+        retoreLastConversion()
+    }
+
+    private fun retoreLastConversion() {
+        val lastConversionType = preferencesManager.lastConversionType
+        if (lastConversionType != null) {
+            onCalculatorValueChanged(lastConversionType, preferencesManager.lastConversionValue)
+        }
     }
 }

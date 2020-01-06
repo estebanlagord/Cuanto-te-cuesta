@@ -36,12 +36,12 @@ public class ChosenCurrenciesAdapter extends BaseAdapter {
 	
 	public void setSelectedItem(Currency selectedItem) {
 		mSelectedItem = selectedItem;
+		notifyDataSetChanged();
 	}
 	
 	public void updateSelectedItem() {
 		Currency currentCurr = PreferencesManager.getInstance().getCurrentCurrency();
 		setSelectedItem(currentCurr);
-		notifyDataSetChanged();
 	}
 	
 	@Override

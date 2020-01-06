@@ -9,6 +9,9 @@ import java.util.TreeSet;
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager;
 
 public class CurrencyManager {
+	public static final String USD = "USD";
+	public static final String ARS = "ARS";
+
 	private static CurrencyManager instance;
 	Set<Currency> allCurrencies  = new TreeSet<Currency>();
 	Set<Currency> userCurrencies = new TreeSet<Currency>();

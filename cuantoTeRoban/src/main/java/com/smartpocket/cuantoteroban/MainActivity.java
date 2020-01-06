@@ -702,12 +702,12 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
     	if (showPayPal)
     		sharedText.append("\nPayPal: $" + payPalText.getText().toString());
     	
-    	sharedText.append("\n\nCalculado por la aplicación ¿Cuanto Te Roban? para Android." +
+    	sharedText.append("\n\nCalculado por la aplicación ¿Cuanto Te Cuesta? para Android." +
     			"\nBajala gratis desde: http://play.google.com/store/apps/details?id=com.smartpocket.cuantoteroban"); 
     	
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, "¿Cuanto Te Roban?");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "¿Cuanto Te Cuesta?");
         intent.putExtra(Intent.EXTRA_TEXT, sharedText.toString());
 		return intent;
 	}

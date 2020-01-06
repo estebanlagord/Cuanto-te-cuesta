@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <string name="app_name">Cuanto Te Roban</string>
+    <string name="app_name">Cuanto Te Cuesta</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Opciones</string>
     <string name="menu_update">Actualizar</string>
@@ -14,7 +14,7 @@
     <string name="menu_copy">Copiar</string>
     <string name="menu_paste">Pegar</string>
     <string name="menu_share">Compartir</string>
-    <string name="title_activity_main">¿Cuanto Te Roban?</string>
+    <string name="title_activity_main">¿Cuanto Te Cuesta?</string>
     <string name="title_activity_about">Acerca de la aplicación</string>
     <string name="Ammount">Monto:</string>
     <string name="AmmountTip">$</string>
@@ -77,7 +77,7 @@
     <string name="LastUpdate">"Ultima actualización: "</string>
     <string name="updating">"Actualizando&#8230;"</string>
     <string name="LastUpdateNever">"Nunca"</string>
-    <string name="title_activity_help">¿Cuanto Te Roban? - Ayuda</string>
+    <string name="title_activity_help">¿Cuanto Te Cuesta? - Ayuda</string>
     <string name="mainHelp">
         Para usar la aplicación podes empezar tocando la bandera (o el botón de la esquina superior izquierda) para elegir cual es la moneda de origen que vas a convertir hacia Pesos Argentinos.\n\n
         Luego podes ingresar un valor para <b>Monto</b>, que podría ser por ejemplo el precio de lo que te interesa comprar.\n
@@ -182,7 +182,7 @@
     <string name="title_activity_add_currency">Agregar Moneda</string>
     <string name="action_search">Buscar</string>
     <string name="search_hint">Buscar Monedas</string>
-    <string name="app_label">¿Cuanto Te Roban?</string>
+    <string name="app_label">¿Cuanto Te Cuesta?</string>
     <string name="title_activity_search_currencies">SearchCurrenciesActivity</string>
     <string name="title_activity_help_activity">HelpActivity2</string>
     <string name="what_they_charge_you">Lo que te cobran</string>

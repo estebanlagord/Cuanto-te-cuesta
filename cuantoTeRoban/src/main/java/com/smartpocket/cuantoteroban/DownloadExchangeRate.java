@@ -200,7 +200,7 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
 	        dateStr = prefDateFormat.format(date);
 	
 	    	// update preference's value
-	        PreferencesManager.getInstance().setLastUpdateDate(dateStr);
+	        PreferencesManager.getInstance().setLastUpdateDate(date, PreferencesManager.getInstance().getCurrentCurrency());
 	    	
 	    	// if the user wants automatic updates, update the preference for "Bank exchange rate"
 	        if (PreferencesManager.getInstance().isAutomaticUpdateEnabled() || this.force){
@@ -232,35 +232,35 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
 	 * @return true if the program hasn't updated exchange rates in a period of time longer than the one specified by the user
 	 */
     public synchronized boolean needsUpdate(){
-			try {
+//			try {
 				Calendar aVeryLongTimeAgo = Calendar.getInstance();
 				aVeryLongTimeAgo.set(1971, 0, 1, 0, 0, 0);
 
-				String lastUpdateStr = PreferencesManager.getInstance().getLastUpdateDate();
-				if (lastUpdateStr.equals(mainActivity.getResources().getString(R.string.LastUpdateNever)))
-					lastUpdateStr = prefDateFormat.format(aVeryLongTimeAgo.getTime());
-				
-				Date lastUpdate = prefDateFormat.parse(lastUpdateStr);
+//				String lastUpdateStr = PreferencesManager.getInstance().getLastUpdateDate(PreferencesManager.getInstance().getCurrentCurrency());
+//				if (lastUpdateStr.equals(mainActivity.getResources().getString(R.string.LastUpdateNever)))
+//					lastUpdateStr = prefDateFormat.format(aVeryLongTimeAgo.getTime());
+
+				Date lastUpdate = PreferencesManager.getInstance().getLastUpdateDate(PreferencesManager.getInstance().getCurrentCurrency());
 				Calendar now = Calendar.getInstance();
 				Calendar lastUpdateCal = Calendar.getInstance();
 
 				// get the number of hours for "Update Frequency", as specified by the user
 				int updateFrequency = PreferencesManager.getInstance().getUpdateFrequencyInHours();
-				
+
 				// add hours to the lastUpdate and check if its still before "now"
 				lastUpdateCal.setTime(lastUpdate);
 				lastUpdateCal.add(Calendar.HOUR_OF_DAY, updateFrequency);
 
                 return lastUpdateCal.before(now);
-			} catch (ParseException e) {
-				return true;
-			}
+//			} catch (ParseException e) {
+//				return true;
+//			}
 
     }
 
 	public synchronized void loadLastUpdateStr() {
-		String lastUpdate = PreferencesManager.getInstance().getLastUpdateDate();
-		lastUpdateStr.setText(convertPreferenceDateStrToDisplayDate(lastUpdate));
+//		String lastUpdate = PreferencesManager.getInstance().getLastUpdateDate(PreferencesManager.getInstance().getCurrentCurrency());
+//		lastUpdateStr.setText(convertPreferenceDateStrToDisplayDate(lastUpdate));
 	}
 	
 	
