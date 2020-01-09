@@ -17,13 +17,14 @@ class CurrencyRepository {
     suspend fun getCurrencyExchange(
             currencyFrom: Currency,
             currencyTo: String,
-            amount: Double
+            amount: Double,
+            isForce : Boolean = false
     ): CurrencyResult {
         // decide if we should use local or remote
         val result: CurrencyResult
         val noKnownRate = preferences.internetExchangeRate <= 0.0
 
-        result = if (noKnownRate || needsUpdate(currencyFrom)) {
+        result = if (isForce || noKnownRate || needsUpdate(currencyFrom)) {
             remoteRepos.getCurrencyExchange(currencyFrom, currencyTo, amount)
         } else {
             localRepos.getCurrencyExchange(currencyFrom, currencyTo, amount)

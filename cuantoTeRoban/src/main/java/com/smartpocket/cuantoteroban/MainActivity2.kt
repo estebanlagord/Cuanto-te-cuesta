@@ -1,10 +1,12 @@
 package com.smartpocket.cuantoteroban
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Typeface
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -35,18 +37,30 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.container_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity2 : AppCompatActivity() {
 
+    private lateinit var refreshItem: MenuItem
+    private lateinit var rotatingRefreshButtonView: ImageView
+    private lateinit var refreshButtonRotation: Animation
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
+
     private lateinit var mDrawerLayout: DrawerLayout
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
     private lateinit var mDrawerList: ListView
     private lateinit var viewModel: MainActivityVM
+    private val displayDateFormat = SimpleDateFormat("dd/MMM HH:mm", Locale("es", "AR"))
     private val shortNumberFormat = (DecimalFormat.getInstance() as DecimalFormat).apply {
         minimumFractionDigits = FRACTION_DIGITS
         maximumFractionDigits = FRACTION_DIGITS
         positivePrefix = "$ "
+    }
+    private val percentageNumberFormat = (DecimalFormat.getInstance() as DecimalFormat).apply {
+        minimumFractionDigits = FRACTION_DIGITS
+        maximumFractionDigits = FRACTION_DIGITS
+        positiveSuffix = " %"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +71,7 @@ class MainActivity2 : AppCompatActivity() {
 
         mSwipeRefreshLayout = activity_main_swipe_refresh_layout
         mSwipeRefreshLayout.setColorSchemeResources(R.color.my_app_green)
+        mSwipeRefreshLayout.setOnRefreshListener { viewModel.onForceRefresh() }
 
         setupViewModel()
         setupClickListeners()
@@ -65,24 +80,67 @@ class MainActivity2 : AppCompatActivity() {
 
     private fun setupViewModel() {
         viewModel = ViewModelProviders.of(this).get(MainActivityVM::class.java)
-        viewModel.currencyLiveData.observe(this, Observer {
-            updateFlag(it, true)
-        })
-        viewModel.amountLiveData.observe(this, Observer {
-            showValue(it, amountEditText)
-        })
-        viewModel.officialLiveData.observe(this, Observer {
-            showValue(it, inPesosValue)
-        })
-        viewModel.cardLiveData.observe(this, Observer {
-            showValue(it, withCreditCardValue)
-        })
-        viewModel.blueLiveData.observe(this, Observer {
-            showValue(it, withBlueValue)
-        })
-        viewModel.currentEditorType.observe(this, Observer {
-            showCurrentEditor(it)
-        })
+        with(viewModel) {
+            isLoadingLiveData.observe(this@MainActivity2, Observer {
+                setLoadingState(it)
+            })
+            currencyLiveData.observe(this@MainActivity2, Observer {
+                updateFlag(it, true)
+                updateBlueVisibility(it)
+            })
+            amountLiveData.observe(this@MainActivity2, Observer {
+                showValue(it, amountEditText)
+            })
+            discountLiveData.observe(this@MainActivity2, Observer {
+                showPercentage(it, discountEditText)
+            })
+            taxesLiveData.observe(this@MainActivity2, Observer {
+                showPercentage(it, taxesEditText)
+            })
+            totalLiveData.observe(this@MainActivity2, Observer {
+                showValue(it, totalEditText)
+            })
+            pesosLiveData.observe(this@MainActivity2, Observer {
+                showValue(it, inPesosValue)
+            })
+            creditCardLiveData.observe(this@MainActivity2, Observer {
+                showValue(it, withCreditCardValue)
+            })
+            blueLiveData.observe(this@MainActivity2, Observer {
+                showValue(it, withBlueValue)
+            })
+            currencyEditorTypeLiveData.observe(this@MainActivity2, Observer {
+                showCurrentEditor(it)
+            })
+            lastUpdateLiveData.observe(this@MainActivity2, Observer {
+                showLastUpdate(it)
+            })
+        }
+    }
+
+    private fun showLastUpdate(date: Date) {
+        textLastUpdateValue.text = displayDateFormat.format(date)
+    }
+
+    private fun updateBlueVisibility(curr: Currency) {
+        tableRowBlue.visibility = if (curr.code == CurrencyManager.USD) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+    }
+
+    private fun setLoadingState(isLoading: Boolean) {
+        mSwipeRefreshLayout.isRefreshing = isLoading
+/*        if (isLoading) {
+            rotatingRefreshButtonView.startAnimation(refreshButtonRotation)
+            refreshItem.setActionView(rotatingRefreshButtonView)
+        } else {
+            if (refreshItem.actionView != null) {
+                refreshItem.actionView.clearAnimation()
+                refreshItem.actionView = null
+            }
+        }*/
     }
 
     private fun showCurrentEditor(editorType: EditorType) {
@@ -104,16 +162,16 @@ class MainActivity2 : AppCompatActivity() {
         listOf<TextView>(amountEditText, discountEditText, taxesEditText, totalEditText, inPesosValue,
                 withCreditCardValue, withSavingsValue, withBlueValue)
                 .forEach {
-                    if (it == editText) {
-                        it.setTypeface(null, Typeface.BOLD)
-                    } else {
-                        it.setTypeface(null, Typeface.NORMAL)
-                    }
+                    it.setTypeface(null, if (it == editText) Typeface.BOLD else Typeface.NORMAL)
                 }
     }
 
     private fun showValue(value: Double, textView: TextView) {
         textView.text = shortNumberFormat.format(value)
+    }
+
+    private fun showPercentage(value: Double, textView: TextView) {
+        textView.text = percentageNumberFormat.format(value)
     }
 
     private fun setupClickListeners() {
@@ -150,7 +208,6 @@ class MainActivity2 : AppCompatActivity() {
                     val editorTypeName = data.extras!!.getString(Calculator.RESULT_TYPE)
                     val editorType = EditorTypeHelper.getEditorType(editorTypeName)
                     viewModel.onCalculatorValueChanged(editorType, newValue)
-//                updateEditTextBackgrounds(targetEditText)
                 }
             }
             RequestCode.CHOOSE_CURRENCY.ordinal,
@@ -257,15 +314,15 @@ class MainActivity2 : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menu.clear()
         menuInflater.inflate(R.menu.activity_main, menu)
-/*        refreshItem = menu.findItem(R.id.menu_update)
+        refreshItem = menu.findItem(R.id.menu_update)
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         rotatingRefreshButtonView = inflater.inflate(R.layout.refresh_action_view, null) as ImageView
         refreshButtonRotation = AnimationUtils.loadAnimation(this, R.anim.clockwise_refresh)
         // this is necessary because the update begins before onCreateOptionsMenu is called
-        updateRefreshProgress()
+//        updateRefreshProgress()
         // testing line
         // Set up ShareActionProvider's default share intent
-        val shareItem = menu.findItem(R.id.menu_share)
+/*        val shareItem = menu.findItem(R.id.menu_share)
         mShareActionProvider = MenuItemCompat.getActionProvider(shareItem) as ShareActionProvider
         mShareActionProvider.setShareIntent(getUpdatedShareIntent())
         mShareActionProvider.setOnShareTargetSelectedListener(ShareActionProvider.OnShareTargetSelectedListener { arg0, shareIntent ->

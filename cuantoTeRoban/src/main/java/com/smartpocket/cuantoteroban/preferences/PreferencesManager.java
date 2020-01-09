@@ -50,7 +50,7 @@ public class PreferencesManager {
     public static final String BLUE_DOLLAR_ARS = "blue_dollar_ars";
 
     public static final double DEFAULT_PAYPAL_PERCENTAGE = 7.5;
-    public static final double DEFAULT_AFIP_PERCENTAGE = 35;
+    public static final double DEFAULT_AFIP_PERCENTAGE = 30;
     public static final double DEFAULT_SAVINGS_PERCENTAGE = 20;
     public static final double DEFAULT_AGENCY_EXCHANGE_RATE = 0;
     public static final double DEFAULT_BANK_EXCHANGE_RATE = 0;

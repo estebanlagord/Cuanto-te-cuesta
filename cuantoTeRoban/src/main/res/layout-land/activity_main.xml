@@ -7,36 +7,36 @@
     android:fillViewport="true"
     android:scrollbarStyle="outsideOverlay"
     tools:context=".MainActivity"
-    tools:ignore="UselessParent" >
+    tools:ignore="UselessParent">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TableLayout
                 android:id="@+id/tableLayoutMonto"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:padding="@dimen/padding_medium" >
+                android:padding="@dimen/padding_medium">
 
                 <TableRow
                     android:id="@+id/tableRow1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="0dip"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.8"
-                        android:orientation="vertical" >
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/whatTheyChargeYou"
@@ -64,7 +64,7 @@
                 <TableRow
                     android:id="@+id/tableRowMonto"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/amountTextView"
@@ -79,20 +79,19 @@
                         android:layout_width="0dip"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
-                        android:layout_marginLeft="@dimen/padding_medium"
+                        android:layout_marginStart="@dimen/padding_medium"
                         android:layout_weight="1"
                         android:ems="10"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:hint="@string/AmmountTip"
-                        android:inputType="none" >
-                    </EditText>
+                        android:inputType="none" />
                 </TableRow>
 
                 <TableRow
                     android:id="@+id/tableRowDiscount"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/discountTextView"
@@ -107,14 +106,13 @@
                         android:layout_width="0dip"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
-                        android:layout_marginLeft="@dimen/padding_medium"
+                        android:layout_marginStart="@dimen/padding_medium"
                         android:layout_weight="1"
                         android:ems="10"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:inputType="none"
-                        android:longClickable="false" >
-                    </EditText>
+                        android:longClickable="false" />
 
                     <ImageView
                         android:id="@+id/deleteDiscount"
@@ -126,7 +124,7 @@
                 <TableRow
                     android:id="@+id/tableRowTaxes"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/taxesTextView"
@@ -141,14 +139,13 @@
                         android:layout_width="0dip"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
-                        android:layout_marginLeft="@dimen/padding_medium"
+                        android:layout_marginStart="@dimen/padding_medium"
                         android:layout_weight="1"
                         android:ems="10"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:inputType="none"
-                        android:longClickable="false" >
-                    </EditText>
+                        android:longClickable="false" />
 
                     <ImageView
                         android:id="@+id/deleteTaxes"
@@ -161,7 +158,7 @@
                     android:id="@+id/tableRowTotal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="1.0" >
+                    android:weightSum="1.0">
 
                     <TextView
                         android:id="@+id/totalTextView"
@@ -176,23 +173,22 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
-                        android:layout_marginLeft="@dimen/padding_medium"
+                        android:layout_marginStart="@dimen/padding_medium"
                         android:layout_weight="1"
                         android:ems="10"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:hint="@string/AmmountTip"
                         android:inputType="none"
-                        android:longClickable="false" >
-                    </EditText>
+                        android:longClickable="false" />
                 </TableRow>
             </TableLayout>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/padding_small"
                 android:layout_marginTop="@dimen/padding_small"
+                android:layout_marginBottom="@dimen/padding_small"
                 android:background="@color/black" />
 
             <TableLayout
@@ -200,18 +196,18 @@
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:padding="@dimen/padding_medium" >
+                android:padding="@dimen/padding_medium">
 
                 <TableRow
                     android:id="@+id/tableRowCost"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="0dip"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.8"
-                        android:orientation="vertical" >
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/whatItCostsYou"
@@ -243,28 +239,28 @@
                     android:id="@+id/tableRowPesos"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="1.0" >
+                    android:weightSum="1.0">
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
                         android:layout_weight="0.55"
-                        android:gravity="top" >
+                        android:gravity="top">
 
                         <TextView
                             android:id="@+id/textViewInPesos"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center_vertical"
+                            android:layout_gravity="start|center_vertical"
                             android:text="@string/InPesos"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
 
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:gravity="right"
-                            android:paddingRight="@dimen/padding_small"
-                            android:layout_marginBottom="5dp">
+                            android:layout_marginBottom="5dp"
+                            android:gravity="end"
+                            android:paddingEnd="@dimen/padding_small">
 
                             <ImageView
                                 android:id="@+id/imagePeso"
@@ -293,35 +289,36 @@
                     android:id="@+id/tableRowSavings"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="1.0" >
+                    android:visibility="gone"
+                    android:weightSum="1.0">
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
                         android:layout_weight="0.55"
-                        android:gravity="top" >
+                        android:gravity="top">
 
                         <TextView
                             android:id="@+id/textViewSavings"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center_vertical"
+                            android:layout_gravity="start|center_vertical"
                             android:text="@string/WithSavings"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
 
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:paddingRight="@dimen/padding_small"
-                            android:gravity="right"
-                            android:layout_marginBottom="5dp">
+                            android:layout_marginBottom="5dp"
+                            android:gravity="end"
+                            android:paddingEnd="@dimen/padding_small">
 
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
                                 android:adjustViewBounds="true"
-                                android:src="@drawable/ahorro"
-                                android:layout_gravity="center_vertical" />
+                                android:src="@drawable/ahorro" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -342,28 +339,28 @@
                     android:id="@+id/tableRowWithCard"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="1.0" >
+                    android:weightSum="1.0">
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
-                        android:layout_weight="0.55" >
+                        android:layout_weight="0.55">
 
                         <TextView
                             android:id="@+id/textViewWithCard"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:paddingRight="@dimen/padding_medium"
+                            android:paddingEnd="@dimen/padding_medium"
                             android:text="@string/WithCreditCard"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
 
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:gravity="right"
-                            android:paddingRight="@dimen/padding_small"
-                            android:layout_marginBottom="5dp">
+                            android:layout_marginBottom="5dp"
+                            android:gravity="end"
+                            android:paddingEnd="@dimen/padding_small">
 
                             <ImageView
                                 android:id="@+id/chooseCurrencyFlag"
@@ -391,28 +388,28 @@
                     android:id="@+id/tableRowBlue"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="1.0" >
+                    android:weightSum="1.0">
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
-                        android:layout_weight="0.55" >
+                        android:layout_weight="0.55">
 
                         <TextView
                             android:id="@+id/textViewBlue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:paddingRight="@dimen/padding_medium"
+                            android:paddingEnd="@dimen/padding_medium"
                             android:text="@string/WithBlue"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
 
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:gravity="right"
-                            android:paddingRight="@dimen/padding_small"
-                            android:layout_marginBottom="5dp">
+                            android:layout_marginBottom="5dp"
+                            android:gravity="end"
+                            android:paddingEnd="@dimen/padding_small">
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -440,7 +437,7 @@
                     android:id="@+id/tableRowExchangeAgency"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="1.0" >
+                    android:weightSum="1.0">
 
                     <TextView
                         android:id="@+id/textViewAgency"
@@ -467,19 +464,20 @@
                     android:id="@+id/tableRowPayPal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="1.0" >
+                    android:visibility="gone"
+                    android:weightSum="1.0">
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
-                        android:layout_weight="0.55" >
+                        android:layout_weight="0.55">
 
                         <ImageView
                             android:id="@+id/imagePayPal"
                             android:layout_width="wrap_content"
                             android:layout_height="fill_parent"
                             android:adjustViewBounds="true"
-                            android:gravity="left"
+                            android:gravity="start"
                             android:src="@drawable/paypal" />
                     </LinearLayout>
 
@@ -501,9 +499,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:gravity="bottom"
-            android:paddingRight="@dimen/padding_medium" >
+            android:paddingEnd="@dimen/padding_medium">
 
             <TextView
                 android:id="@+id/textLastUpdate"

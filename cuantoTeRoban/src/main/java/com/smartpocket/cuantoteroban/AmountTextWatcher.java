@@ -47,7 +47,7 @@ public class AmountTextWatcher implements TextWatcher {
 			nf.setMinimumFractionDigits(FRACTION_DIGITS);
 			nf.setMaximumFractionDigits(FRACTION_DIGITS);
 			
-			amountValue = mainActivity.findViewById(R.id.amountEditText);
+			amountValue         = mainActivity.findViewById(R.id.amountEditText);
 			discountValue       = mainActivity.findViewById(R.id.discountEditText);
 			taxesValue          = mainActivity.findViewById(R.id.taxesEditText);
 			totalValue          = mainActivity.findViewById(R.id.totalEditText);
