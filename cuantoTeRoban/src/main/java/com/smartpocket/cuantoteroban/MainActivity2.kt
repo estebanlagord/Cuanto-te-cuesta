@@ -58,7 +58,7 @@ class MainActivity2 : AppCompatActivity() {
         positivePrefix = "$ "
     }
     private val percentageNumberFormat = (DecimalFormat.getInstance() as DecimalFormat).apply {
-        minimumFractionDigits = FRACTION_DIGITS
+        minimumFractionDigits = 0
         maximumFractionDigits = FRACTION_DIGITS
         positiveSuffix = " %"
     }
@@ -119,7 +119,9 @@ class MainActivity2 : AppCompatActivity() {
     }
 
     private fun showLastUpdate(date: Date) {
-        textLastUpdateValue.text = displayDateFormat.format(date)
+        textLastUpdateValue.text =
+                if (date.time > 0) displayDateFormat.format(date)
+                else getString(R.string.LastUpdateNever)
     }
 
     private fun updateBlueVisibility(curr: Currency) {
@@ -183,6 +185,8 @@ class MainActivity2 : AppCompatActivity() {
         withCreditCardValue.setOnClickListener(OnClickListenerShowCalc(withCreditCardValue, resources.getString(R.string.WithCreditCard), EditorType.CREDIT_CARD))
         withSavingsValue.setOnClickListener(OnClickListenerShowCalc(withSavingsValue, resources.getString(R.string.WithSavings), EditorType.SAVINGS))
         withBlueValue.setOnClickListener(OnClickListenerShowCalc(withBlueValue, resources.getString(R.string.WithBlue), EditorType.BLUE))
+        deleteDiscount.setOnClickListener { viewModel.onDeleteDiscount() }
+        deleteTaxes.setOnClickListener { viewModel.onDeleteTaxes() }
     }
 
     inner class OnClickListenerShowCalc(private val editText: EditText, editTextName: String, private val editorType: EditorType) : View.OnClickListener {

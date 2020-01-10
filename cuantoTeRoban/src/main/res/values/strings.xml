@@ -173,8 +173,8 @@
 
     <declare-styleable name="com.admob.android.ads.AdView"></declare-styleable>
 
-    <string name="Discount">Descuento %</string>
-    <string name="Taxes">Recargo %</string>
+    <string name="Discount">Descuento:</string>
+    <string name="Taxes">Recargo:</string>
     <string name="Total">Total:</string>
     <string name="title_activity_choose_currency">Mis Monedas</string>
     <string name="action_settings">Settings</string>

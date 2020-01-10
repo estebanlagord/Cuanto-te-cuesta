@@ -43,7 +43,7 @@
                         android:id="@+id/currencyName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/in_us_dollar" />
+                        tools:text="@string/in_us_dollar" />
                 </LinearLayout>
 
                 <ImageView
@@ -52,7 +52,7 @@
                     android:layout_height="62dp"
                     android:layout_weight="0.2"
                     android:elevation="4dp"
-                    android:src="@drawable/usd" />
+                    tools:src="@drawable/usd" />
 
             </TableRow>
 

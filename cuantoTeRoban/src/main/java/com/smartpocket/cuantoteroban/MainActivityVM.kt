@@ -288,4 +288,12 @@ class MainActivityVM : ViewModel() {
             isLoadingLiveData.value = false
         }
     }
+
+    fun onDeleteDiscount() {
+        onDiscountValueChanged(0.0)
+    }
+
+    fun onDeleteTaxes() {
+        onTaxesValueChanged(0.0)
+    }
 }
