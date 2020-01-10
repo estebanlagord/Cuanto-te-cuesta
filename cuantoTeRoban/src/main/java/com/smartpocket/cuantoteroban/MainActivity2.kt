@@ -52,6 +52,7 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
     private lateinit var mDrawerList: ListView
     private lateinit var viewModel: MainActivityVM
+    private var currentCurr : Currency? = null
     private val displayDateFormat = SimpleDateFormat("dd/MMM HH:mm", Locale("es", "AR"))
     private val shortNumberFormat = (DecimalFormat.getInstance() as DecimalFormat).apply {
         minimumFractionDigits = FRACTION_DIGITS
@@ -67,12 +68,12 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.container_main)
-
         setSupportActionBar(my_awesome_toolbar)
 
+        currentCurr = null
         mSwipeRefreshLayout = activity_main_swipe_refresh_layout
         mSwipeRefreshLayout.setColorSchemeResources(R.color.my_app_green)
-        mSwipeRefreshLayout.setOnRefreshListener { viewModel.onForceRefresh() }
+        mSwipeRefreshLayout.setOnRefreshListener { viewModel.refreshRates(true) }
 
         setupViewModel()
         setupClickListeners()
@@ -86,8 +87,11 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
                 setLoadingState(it)
             })
             currencyLiveData.observe(this@MainActivity2, Observer {
-                updateFlag(it, true)
-                updateBlueVisibility(it)
+                if (currentCurr != it) {
+                    updateFlag(it, true)
+                    updateBlueVisibility(it)
+                    currentCurr = it
+                }
             })
             amountLiveData.observe(this@MainActivity2, Observer {
                 showValue(it, amountEditText)
@@ -116,7 +120,23 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
             lastUpdateLiveData.observe(this@MainActivity2, Observer {
                 showLastUpdate(it)
             })
+            errorLiveData.observe(this@MainActivity2, Observer {
+                showErrorMsg(it)
+            })
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.onStart()
+    }
+
+    private fun showErrorMsg(errorState: MainActivityVM.ErrorState) {
+        val msgRes = when (errorState) {
+            MainActivityVM.ErrorState.NO_INTERNET -> R.string.error_no_internet
+            MainActivityVM.ErrorState.DOWNLOAD_ERROR -> R.string.error_downloading
+        }
+        Utilities.showToast(getString(msgRes))
     }
 
     private fun showLastUpdate(date: Date) {
@@ -188,6 +208,7 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         withBlueValue.setOnClickListener(OnClickListenerShowCalc(withBlueValue, resources.getString(R.string.WithBlue), EditorType.BLUE))
         deleteDiscount.setOnClickListener { viewModel.onDeleteDiscount() }
         deleteTaxes.setOnClickListener { viewModel.onDeleteTaxes() }
+        countryFlag.setOnClickListener { mDrawerLayout.openDrawer(GravityCompat.START) }
     }
 
     inner class OnClickListenerShowCalc(private val editText: EditText, editTextName: String, private val editorType: EditorType) : View.OnClickListener {
@@ -212,7 +233,8 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
                     val newValue = data!!.extras!!.getDouble(Calculator.RESULT)
                     val editorTypeName = data.extras!!.getString(Calculator.RESULT_TYPE)
                     val editorType = EditorTypeHelper.getEditorType(editorTypeName)
-                    viewModel.onCalculatorValueChanged(editorType, newValue)
+                    viewModel.onCalculatorValueChanged(editorType,
+                            Utilities.round(newValue, FRACTION_DIGITS))
                 }
             }
             RequestCode.CHOOSE_CURRENCY.ordinal,
@@ -295,7 +317,7 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
     }
 
     private fun updateFlag(currency: Currency, fadeFlag: Boolean) {
-        val countryFlagView = findViewById<ImageView>(R.id.countryFlag)
+        val countryFlagView = countryFlag
         val newFlagIdentifier = currency.flagIdentifier
         if (fadeFlag) {
             val fadeInAnim = AnimationUtils.loadAnimation(this, R.anim.flag_transition_in)
@@ -375,7 +397,7 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
                 startActivityForResult(Intent(this, AddCurrency::class.java),
                         RequestCode.ADD_CURRENCY.ordinal)
             }
-            R.id.menu_update -> viewModel.onForceRefresh()
+            R.id.menu_update -> viewModel.refreshRates(true)
             R.id.menu_help -> startActivity(Intent(this, HelpActivity::class.java))
             R.id.menu_about -> startActivity(Intent(this, About::class.java))
             else -> return super.onOptionsItemSelected(item)

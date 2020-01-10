@@ -189,4 +189,7 @@
     <string name="in_us_dollar">en Dólar estadounidense</string>
     <string name="in_arg_pesos">en Pesos argentinos</string>
 
+    <string name="error_no_internet">No hay conexión a Internet</string>
+    <string name="error_downloading">No se pudieron actualizar las cotizaciones desde Internet</string>
+
 </resources>

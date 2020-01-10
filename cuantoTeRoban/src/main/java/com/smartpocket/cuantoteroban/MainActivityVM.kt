@@ -1,14 +1,15 @@
 package com.smartpocket.cuantoteroban
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.smartpocket.cuantoteroban.editortype.EditorType
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import com.smartpocket.cuantoteroban.repository.CurrencyRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 import java.util.logging.Logger
 
@@ -45,13 +46,15 @@ class MainActivityVM : ViewModel() {
     val currencyEditorTypeLiveData = MutableLiveData<EditorType>()
     val isLoadingLiveData = MutableLiveData<Boolean>(false)
     val lastUpdateLiveData = MutableLiveData<Date>(Date(0))
+    val errorLiveData = SingleLiveEvent<ErrorState>()
+
+    enum class ErrorState { NO_INTERNET, DOWNLOAD_ERROR }
 
     init {
         onSettingsChanged()
     }
 
     fun onAmountValueChanged(amount: Double) {
-//        coroutineScope.launch {
         val total = amountToTotal(amount)
         amountLiveData.value = amount
         updateTotal(total)
@@ -59,15 +62,6 @@ class MainActivityVM : ViewModel() {
         updateCreditCard(total)
         updateAgency(total)
         updateBlue(total)
-
-/*            val currency = preferences.currentCurrency
-            amountLiveData.value = amount
-            val currencyResult = repository.getCurrencyExchange(currency, CurrencyManager.ARS, amount)
-            pesosLiveData.value = currencyResult.official * amount
-            creditCardLiveData.value = currencyResult.official * amount * 1.3
-            if (currencyResult is DolarResult)
-                blueLiveData.value = currencyResult.blue * amount*/
-//        }
     }
 
     private fun updateAmount(total: Double) {
@@ -242,6 +236,15 @@ class MainActivityVM : ViewModel() {
     }
 
     fun onSettingsChanged() {
+        retoreLastConversion()
+        refreshRates(false)
+    }
+
+    fun onStart() {
+        refreshRates(false)
+    }
+
+    private fun retoreLastConversion() {
         bankExchangeRate = if (preferences.isUseInternetBankExchangeRateEnabled) {
             preferences.internetExchangeRate
         } else {
@@ -264,29 +267,31 @@ class MainActivityVM : ViewModel() {
         if (invertAgencyExchangeRate) {
             if (agencyExchangeRate != 0.0) agencyExchangeRate = 1 / agencyExchangeRate
         }
+
         val currentCurrency = preferences.currentCurrency
         currencyLiveData.value = currentCurrency
         lastUpdateLiveData.value = preferences.getLastUpdateDate(currentCurrency)
-        taxesLiveData.value = taxes
         discountLiveData.value = discount
-        retoreLastConversion()
-    }
+        taxesLiveData.value = taxes
 
-    private fun retoreLastConversion() {
         val lastConversionType = preferences.lastConversionType
         if (lastConversionType != null) {
             onCalculatorValueChanged(lastConversionType, preferences.lastConversionValue)
         }
     }
 
-    fun onForceRefresh() {
+    fun refreshRates(isForced: Boolean) {
         isLoadingLiveData.value = true
         val currency = preferences.currentCurrency
         val now = Date()
         coroutineScope.launch {
-            repository.getCurrencyExchange(currency, CurrencyManager.ARS, 0.0, true)
-            preferences.setLastUpdateDate(now, currency)
-            onSettingsChanged()
+            try {
+                repository.getCurrencyExchange(currency, CurrencyManager.ARS, 0.0, isForced)
+                retoreLastConversion()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                errorLiveData.value = if (isInternetAvailable()) ErrorState.DOWNLOAD_ERROR else ErrorState.NO_INTERNET
+            }
             isLoadingLiveData.value = false
         }
     }
@@ -298,4 +303,41 @@ class MainActivityVM : ViewModel() {
     fun onDeleteTaxes() {
         onTaxesValueChanged(0.0)
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        coroutineScope.cancel()
+    }
+
+    private fun isInternetAvailable(): Boolean {
+        var result = false
+        val connectivityManager =
+                MyApplication.Companion.applicationContext()
+                        .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val networkCapabilities = connectivityManager.activeNetwork ?: return false
+            val actNw =
+                    connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+            result = when {
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                else -> false
+            }
+        } else {
+            connectivityManager.run {
+                connectivityManager.activeNetworkInfo?.run {
+                    result = when (type) {
+                        ConnectivityManager.TYPE_WIFI -> true
+                        ConnectivityManager.TYPE_MOBILE -> true
+                        ConnectivityManager.TYPE_ETHERNET -> true
+                        else -> false
+                    }
+
+                }
+            }
+        }
+        return result
+    }
+
 }
