@@ -267,6 +267,8 @@ class MainActivityVM : ViewModel() {
         val currentCurrency = preferences.currentCurrency
         currencyLiveData.value = currentCurrency
         lastUpdateLiveData.value = preferences.getLastUpdateDate(currentCurrency)
+        taxesLiveData.value = taxes
+        discountLiveData.value = discount
         retoreLastConversion()
     }
 

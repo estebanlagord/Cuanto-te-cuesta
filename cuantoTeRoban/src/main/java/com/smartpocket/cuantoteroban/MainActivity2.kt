@@ -23,6 +23,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -40,7 +41,7 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainActivity2 : AppCompatActivity() {
+class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
 
     private lateinit var refreshItem: MenuItem
     private lateinit var rotatingRefreshButtonView: ImageView
@@ -215,9 +216,9 @@ class MainActivity2 : AppCompatActivity() {
                 }
             }
             RequestCode.CHOOSE_CURRENCY.ordinal,
-            RequestCode.SETTINGS.ordinal -> {
-                viewModel.onSettingsChanged()
-            }
+            RequestCode.SETTINGS.ordinal -> viewModel.onSettingsChanged()
+
+            RequestCode.ADD_CURRENCY.ordinal -> (mDrawerList.adapter as ChosenCurrenciesAdapter).updateCurrenciesList()
         }
     }
 
@@ -367,28 +368,26 @@ class MainActivity2 : AppCompatActivity() {
         }
         when (item.itemId) {
             R.id.menu_settings -> {
-                //Intent settingsIntent = new Intent(this, PreferencesScreen.class);
-                val settingsIntent = Intent(this, PreferencesActivity::class.java)
-                startActivityForResult(settingsIntent, RequestCode.SETTINGS.ordinal)
-            }
-            R.id.menu_update -> {
-//                updateExchangeRate(true)
-//                recalculateConversionRates()
+                startActivityForResult(Intent(this, PreferencesActivity::class.java),
+                        RequestCode.SETTINGS.ordinal)
             }
             R.id.menu_add_currency -> {
-                val intent = Intent(this, AddCurrency::class.java)
-                startActivityForResult(intent, RequestCode.ADD_CURRENCY.ordinal)
+                startActivityForResult(Intent(this, AddCurrency::class.java),
+                        RequestCode.ADD_CURRENCY.ordinal)
             }
-            R.id.menu_help -> {
-                val helpIntent = Intent(this, HelpActivity::class.java)
-                startActivity(helpIntent)
-            }
-            R.id.menu_about -> {
-                val aboutIntent = Intent(this, About::class.java)
-                startActivity(aboutIntent)
-            }
+            R.id.menu_update -> viewModel.onForceRefresh()
+            R.id.menu_help -> startActivity(Intent(this, HelpActivity::class.java))
+            R.id.menu_about -> startActivity(Intent(this, About::class.java))
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    /**
+     * Used to refresh NavDrawer list after a currency is deleted
+     */
+    override fun onDialogPositiveClick(dialog: DialogFragment) {
+        val adapter = mDrawerList.adapter as ChosenCurrenciesAdapter
+        adapter.updateCurrenciesList()
     }
 }

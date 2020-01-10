@@ -7,6 +7,7 @@ import com.smartpocket.cuantoteroban.preferences.PreferencesManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
@@ -14,6 +15,8 @@ import androidx.fragment.app.FragmentActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+
+import org.jetbrains.annotations.NotNull;
 
 
 public class ChosenCurrencyLongClickListener implements OnItemLongClickListener {
@@ -61,20 +64,21 @@ public class ChosenCurrencyLongClickListener implements OnItemLongClickListener 
 		}
 		
 	    @Override
-	    public void onAttach(Activity activity) {
-	        super.onAttach(activity);
+	    public void onAttach(Context context) {
+	        super.onAttach(context);
 	        // Verify that the host activity implements the callback interface
 	        try {
 	            // Instantiate the NoticeDialogListener so we can send events to the host
-	            mListener = (DeleteCurrencyDialogListener) activity;
+	            mListener = (DeleteCurrencyDialogListener) context;
 	        } catch (ClassCastException e) {
 	            // The activity doesn't implement the interface, throw exception
-	            throw new ClassCastException(activity.toString() + " must implement NoticeDialogListener");
+	            throw new ClassCastException(context.toString() + " must implement DeleteCurrencyDialogListener");
 	        }
 	    }
 
 		
-	    @Override
+	    @NotNull
+		@Override
 	    public Dialog onCreateDialog(Bundle savedInstanceState) {
 	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 	        builder.setTitle("¿Borrar?")

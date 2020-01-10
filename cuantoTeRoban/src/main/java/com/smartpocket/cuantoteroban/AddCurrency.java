@@ -65,12 +65,7 @@ public class AddCurrency extends AppCompatActivity {
 				Currency newCurrency = CurrencyManager.getInstance().findCurrency(currCode);
 				CurrencyManager.getInstance().addToUserCurrencies(newCurrency);
 				
-				MainActivity.getInstance().updateExchangeRatesAfterAddingNewCurrency();
-				
 				Intent resultIntent = new Intent();
-				//Bundle bundle = new Bundle();
-				//bundle.putString(Currency.CODE, currCode);
-				//resultIntent.putExtras(bundle);
 				setResult(RESULT_OK, resultIntent);
 				finish();
 			}
