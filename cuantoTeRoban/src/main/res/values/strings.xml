@@ -14,6 +14,7 @@
     <string name="menu_copy">Copiar</string>
     <string name="menu_paste">Pegar</string>
     <string name="menu_share">Compartir</string>
+    <string name="share_screen_title">Compartir conversión</string>
     <string name="title_activity_main">¿Cuanto Te Cuesta?</string>
     <string name="title_activity_about">Acerca de la aplicación</string>
     <string name="Ammount">Monto:</string>

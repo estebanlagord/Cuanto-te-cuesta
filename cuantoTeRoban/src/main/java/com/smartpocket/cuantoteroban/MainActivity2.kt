@@ -372,23 +372,42 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         refreshButtonRotation = AnimationUtils.loadAnimation(this, R.anim.clockwise_refresh)
         // this is necessary because the update begins before onCreateOptionsMenu is called
 //        updateRefreshProgress()
-        // testing line
-        // Set up ShareActionProvider's default share intent
-/*        val shareItem = menu.findItem(R.id.menu_share)
-        mShareActionProvider = MenuItemCompat.getActionProvider(shareItem) as ShareActionProvider
-        mShareActionProvider.setShareIntent(getUpdatedShareIntent())
-        mShareActionProvider.setOnShareTargetSelectedListener(ShareActionProvider.OnShareTargetSelectedListener { arg0, shareIntent ->
-            try { // copiar el texto al portapapeles, para poder pegarlo por ejemplo en Facebook
-                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                //Intent shareIntent = getUpdatedShareIntent();
-                val shareContent = shareIntent.extras!![Intent.EXTRA_TEXT].toString()
-                clipboard.text = shareContent
-                Utilities.showToast("Conversión copiada al portapapeles.\nLa podes pegar en cualquier aplicación.")
-            } catch (e: Exception) {
-            }
-            false
-        })*/
         return true
+    }
+
+    // gets the content to share with other apps
+    private fun getUpdatedShareIntent(): Intent {
+        val showDiscount = PreferencesManager.getInstance().isShowDiscount
+                && viewModel.discountLiveData.value != 0.0
+        val showTaxes = PreferencesManager.getInstance().isShowTaxes
+                && viewModel.taxesLiveData.value != 0.0
+        val showTotal = showDiscount || showTaxes
+        val showPesos = PreferencesManager.getInstance().isShowPesos
+        val showCreditCard = PreferencesManager.getInstance().isShowCreditCard
+        val showBlue = PreferencesManager.getInstance().isShowBlue
+        val showAgency = PreferencesManager.getInstance().isShowExchangeAgency &&
+                viewModel.exchangeAgencyLiveData.value != 0.0
+
+        val sharedText = StringBuilder("Lo que te cobran en " + PreferencesManager.getInstance().currentCurrency.name + ":").apply {
+            append("\nMonto: " + amountEditText.text)
+            if (showDiscount) append("\nDescuento: " + discountEditText.text)
+            if (showTaxes) append("\nRecargo: " + taxesEditText.text)
+            if (showTotal) append("\nTotal: " + totalEditText.text)
+            append("\n\nLo que te cuesta en Pesos argentinos:")
+            if (showPesos) append("\nOficial: " + inPesosValue.text)
+            if (showCreditCard) append("\nTarjeta: " + withCreditCardValue.text)
+            if (showBlue) append("\nBlue: " + withBlueValue.text)
+            if (showAgency) append("\nCasa de Cambio: " + exchangeAgencyValue.text)
+            append("\n\nCalculado por la aplicación ¿Cuanto Te Cuesta? para Android." +
+                    "\nBajala gratis desde: http://play.google.com/store/apps/details?id=com.smartpocket.cuantoteroban")
+        }
+
+        val sendIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_label))
+            putExtra(Intent.EXTRA_TEXT, sharedText.toString())
+        }
+        return Intent.createChooser(sendIntent, getString(R.string.share_screen_title))
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean { // show/hide buttons depending on whether the nav drawer is open
@@ -425,6 +444,7 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
             R.id.menu_update -> viewModel.refreshRates(true)
             R.id.menu_help -> startActivity(Intent(this, HelpActivity::class.java))
             R.id.menu_about -> startActivity(Intent(this, About::class.java))
+            R.id.menu_share -> startActivity(getUpdatedShareIntent())
             else -> return super.onOptionsItemSelected(item)
         }
         return true
