@@ -112,8 +112,6 @@
     <string name="blueHelp">
         La conversión de la moneda que figura como <b>“Blue”</b> se calcula usando la cotización informal del <b>Dólar Blue</b> (estadounidense). Esta cotización se actualiza automáticamente junto con las oficiales.\n
         Tené en cuenta que esta cotización varía bastante dependiendo de cual sea la ciudad donde compres, y otros factores.\n\n
-        Al convertir una moneda que no sea el Dólar Estadounidense, el campo de cotización <b>Blue</b> muestra el resultado de convertir dicha moneda primero hacia el dólar oficial, y después hacia Pesos argentinos usando la cotización Blue.\n
-        Esta conversión sería útil por ejemplo si uno viajara al exterior con dólares blue, para comprar moneda local en el país de destino.
     </string>
     <string name="agencyHelp">
 		La conversión de la moneda que figura como <b>“Casa de Cambio”</b> es la que se define en el menú de Opciones, en la sección <b>“Cotización en casa de cambio”</b>.\n\n
