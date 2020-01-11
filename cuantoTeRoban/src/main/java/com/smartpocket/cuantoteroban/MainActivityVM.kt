@@ -236,7 +236,14 @@ class MainActivityVM : ViewModel() {
     }
 
     fun onSettingsChanged() {
-        retoreLastConversion()
+        if (preferences.isShowDiscount.not()) {
+            preferences.discount = 0.0
+        }
+        if (preferences.isShowTaxes.not()) {
+            preferences.taxes = 0.0
+        }
+
+        restoreLastConversion()
         refreshRates(false)
     }
 
@@ -244,7 +251,7 @@ class MainActivityVM : ViewModel() {
         refreshRates(false)
     }
 
-    private fun retoreLastConversion() {
+    private fun restoreLastConversion() {
         bankExchangeRate = if (preferences.isUseInternetBankExchangeRateEnabled) {
             preferences.internetExchangeRate
         } else {
@@ -283,11 +290,10 @@ class MainActivityVM : ViewModel() {
     fun refreshRates(isForced: Boolean) {
         isLoadingLiveData.value = true
         val currency = preferences.currentCurrency
-        val now = Date()
         coroutineScope.launch {
             try {
                 repository.getCurrencyExchange(currency, CurrencyManager.ARS, 0.0, isForced)
-                retoreLastConversion()
+                restoreLastConversion()
             } catch (e: Exception) {
                 e.printStackTrace()
                 errorLiveData.value = if (isInternetAvailable()) ErrorState.DOWNLOAD_ERROR else ErrorState.NO_INTERNET
@@ -312,7 +318,7 @@ class MainActivityVM : ViewModel() {
     private fun isInternetAvailable(): Boolean {
         var result = false
         val connectivityManager =
-                MyApplication.Companion.applicationContext()
+                MyApplication.applicationContext()
                         .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val networkCapabilities = connectivityManager.activeNetwork ?: return false

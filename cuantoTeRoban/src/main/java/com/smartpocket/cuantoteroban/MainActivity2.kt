@@ -53,6 +53,7 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
     private lateinit var mDrawerList: ListView
     private lateinit var viewModel: MainActivityVM
     private lateinit var adViewHelper: AdViewHelper
+    private val preferences by lazy { PreferencesManager.getInstance() }
 
     private var currentCurr: Currency? = null
     private val displayDateFormat = SimpleDateFormat("dd/MMM HH:mm", Locale("es", "AR"))
@@ -82,6 +83,17 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         setupNavDrawer()
 
         adViewHelper = AdViewHelper(adViewContainer, this)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.onStart()
+        tableRowDiscount.visibility = if (preferences.isShowDiscount) View.VISIBLE else View.GONE
+        tableRowTaxes.visibility = if (preferences.isShowTaxes) View.VISIBLE else View.GONE
+        tableRowPesos.visibility = if (preferences.isShowPesos) View.VISIBLE else View.GONE
+        tableRowWithCard.visibility = if (preferences.isShowCreditCard) View.VISIBLE else View.GONE
+        tableRowBlue.visibility = if (preferences.isShowBlue) View.VISIBLE else View.GONE
+        tableRowExchangeAgency.visibility = if (preferences.isShowExchangeAgency) View.VISIBLE else View.GONE
     }
 
     override fun onResume() {
@@ -135,6 +147,9 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
             blueLiveData.observe(this@MainActivity2, Observer {
                 showValue(it, withBlueValue)
             })
+            exchangeAgencyLiveData.observe(this@MainActivity2, Observer {
+                showValue(it, exchangeAgencyValue)
+            })
             currencyEditorTypeLiveData.observe(this@MainActivity2, Observer {
                 showCurrentEditor(it)
             })
@@ -149,11 +164,6 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
 
     private fun updateTotalVisibility(discount: Double?, taxes: Double?) {
         tableRowTotal.visibility = if (discount == 0.0 && taxes == 0.0) View.GONE else View.VISIBLE
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.onStart()
     }
 
     private fun showErrorMsg(errorState: MainActivityVM.ErrorState) {
@@ -303,10 +313,6 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         mDrawerList = left_drawer
         // Set the adapter for the list view
         mDrawerList.adapter = ChosenCurrenciesAdapter(this)
-        // Open nav drawer unless it has been opened manually
-        if (PreferencesManager.getInstance().isNavDrawerANewFeature)
-            mDrawerLayout.openDrawer(GravityCompat.START)
-
         mDrawerList.onItemLongClickListener = ChosenCurrencyLongClickListener(this)
         mDrawerList.onItemClickListener = OnItemClickListener { _, _, position, _ -> selectItemFromNavDrawer(position) }
     }
@@ -316,7 +322,7 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         val adapter = mDrawerList.adapter as ChosenCurrenciesAdapter
         val newCurr = mDrawerList.adapter.getItem(position) as Currency
         adapter.selectedItem = newCurr
-        PreferencesManager.getInstance().currentCurrency = newCurr
+        preferences.currentCurrency = newCurr
         onActivityResult(RequestCode.CHOOSE_CURRENCY.ordinal, Activity.RESULT_OK, null)
         mDrawerLayout.closeDrawer(mDrawerList)
     }
@@ -359,7 +365,7 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         } else { // change the flag without showing the fade animation
             countryFlagView.setImageResource(newFlagIdentifier)
         }
-        currencyName.text = "en " + currency.name
+        currencyName.text = getString(R.string.what_they_charge_you_in, currency.name)
     }
 
 
@@ -377,18 +383,15 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
 
     // gets the content to share with other apps
     private fun getUpdatedShareIntent(): Intent {
-        val showDiscount = PreferencesManager.getInstance().isShowDiscount
-                && viewModel.discountLiveData.value != 0.0
-        val showTaxes = PreferencesManager.getInstance().isShowTaxes
-                && viewModel.taxesLiveData.value != 0.0
+        val showDiscount = preferences.isShowDiscount && viewModel.discountLiveData.value != 0.0
+        val showTaxes = preferences.isShowTaxes && viewModel.taxesLiveData.value != 0.0
         val showTotal = showDiscount || showTaxes
-        val showPesos = PreferencesManager.getInstance().isShowPesos
-        val showCreditCard = PreferencesManager.getInstance().isShowCreditCard
-        val showBlue = PreferencesManager.getInstance().isShowBlue
-        val showAgency = PreferencesManager.getInstance().isShowExchangeAgency &&
-                viewModel.exchangeAgencyLiveData.value != 0.0
+        val showPesos = preferences.isShowPesos
+        val showCreditCard = preferences.isShowCreditCard
+        val showBlue = preferences.isShowBlue
+        val showAgency = preferences.isShowExchangeAgency && viewModel.exchangeAgencyLiveData.value != 0.0
 
-        val sharedText = StringBuilder("Lo que te cobran en " + PreferencesManager.getInstance().currentCurrency.name + ":").apply {
+        val sharedText = StringBuilder("Lo que te cobran en " + preferences.currentCurrency.name + ":").apply {
             append("\nMonto: " + amountEditText.text)
             if (showDiscount) append("\nDescuento: " + discountEditText.text)
             if (showTaxes) append("\nRecargo: " + taxesEditText.text)
@@ -426,7 +429,7 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // If the user pressed the app icon, and if the drawer is closed, change the preference
         // to avoid opening automatically the nav drawer on next launch
-        if (item.itemId == android.R.id.home && !mDrawerLayout.isDrawerOpen(mDrawerList)) PreferencesManager.getInstance().setIsNavDrawerNew(false)
+        if (item.itemId == android.R.id.home && !mDrawerLayout.isDrawerOpen(mDrawerList)) preferences.setIsNavDrawerNew(false)
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
         if (mDrawerToggle.onOptionsItemSelected(item)) {

@@ -185,6 +185,7 @@
     <string name="title_activity_search_currencies">SearchCurrenciesActivity</string>
     <string name="title_activity_help_activity">HelpActivity2</string>
     <string name="what_they_charge_you">Lo que te cobran</string>
+    <string name="what_they_charge_you_in">en %1$s</string>
     <string name="in_us_dollar">en Dólar estadounidense</string>
     <string name="in_arg_pesos">en Pesos argentinos</string>
 
