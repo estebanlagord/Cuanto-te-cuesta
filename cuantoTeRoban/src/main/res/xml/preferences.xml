@@ -31,19 +31,19 @@
             android:summary="@string/update_frequency_explained"
             android:title="@string/update_frequency" />
         <EditTextPreference
-            android:defaultValue="35"
+            android:defaultValue="30"
             android:dialogTitle="@string/afip_percentage"
             android:inputType="numberDecimal"
             android:key="afip_percentage"
             android:summary="@string/afip_percentage_explained"
             android:title="@string/afip_percentage" />
-        <EditTextPreference
+<!--        <EditTextPreference
             android:defaultValue="20"
             android:dialogTitle="@string/savings_percentage"
             android:inputType="numberDecimal"
             android:key="savings_percentage"
             android:summary="@string/savings_percentage_explained"
-            android:title="@string/savings_percentage" />
+            android:title="@string/savings_percentage" />-->
 
         <CheckBoxPreference
             android:defaultValue="true"
@@ -69,10 +69,10 @@
             android:defaultValue="true"
             android:key="show_pesos"
             android:title="@string/show_pesos" />
-        <CheckBoxPreference
+<!--        <CheckBoxPreference
             android:defaultValue="true"
             android:key="show_savings"
-            android:title="@string/show_savings" />
+            android:title="@string/show_savings" />-->
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="show_credit_card"
@@ -85,10 +85,10 @@
             android:defaultValue="true"
             android:key="show_exchange_agency"
             android:title="@string/show_exchange_agency" />
-        <CheckBoxPreference
+<!--        <CheckBoxPreference
             android:defaultValue="true"
             android:key="show_paypal"
-            android:title="@string/show_paypal" />
+            android:title="@string/show_paypal" />-->
     </PreferenceCategory>
 
 </PreferenceScreen>

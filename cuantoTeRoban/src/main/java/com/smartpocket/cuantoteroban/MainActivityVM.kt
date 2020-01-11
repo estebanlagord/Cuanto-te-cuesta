@@ -111,7 +111,7 @@ class MainActivityVM : ViewModel() {
             }
             EditorType.BLUE -> onBlueValueChanged(newValue)
         }
-        if (editorType != EditorType.TAXES && editorType != EditorType.SAVINGS) {
+        if (editorType != EditorType.TAXES && editorType != EditorType.DISCOUNT) {
             preferences.lastConversionType = editorType
             preferences.lastConversionValue = newValue
         }

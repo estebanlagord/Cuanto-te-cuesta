@@ -82,12 +82,9 @@ public class PreferencesActivityForCurrency extends AppCompatActivity {
 	    				});
             		}
     				
-    				preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-						@Override
-						public boolean onPreferenceChange(Preference preference, Object newValue) {
-							updateSummaryForPreference(preference, newValue);
-							return true;
-						}
+    				preference.setOnPreferenceChangeListener((preference1, newValue) -> {
+						updateSummaryForPreference(preference1, newValue);
+						return true;
 					});
             	}
             }

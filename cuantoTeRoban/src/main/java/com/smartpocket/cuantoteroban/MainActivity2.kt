@@ -47,8 +47,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 // This is an ad unit ID for a test ad. Replace with your own banner ad unit ID.
-//private const val AD_UNIT_ID = "ca-app-pub-6954073861191346/2251963282"
-private const val AD_UNIT_ID = "ca-app-pub-3940256099942544/6300978111"
+//private const val AD_UNIT_ID = "ca-app-pub-6954073861191346/2251963282" //REAL ADS
+private const val AD_UNIT_ID = "ca-app-pub-3940256099942544/6300978111"  //TEST ADS
 
 class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
 
@@ -128,9 +128,11 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
             })
             discountLiveData.observe(this@MainActivity2, Observer {
                 showPercentage(it, discountEditText)
+                updateTotalVisibility(it, taxesLiveData.value)
             })
             taxesLiveData.observe(this@MainActivity2, Observer {
                 showPercentage(it, taxesEditText)
+                updateTotalVisibility(discountLiveData.value, it)
             })
             totalLiveData.observe(this@MainActivity2, Observer {
                 showValue(it, totalEditText)
@@ -154,6 +156,10 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
                 showErrorMsg(it)
             })
         }
+    }
+
+    private fun updateTotalVisibility(discount: Double?, taxes: Double?) {
+        tableRowTotal.visibility = if (discount == 0.0 && taxes == 0.0) View.GONE else View.VISIBLE
     }
 
     override fun onStart() {
@@ -234,7 +240,7 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         totalEditText.setOnClickListener(OnClickListenerShowCalc(totalEditText, resources.getString(R.string.Total), EditorType.TOTAL))
         inPesosValue.setOnClickListener(OnClickListenerShowCalc(inPesosValue, resources.getString(R.string.InPesos), EditorType.PESOS))
         withCreditCardValue.setOnClickListener(OnClickListenerShowCalc(withCreditCardValue, resources.getString(R.string.WithCreditCard), EditorType.CREDIT_CARD))
-        withSavingsValue.setOnClickListener(OnClickListenerShowCalc(withSavingsValue, resources.getString(R.string.WithSavings), EditorType.SAVINGS))
+//        withSavingsValue.setOnClickListener(OnClickListenerShowCalc(withSavingsValue, resources.getString(R.string.WithSavings), EditorType.SAVINGS))
         withBlueValue.setOnClickListener(OnClickListenerShowCalc(withBlueValue, resources.getString(R.string.WithBlue), EditorType.BLUE))
         deleteDiscount.setOnClickListener { viewModel.onDeleteDiscount() }
         deleteTaxes.setOnClickListener { viewModel.onDeleteTaxes() }
