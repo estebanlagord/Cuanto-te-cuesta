@@ -514,7 +514,7 @@
     </ScrollView>
 
     <FrameLayout
-        android:id="@+id/ad_view_container"
+        android:id="@+id/adViewContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

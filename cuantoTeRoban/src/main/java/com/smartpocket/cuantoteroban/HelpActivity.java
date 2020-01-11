@@ -25,7 +25,7 @@ public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavig
 	static final String[] TAB_TITLES = new String[] { "Introducción",        "Oficial"           , "Ahorro"           , "Tarjeta"           , "Blue"           , "Casa de cambio"              , "PayPal",            "Mis Monedas"};
 	static final String[] PAGE_TITLES = new String[] { "Pantalla principal", "Cotización oficial", "Cotización ahorro", "Tarjeta de crédito", "Cotización blue", "Cotización en casa de cambio", "Cotización PayPal", "Mis Monedas"};
     ViewPager mPager;
-
+	private AdViewHelper adViewHelper;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,9 @@ public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavig
         MyAdapter myAdapter = new MyAdapter(getSupportFragmentManager(), getApplicationContext());
         mPager = findViewById(R.id.pager);
         mPager.setAdapter(myAdapter);
+
+        ViewGroup adViewContainer = findViewById(R.id.adViewContainer);
+		adViewHelper = new AdViewHelper(adViewContainer, this);
        
         ActionBar.TabListener tabListener = new ActionBar.TabListener() {
             public void onTabSelected(Tab tab, FragmentTransaction ft) {
@@ -197,5 +200,23 @@ public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavig
 	public boolean onNavigationItemSelected(int arg0, long arg1) {
 		mPager.setCurrentItem(arg0);
 		return true;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (adViewHelper != null) adViewHelper.resume();
+	}
+
+	@Override
+	protected void onPause() {
+		if (adViewHelper != null) adViewHelper.pause();
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (adViewHelper != null) adViewHelper.destroy();
+		super.onDestroy();
 	}
 }

@@ -1,6 +1,7 @@
 package com.smartpocket.cuantoteroban.preferences;
 
 import android.os.Bundle;
+import android.view.ViewGroup;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,10 +13,13 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.smartpocket.cuantoteroban.AdViewHelper;
 import com.smartpocket.cuantoteroban.Currency;
 import com.smartpocket.cuantoteroban.R;
 
 public class PreferencesActivityForCurrency extends AppCompatActivity {
+
+	private AdViewHelper adViewHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,9 @@ public class PreferencesActivityForCurrency extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+		ViewGroup adViewContainer = findViewById(R.id.adViewContainer);
+		adViewHelper = new AdViewHelper(adViewContainer, this);
         
         Currency currentCurrency = PreferencesManager.getInstance().getCurrentCurrency();
         setTitle(getTitle().toString() + " para " + currentCurrency.getCode());
@@ -33,6 +40,23 @@ public class PreferencesActivityForCurrency extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, new MyPreferenceForCurrencyFragment()).commit();
     }
+
+	protected void onResume() {
+		super.onResume();
+		if (adViewHelper != null) adViewHelper.resume();
+	}
+
+	@Override
+	protected void onPause() {
+		if (adViewHelper != null) adViewHelper.pause();
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (adViewHelper != null) adViewHelper.destroy();
+		super.onDestroy();
+	}
     
     public static class MyPreferenceForCurrencyFragment extends PreferenceFragmentCompat
     {

@@ -5,9 +5,13 @@ import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class About extends AppCompatActivity {
+
+	private AdViewHelper adViewHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,5 +45,25 @@ public class About extends AppCompatActivity {
 		for (TextView view : new TextView[]{versionTitle, versionNumber, thanksContent, notThanksContent}){
 			view.setTypeface(MainActivity.TYPEFACE_ROBOTO_CONDENSED_ITALIC);
 		}
+
+		ViewGroup adViewContainer = findViewById(R.id.adViewContainer);
+		adViewHelper = new AdViewHelper(adViewContainer, this);
+	}
+
+	protected void onResume() {
+		super.onResume();
+		if (adViewHelper != null) adViewHelper.resume();
+	}
+
+	@Override
+	protected void onPause() {
+		if (adViewHelper != null) adViewHelper.pause();
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (adViewHelper != null) adViewHelper.destroy();
+		super.onDestroy();
 	}
 }

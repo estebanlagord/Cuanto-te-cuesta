@@ -12,7 +12,7 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-//        MobileAds.initialize(applicationContext)
+        MobileAds.initialize(applicationContext)
     }
 
     companion object {

@@ -1,15 +1,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
 
     <androidx.viewpager.widget.ViewPager
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <!--
     	This title strip will display the currently visible page title, as well as the page
@@ -20,8 +20,13 @@
             android:id="@+id/pager_title_strip"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:gravity="center"
-            android:background="@color/my_app_green" />
+            android:background="@color/my_app_green"
+            android:gravity="center" />
     </androidx.viewpager.widget.ViewPager>
+
+    <FrameLayout
+        android:id="@+id/adViewContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

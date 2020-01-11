@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -35,6 +36,7 @@ import java.util.TreeMap;
 public class AddCurrency extends AppCompatActivity {
 	private enum COLUMN_NAMES {FLAG, NAME, CODE}
 
+	private AdViewHelper adViewHelper;
 	private SearchView searchView = null;
 
 	@Override
@@ -47,7 +49,10 @@ public class AddCurrency extends AppCompatActivity {
 		ActionBar actionBar = getSupportActionBar();
         //actionBar.setLogo(R.drawable.logo);
         actionBar.setDisplayHomeAsUpEnabled(true);
-		
+
+		ViewGroup adViewContainer = findViewById(R.id.adViewContainer);
+		adViewHelper = new AdViewHelper(adViewContainer, this);
+
 	    handleIntent(getIntent());
 		
 	    ListView listView = findViewById(R.id.unused_currencies_list);
@@ -70,6 +75,23 @@ public class AddCurrency extends AppCompatActivity {
 				finish();
 			}
 		});
+	}
+
+	protected void onResume() {
+		super.onResume();
+		if (adViewHelper != null) adViewHelper.resume();
+	}
+
+	@Override
+	protected void onPause() {
+		if (adViewHelper != null) adViewHelper.pause();
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (adViewHelper != null) adViewHelper.destroy();
+		super.onDestroy();
 	}
 	
 	@Override

@@ -2,6 +2,7 @@ package com.smartpocket.cuantoteroban.preferences;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ViewGroup;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.smartpocket.cuantoteroban.AdViewHelper;
 import com.smartpocket.cuantoteroban.Currency;
 import com.smartpocket.cuantoteroban.CurrencyManager;
 import com.smartpocket.cuantoteroban.R;
@@ -20,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PreferencesActivity extends AppCompatActivity {
+
+	private AdViewHelper adViewHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,9 +35,30 @@ public class PreferencesActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+		ViewGroup adViewContainer = findViewById(R.id.adViewContainer);
+		adViewHelper = new AdViewHelper(adViewContainer, this);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, new MyPreferenceFragment()).commit();
     }
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (adViewHelper != null) adViewHelper.resume();
+	}
+
+	@Override
+	protected void onPause() {
+		if (adViewHelper != null) adViewHelper.pause();
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (adViewHelper != null) adViewHelper.destroy();
+		super.onDestroy();
+	}
 
     public static class MyPreferenceFragment extends PreferenceFragmentCompat
     {
