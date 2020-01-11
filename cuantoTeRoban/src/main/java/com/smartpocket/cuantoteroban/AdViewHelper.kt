@@ -8,8 +8,8 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 
 // This is an ad unit ID for a test ad. Replace with your own banner ad unit ID.
-//private const val AD_UNIT_ID = "ca-app-pub-6954073861191346/2251963282" //REAL ADS
-private const val AD_UNIT_ID = "ca-app-pub-3940256099942544/6300978111"  //TEST ADS
+private const val AD_UNIT_ID = "ca-app-pub-6954073861191346/2251963282" //REAL ADS
+//private const val AD_UNIT_ID = "ca-app-pub-3940256099942544/6300978111"  //TEST ADS
 
 class AdViewHelper(private val adViewContainer: ViewGroup, private val activity: Activity) {
 
@@ -39,7 +39,7 @@ class AdViewHelper(private val adViewContainer: ViewGroup, private val activity:
         adView?.adSize = adSize
 
         val adRequest = AdRequest.Builder()
-                .addTestDevice("97EB45A0B9C0380783B9EC4628B453EB")
+                .addTestDevice("97EB45A0B9C0380783B9EC4628B453EB") // Galaxy S8+
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build()
 
