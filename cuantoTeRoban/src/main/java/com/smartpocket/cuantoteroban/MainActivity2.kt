@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -27,6 +28,10 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.smartpocket.cuantoteroban.MainActivity.FRACTION_DIGITS
 import com.smartpocket.cuantoteroban.MainActivity.RequestCode
 import com.smartpocket.cuantoteroban.calc.Calculator
@@ -41,6 +46,10 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+// This is an ad unit ID for a test ad. Replace with your own banner ad unit ID.
+//private const val AD_UNIT_ID = "ca-app-pub-6954073861191346/2251963282"
+private const val AD_UNIT_ID = "ca-app-pub-3940256099942544/6300978111"
+
 class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
 
     private lateinit var refreshItem: MenuItem
@@ -52,7 +61,9 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
     private lateinit var mDrawerList: ListView
     private lateinit var viewModel: MainActivityVM
-    private var currentCurr : Currency? = null
+    private lateinit var adView: AdView
+
+    private var currentCurr: Currency? = null
     private val displayDateFormat = SimpleDateFormat("dd/MMM HH:mm", Locale("es", "AR"))
     private val shortNumberFormat = (DecimalFormat.getInstance() as DecimalFormat).apply {
         minimumFractionDigits = FRACTION_DIGITS
@@ -78,6 +89,25 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         setupViewModel()
         setupClickListeners()
         setupNavDrawer()
+
+        // Initialize the Mobile Ads SDK.
+        MobileAds.initialize(this)
+        ad_view_container.post { loadBanner() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (::adView.isInitialized) adView.resume()
+    }
+
+    override fun onPause() {
+        if (::adView.isInitialized) adView.pause()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        if (::adView.isInitialized) adView.destroy()
+        super.onDestroy()
     }
 
     private fun setupViewModel() {
@@ -412,4 +442,44 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         val adapter = mDrawerList.adapter as ChosenCurrenciesAdapter
         adapter.updateCurrenciesList()
     }
+
+
+    // Determine the screen width (less decorations) to use for the ad width.
+    // If the ad hasn't been laid out, default to the full screen width.
+    private val adSize: AdSize
+        get() {
+            val display = windowManager.defaultDisplay
+            val outMetrics = DisplayMetrics()
+            display.getMetrics(outMetrics)
+            val density = outMetrics.density
+
+            var adWidthPixels = ad_view_container.width.toFloat()
+            if (adWidthPixels == 0f) {
+                adWidthPixels = outMetrics.widthPixels.toFloat()
+            }
+
+            val adWidth = (adWidthPixels / density).toInt()
+            return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth)
+        }
+
+    fun loadBanner() {
+        // Create an ad request. Check your logcat output for the hashed device ID to
+        // get test ads on a physical device. e.g.
+        // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
+        adView = AdView(this)
+        adView.setAdUnitId(AD_UNIT_ID)
+        ad_view_container.removeAllViews()
+        ad_view_container.addView(adView)
+
+        val adSize: AdSize = adSize
+        adView.adSize = adSize
+
+        val adRequest = AdRequest.Builder()
+                .addTestDevice("97EB45A0B9C0380783B9EC4628B453EB")
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build()
+
+        // Start loading the ad in the background.
+        adView.loadAd(adRequest)
+    }
+
 }

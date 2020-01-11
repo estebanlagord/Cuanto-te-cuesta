@@ -19,7 +19,13 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/CuantoTeRobanTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6954073861191346~7695861654"/>
+
         <activity android:name=".MainActivity" />
+
         <activity
             android:name=".MainActivity2"
             android:windowSoftInputMode="stateAlwaysHidden">
