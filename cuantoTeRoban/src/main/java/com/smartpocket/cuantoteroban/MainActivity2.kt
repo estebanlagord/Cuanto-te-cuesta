@@ -181,12 +181,14 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
     }
 
     private fun updateBlueVisibility(curr: Currency?) {
-        tableRowBlue.visibility = if (preferences.isShowBlue && (curr?.code == CurrencyManager.USD)) {
+        tableRowBlue.visibility = if (shouldShowBlue(curr)) {
             View.VISIBLE
         } else {
             View.GONE
         }
     }
+
+    private fun shouldShowBlue(curr: Currency?) = preferences.isShowBlue && (curr?.code == CurrencyManager.USD)
 
     private fun setLoadingState(isLoading: Boolean) {
         mSwipeRefreshLayout.isRefreshing = isLoading
@@ -383,15 +385,16 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
 
     // gets the content to share with other apps
     private fun getUpdatedShareIntent(): Intent {
+        val currentCurrency = preferences.currentCurrency
         val showDiscount = preferences.isShowDiscount && viewModel.discountLiveData.value != 0.0
         val showTaxes = preferences.isShowTaxes && viewModel.taxesLiveData.value != 0.0
         val showTotal = showDiscount || showTaxes
         val showPesos = preferences.isShowPesos
         val showCreditCard = preferences.isShowCreditCard
-        val showBlue = preferences.isShowBlue
+        val showBlue = shouldShowBlue(currentCurrency)
         val showAgency = preferences.isShowExchangeAgency && viewModel.exchangeAgencyLiveData.value != 0.0
 
-        val sharedText = StringBuilder("Lo que te cobran en " + preferences.currentCurrency.name + ":").apply {
+        val sharedText = StringBuilder("Lo que te cobran en " + currentCurrency.name + ":").apply {
             append("\nMonto: " + amountEditText.text)
             if (showDiscount) append("\nDescuento: " + discountEditText.text)
             if (showTaxes) append("\nRecargo: " + taxesEditText.text)
@@ -402,7 +405,7 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
             if (showBlue) append("\nBlue: " + withBlueValue.text)
             if (showAgency) append("\nCasa de Cambio: " + exchangeAgencyValue.text)
             append("\n\nCalculado por la aplicación ¿Cuanto Te Cuesta? para Android." +
-                    "\nBajala gratis desde: http://play.google.com/store/apps/details?id=com.smartpocket.cuantoteroban")
+                    "\nBajala gratis desde: http://bit.ly/2FGGkMV")
         }
 
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
