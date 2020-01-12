@@ -11,14 +11,14 @@ class CurrencyRepository {
 
     private val logger = Logger.getLogger(javaClass.simpleName)
     val preferences: PreferencesManager by lazy { PreferencesManager.getInstance() }
-    val localRepos by lazy { CurrencyLocalRepository() }
-    val remoteRepos by lazy { CurrencyRemoteRepository() }
+    private val localRepos by lazy { CurrencyLocalRepository() }
+    private val remoteRepos by lazy { CurrencyRemoteRepository() }
 
     suspend fun getCurrencyExchange(
             currencyFrom: Currency,
             currencyTo: String,
             amount: Double,
-            isForce : Boolean = false
+            isForce: Boolean = false
     ): CurrencyResult {
         // decide if we should use local or remote
         val result: CurrencyResult

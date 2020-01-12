@@ -94,6 +94,7 @@ public class PreferencesManager {
             setDiscount(0);
             setTaxes(0);
             setLastConversionValue(0);
+            setLastConversionType(null);
             AmountTextWatcher.lastOneChanged = null;
         }
     }
@@ -288,7 +289,11 @@ public class PreferencesManager {
 
     public void setLastConversionType(EditorType type) {
         Editor editor = getPreferencesByApp().edit();
-        editor.putString(LAST_CONVERSION_TEXT, type.name());
+        if (type == null) {
+            editor.remove(LAST_CONVERSION_TEXT);
+        } else {
+            editor.putString(LAST_CONVERSION_TEXT, type.name());
+        }
         editor.apply();
     }
 

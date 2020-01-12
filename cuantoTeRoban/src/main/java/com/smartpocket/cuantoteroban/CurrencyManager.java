@@ -10,54 +10,57 @@ import com.smartpocket.cuantoteroban.preferences.PreferencesManager;
 
 public class CurrencyManager {
 	public static final String USD = "USD";
+	public static final String BRL = "BRL";
+	public static final String EUR = "EUR";
+	public static final String UYU = "UYU";
 	public static final String ARS = "ARS";
 
 	private static CurrencyManager instance;
 	Set<Currency> allCurrencies  = new TreeSet<Currency>();
 	Set<Currency> userCurrencies = new TreeSet<Currency>();
-	
+
 	private CurrencyManager(){
 		buildAllCurrencies();
 	}
-	
+
 	public static CurrencyManager getInstance() {
 		if (instance == null)
 			instance = new CurrencyManager();
-		
+
 		return instance;
 	}
-	
-	
+
+
 	public Set<Currency> getAllUnusedCurrencies() {
 		Set<Currency> result = new TreeSet<Currency>(allCurrencies);
 		result.removeAll(getUserCurrencies());
 		return result;
 	}
-	
+
 	public Set<Currency> getAllCurrencies() {
 		return allCurrencies;
 	}
-	
+
 	public Set<Currency> getUserCurrencies() {
 		List<Currency> chosenCurrencies = PreferencesManager.getInstance().getChosenCurrencies();
 		userCurrencies.clear();
 		userCurrencies.addAll(chosenCurrencies);
 		return userCurrencies;
 	}
-	
+
 	public void addToUserCurrencies(Currency curr) {
 		if (getUserCurrencies().add(curr))
 			PreferencesManager.getInstance().setChosenCurrencies(new ArrayList<Currency>(userCurrencies));
 	}
-	
+
 	public void removeFromUserCurrencies(Currency curr) {
 		if (getUserCurrencies().remove(curr))
 			PreferencesManager.getInstance().setChosenCurrencies(new ArrayList<Currency>(userCurrencies));
 	}
-	
+
 	public Currency findCurrency(String code) {
 		Currency result = null;
-		
+
 		for (Currency curr : allCurrencies) {
 			if (curr.getCode().equalsIgnoreCase(code)){
 				result = curr;
@@ -66,10 +69,10 @@ public class CurrencyManager {
 		}
 		if (result == null)
 			throw new IllegalArgumentException("The code " + code + " is not a valid currency");
-		
+
 		return result;
 	}
-	
+
 	private void buildAllCurrencies() {
 		allCurrencies.clear();
 
@@ -95,7 +98,7 @@ public class CurrencyManager {
 				new Currency("NOK", "Corona noruega", "Noruega", R.drawable.nok),
 				new Currency("SOS", "Chelín somalí", "Somalia", R.drawable.sos),
 				new Currency("TZS", "Chelín tanzano", "Tanzania", R.drawable.tzs),
-				new Currency("EUR", "Euro", "Union Europea", R.drawable.eur),
+				new Currency(EUR, "Euro", "Union Europea", R.drawable.eur),
 				new Currency("AUD", "Dólar australiano", "Australia", R.drawable.aud),
 				new Currency("CHF", "Franco suizo", "Suiza", R.drawable.chf),
 				new Currency("DZD", "Dinar argelino", "Argelia", R.drawable.dzd),
@@ -120,7 +123,7 @@ public class CurrencyManager {
 				new Currency("TTD", "Dólar trinitense", "Trinidad y Tobago", R.drawable.ttd),
 				new Currency("AED", "Dirham de los Emiratos Árabes Unidos", "Emiratos Árabes Unidos", R.drawable.aed),
 				//new Currency("ZWD", "Dólar zimbabuense", "Zimbabue", R.drawable.zwd),
-				new Currency("USD", "Dólar estadounidense", "Estados Unidos", "EEUU EE.UU. USA U.S.A", R.drawable.usd),
+				new Currency(USD, "Dólar estadounidense", "Estados Unidos", "EEUU EE.UU. USA U.S.A", R.drawable.usd),
 				new Currency("CAD", "Dólar canadiense", "Canada", R.drawable.cad),
 				new Currency("HKD", "Dólar de Hong Kong", "Hong Kong", R.drawable.hkd),
 				new Currency("AWG", "Florín arubeño", "Aruba", R.drawable.awg),
@@ -194,7 +197,7 @@ public class CurrencyManager {
 				new Currency("YER", "Riyal de Yemen", "Yemen", R.drawable.yer),
 				new Currency("INR", "Rupia india", "India", R.drawable.inr),
 				new Currency("BYR", "Rublo bielorruso", "Bielorrusia", R.drawable.byr),
-				new Currency("BRL", "Real brasileño", "Brasil", R.drawable.brl),
+				new Currency(BRL, "Real brasileño", "Brasil", R.drawable.brl),
 				new Currency("CLP", "Peso chileno", "Chile", R.drawable.clp),
 				new Currency("CUP", "Peso cubano", "Cuba", R.drawable.cup),
 				new Currency("GTQ", "Quetzal guatemalteco", "Guatemala", R.drawable.gtq),
@@ -206,7 +209,7 @@ public class CurrencyManager {
 				new Currency("RUB", "Rublo ruso", "Rusia", R.drawable.rub),
 				new Currency("SCR", "Rupia de Seychelles", "Seychelles", R.drawable.scr),
 				new Currency("LKR", "Rupia de Sri Lanka", "Sri Lanka", R.drawable.lkr),
-				new Currency("UYU", "Peso uruguayo", "Uruguay", R.drawable.uyu),
+				new Currency(UYU, "Peso uruguayo", "Uruguay", R.drawable.uyu),
 				new Currency("ECS", "Sucre ecuatoriano", "Ecuador", R.drawable.ecs),
 				new Currency("ILS", "Shéquel israelí", "Israel", R.drawable.ils),
 				new Currency("BDT", "Taka bangladeshí", "Bangladesh", R.drawable.bdt),
@@ -219,9 +222,9 @@ public class CurrencyManager {
 				new Currency("CNY", "Yuan Chino", "China", R.drawable.cny),
 				new Currency("KRW", "Won surcoreano", "Corea del Sur", R.drawable.krw),
 				new Currency("KPW", "Won norcoreano", "Corea del Norte", R.drawable.kpw)
-				
+
 				));
-		
+
 		//System.out.println("Number of currencies: " + allCurrencies.size());
 	}
 }
