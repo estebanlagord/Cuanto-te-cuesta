@@ -46,7 +46,7 @@
     <string name="paypal_percentage">Porcentaje para PayPal</string>
     <string name="paypal_percentage_explained">¿Que porcentaje se queda PayPal?</string>
     <string name="update_bank_exchange_rates">Actualizar cotizaciones</string>
-    <string name="update_bank_exchange_rates_explained_on">Las cotizaciones se actualizarán automaticamente desde Yahoo Finances.</string>
+    <string name="update_bank_exchange_rates_explained_on">Las cotizaciones se actualizarán automaticamente.</string>
     <string name="update_bank_exchange_rates_explained_off">Las cotizaciones se actualizarán manualmente, o se usarán las definidas por el usuario.</string>
     <string name="remember_last_conversion">Recordar última conversión</string>
     <string name="remember_last_conversion_explained">¿Recordar la última conversión realizada al reiniciar la aplicación?</string>
@@ -98,7 +98,7 @@
     </string>
     <string name="pesosHelp">
 		La conversión de la moneda que figura al lado de la palabra <b>“Oficial”</b> es la que se define en el menú de Opciones, en la sección <b>“Cotización oficial”</b> (dentro de <b>“Preferencias para la moneda”</b>).\n\n
-		Esta cotización se puede actualizar automáticamente desde Internet (<a href="http://es-us.finanzas.yahoo.com/divisas/convertidor/">Yahoo Finanzas</a>), o puede ser especificada manualmente por el usuario.\n\n
+		Esta cotización se puede actualizar automáticamente desde Internet, o puede ser especificada manualmente por el usuario.\n\n
 		Cuando está activa la opción <b>“Actualizar automáticamente”</b>, las cotizaciones se descargarán periódicamente desde Internet (al abrir la aplicación), aunque también se pueden actualizar manualmente deslizando la pantalla principal.\n\n
 		En caso de definir la cotización manualmente (cuando la opción <b>“Actualizar automáticamente”</b> está desactivada), normalmente se ingresa en la pantalla de configuración la cantidad de pesos que hay que vender para comprar 1 unidad de la moneda extranjera. Si preferís especificar cuantas unidades de la moneda extranjera equivalen a 1 Peso Argentino, se puede ingresar ese valor y activar la opción <b>“Invertir Cotización”</b>.\n\n
 		Cuando definas una cotización manualmente, probablemente quieras probar de convertir el valor “$1” para asegurarte de que esté bien configurado.\n\n

@@ -26,6 +26,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Deprecated
 class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
 	
 	public static boolean updateInProgress = false;
