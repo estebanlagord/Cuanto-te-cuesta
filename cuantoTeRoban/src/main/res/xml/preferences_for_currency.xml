@@ -9,13 +9,13 @@
         android:title="Configurar "
         android:selectable="false" />
 
-    <EditTextPreference
+<!--    <EditTextPreference
         android:defaultValue="7.5"
         android:dialogTitle="@string/paypal_percentage"
         android:inputType="numberDecimal"
         android:key="paypal_percentage"
         android:summary="@string/paypal_percentage_explained"
-        android:title="@string/paypal_percentage" />
+        android:title="@string/paypal_percentage" />-->
 
     <PreferenceCategory
         android:key="agency_category"
