@@ -92,8 +92,8 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         tableRowTaxes.visibility = if (preferences.isShowTaxes) View.VISIBLE else View.GONE
         tableRowPesos.visibility = if (preferences.isShowPesos) View.VISIBLE else View.GONE
         tableRowWithCard.visibility = if (preferences.isShowCreditCard) View.VISIBLE else View.GONE
-        tableRowBlue.visibility = if (preferences.isShowBlue) View.VISIBLE else View.GONE
         tableRowExchangeAgency.visibility = if (preferences.isShowExchangeAgency) View.VISIBLE else View.GONE
+        updateBlueVisibility(currentCurr)
     }
 
     override fun onResume() {
@@ -180,8 +180,8 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
                 else getString(R.string.LastUpdateNever)
     }
 
-    private fun updateBlueVisibility(curr: Currency) {
-        tableRowBlue.visibility = if (curr.code == CurrencyManager.USD) {
+    private fun updateBlueVisibility(curr: Currency?) {
+        tableRowBlue.visibility = if (preferences.isShowBlue && (curr?.code == CurrencyManager.USD)) {
             View.VISIBLE
         } else {
             View.GONE
