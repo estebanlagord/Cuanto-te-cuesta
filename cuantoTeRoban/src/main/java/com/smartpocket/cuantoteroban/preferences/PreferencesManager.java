@@ -83,6 +83,7 @@ public class PreferencesManager {
         updatePreferencesToVersion7();
         updatePreferencesToVersion11();
         updatePreferencesToVersion14();
+        updatePreferencesToVersion27();
 
         updateCurrentPreferencesVersion();
 
@@ -721,6 +722,22 @@ public class PreferencesManager {
             }
 
         } catch (Exception e) {
+        }
+    }
+
+    /**
+     * Updates the % for AFIP to 30% (as of January 2020)
+     * Re-enable automatic updates
+     */
+    private void updatePreferencesToVersion27() {
+        try {
+            if (getCurrentPreferencesVersion() < 27) {
+                Editor editor = getPreferencesByApp().edit();
+                editor.putString(AFIP_PERCENTAGE, String.valueOf(DEFAULT_AFIP_PERCENTAGE));
+                editor.putBoolean(ARE_UPDATES_ENABLED, true);
+                editor.apply();
+            }
+        } catch (Exception ignored) {
         }
     }
 }

@@ -22,8 +22,8 @@ import android.widget.TextView;
 import java.util.Locale;
 
 public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavigationListener {
-	static final String[] TAB_TITLES = new String[] { "Introducción",        "Oficial"           , "Tarjeta"           , "Blue"           , "Casa de cambio"              , "Mis Monedas"};
-	static final String[] PAGE_TITLES = new String[] { "Pantalla principal", "Cotización oficial", "Tarjeta de crédito", "Cotización blue", "Cotización en casa de cambio", "Mis Monedas"};
+	static final String[] TAB_TITLES = new String[] { "Introducción",        "Oficial"           , "Turista"           , "Blue"           , "Casa de cambio"              , "Mis Monedas"};
+	static final String[] PAGE_TITLES = new String[] { "Pantalla principal", "Cotización oficial", "Cotización turista", "Cotización blue", "Cotización en casa de cambio", "Mis Monedas"};
     ViewPager mPager;
 	private AdViewHelper adViewHelper;
 	
