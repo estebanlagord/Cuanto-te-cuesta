@@ -405,7 +405,7 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
             if (showBlue) append("\nBlue: " + withBlueValue.text)
             if (showAgency) append("\nCasa de Cambio: " + exchangeAgencyValue.text)
             append("\n\nCalculado por la aplicación ¿Cuanto Te Cuesta? para Android." +
-                    "\nBajala gratis desde: http://bit.ly/2FGGkMV")
+                    "\nBajala gratis desde: http://bit.ly/Cuanto-Te-Cuesta")
         }
 
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
