@@ -2,6 +2,7 @@ package com.smartpocket.cuantoteroban
 
 import android.app.Activity
 import android.util.DisplayMetrics
+import android.view.View
 import android.view.ViewGroup
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -19,7 +20,10 @@ class AdViewHelper(private val adViewContainer: ViewGroup, private val activity:
 
     fun resume(isAdFree : Boolean) {
         this.isAdFree = isAdFree
-        if (isAdFree.not()) {
+        if (isAdFree) {
+            adViewContainer.visibility = View.GONE
+        } else {
+            adViewContainer.visibility = View.VISIBLE
             if (isLoaded.not()) {
                 loadBanner()
             }
@@ -29,6 +33,7 @@ class AdViewHelper(private val adViewContainer: ViewGroup, private val activity:
 
     fun pause() = adView?.pause()
     fun destroy() {
+        adViewContainer.visibility = View.GONE
         adView?.destroy()
         adView = null
     }

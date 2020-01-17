@@ -4,18 +4,22 @@ import android.app.Activity
 import android.content.Context
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.*
+import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import java.util.logging.Level
 import java.util.logging.Logger
 
+
+const val PURCHASE_STATE_PENDING = -1
 
 class BillingHelper(val context: Context) : PurchasesUpdatedListener {
 
     private val logger = Logger.getLogger(javaClass.simpleName)
     private lateinit var billingClient: BillingClient
+    private val preferences = PreferencesManager.getInstance()
     private val skuList = listOf("android.test.purchased")
     private var skuDetails: SkuDetails? = null
     private var isErrorState = false
-    private var listener : BillingHelperStatusListener? = null
+    private var listener: BillingHelperStatusListener? = null
 
     init {
         setupBillingClient()
@@ -35,10 +39,13 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
     fun isRemoveAdsPurchased(): Boolean {
         var result = false
         val purchaseList = billingClient.queryPurchases(SkuType.INAPP).purchasesList
-        if (purchaseList.isNotEmpty()) {
+        if (purchaseList.isNullOrEmpty()) {
+            result = preferences.isRemoveAdsPurchased
+        } else {
             val purchase = purchaseList[0]
             //TODO SECURITY ON JSON
             result = purchase.purchaseState == Purchase.PurchaseState.PURCHASED
+            preferences.setIsRemoveAdsPurchased(result)
         }
         logger.log(Level.INFO, "Is Remove Ads purchased? $result")
         return result
@@ -121,7 +128,7 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
 
         if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
             // Grant the item to the user, and then acknowledge the purchase
-//            ...
+            preferences.setIsRemoveAdsPurchased(true)
             logger.log(Level.INFO, "User is entitled to purchase")
             // Acknowledge the purchase if it hasn't already been acknowledged.
             if (!purchase.isAcknowledged) {
@@ -134,6 +141,7 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
             // are given to them. You can also choose to remind the user in the
             // future to complete the purchase if you detect that it is still
             // pending.
+            listener?.onBillingHelperStatusChanged(PURCHASE_STATE_PENDING)
         }
 
     }
@@ -156,6 +164,7 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
                 .build()
         billingClient.consumeAsync(consumeParams, object : ConsumeResponseListener {
             override fun onConsumeResponse(p0: BillingResult?, p1: String?) {
+                preferences.setIsRemoveAdsPurchased(false)
                 logger.log(Level.INFO, "on consume response $p0")
             }
 

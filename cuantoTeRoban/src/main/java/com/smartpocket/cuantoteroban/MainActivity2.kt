@@ -96,8 +96,8 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
 
     override fun onResume() {
         super.onResume()
-//        val isAdFree = MyApplication.billingHelper().isRemoveAdsPurchased()
-        adViewHelper.resume(false)
+        val isAdFree = MyApplication.billingHelper().isRemoveAdsPurchased()
+        adViewHelper.resume(isAdFree)
     }
 
     override fun onPause() {

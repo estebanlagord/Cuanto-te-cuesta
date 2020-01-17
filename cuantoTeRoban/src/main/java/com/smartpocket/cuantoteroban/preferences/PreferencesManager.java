@@ -73,6 +73,7 @@ public class PreferencesManager {
     public static final String SHOW_PAYPAL = "show_paypal";
     private static final String DEFAULT_CURRENCY = CurrencyManager.USD;
     private static final String IS_NAV_DRAWER_NEW = "is_nav_drawer_new";
+    private static final String IS_REMOVE_ADS_PURCHASED = "is_remove_ads_purchased";
 
     private Map<Currency, SharedPreferences> preferencesByCurrency = new HashMap<Currency, SharedPreferences>();
     private SharedPreferences preferencesByApp;
@@ -547,6 +548,16 @@ public class PreferencesManager {
     public void setIsNavDrawerNew(boolean isNew) {
         Editor editor = getPreferencesByApp().edit();
         editor.putBoolean(IS_NAV_DRAWER_NEW, isNew);
+        editor.apply();
+    }
+
+    public boolean isRemoveAdsPurchased() {
+        return getPreferencesByApp().getBoolean(IS_REMOVE_ADS_PURCHASED, false);
+    }
+
+    public void setIsRemoveAdsPurchased(boolean isAdsRemoved) {
+        Editor editor = getPreferencesByApp().edit();
+        editor.putBoolean(IS_REMOVE_ADS_PURCHASED, isAdsRemoved);
         editor.apply();
     }
 
