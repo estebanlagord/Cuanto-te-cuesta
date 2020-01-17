@@ -13,15 +13,19 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.android.billingclient.api.BillingClient;
 import com.smartpocket.cuantoteroban.AdViewHelper;
+import com.smartpocket.cuantoteroban.BillingHelperStatusListener;
 import com.smartpocket.cuantoteroban.Currency;
 import com.smartpocket.cuantoteroban.CurrencyManager;
+import com.smartpocket.cuantoteroban.MyApplication;
 import com.smartpocket.cuantoteroban.R;
+import com.smartpocket.cuantoteroban.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PreferencesActivity extends AppCompatActivity {
+public class PreferencesActivity extends AppCompatActivity implements BillingHelperStatusListener {
 
 	private AdViewHelper adViewHelper;
 
@@ -45,20 +49,36 @@ public class PreferencesActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (adViewHelper != null) adViewHelper.resume();
+        boolean isAdFree = MyApplication.Companion.billingHelper().isRemoveAdsPurchased();
+        adViewHelper.resume(isAdFree);
 	}
 
 	@Override
 	protected void onPause() {
-		if (adViewHelper != null) adViewHelper.pause();
+		adViewHelper.pause();
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
-		if (adViewHelper != null) adViewHelper.destroy();
+		adViewHelper.destroy();
 		super.onDestroy();
 	}
+
+    @Override
+    public void onBillingHelperStatusChanged(int code) {
+        String msg;
+        if (code == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
+            msg ="Ya tenes la versión sin publicidad";
+        } else if (code == BillingClient.BillingResponseCode.OK) {
+            msg = "Ahora tenes la versón sin publicidad!";
+        } else if (code == BillingClient.BillingResponseCode.USER_CANCELED) {
+            msg = "Compra cancelada por el usuario";
+        } else {
+            msg = "Error de conexion con Play Services. Proba de nuevo más tarde.";
+        }
+        Utilities.showToast(msg);
+    }
 
     public static class MyPreferenceFragment extends PreferenceFragmentCompat
     {
@@ -77,6 +97,18 @@ public class PreferencesActivity extends AppCompatActivity {
 				startActivity(new Intent(requireContext(), PreferencesActivityForCurrency.class));
 				return true;
 			});
+
+            Preference removeAdsPreference = findPreference("remove_ads");
+            removeAdsPreference.setOnPreferenceClickListener(preference -> {
+            	MyApplication.Companion.billingHelper().launchBillingFlow(requireActivity(), (BillingHelperStatusListener) requireActivity());
+            	return true;
+			});
+
+            Preference showAdsPreference = findPreference("consume_remove_ads");
+            showAdsPreference.setOnPreferenceClickListener(preference -> {
+                MyApplication.Companion.billingHelper().consumeRemoveAdsPurchase();
+                return true;
+            });
 
             for(String prefKey : PreferencesManager.getInstance().getAllPreferenceKeys()){
             	Preference preference = findPreference(prefKey);

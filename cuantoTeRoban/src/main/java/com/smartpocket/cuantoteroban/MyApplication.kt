@@ -13,13 +13,19 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         MobileAds.initialize(applicationContext)
+        billingHelper = BillingHelper(applicationContext)
     }
 
     companion object {
         private var instance: MyApplication? = null
+        private var billingHelper: BillingHelper? = null
 
         fun applicationContext(): Context {
             return instance!!.applicationContext
+        }
+
+        fun billingHelper() : BillingHelper {
+            return billingHelper!!
         }
     }
 }

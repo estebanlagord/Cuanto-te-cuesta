@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent">
 
     <ListPreference
         android:key="source_currency"
@@ -13,6 +14,18 @@
         android:summary="Preferencias para la moneda seleccionada."
         android:title="Preferencias para la moneda" >
     </Preference>
+
+    <PreferenceCategory android:title="Publicidad">
+        <Preference
+            android:key="remove_ads"
+            app:title="Quitar publicidad"
+            android:icon="@drawable/ic_shopping_cart"/>
+
+        <Preference
+            android:key="consume_remove_ads"
+            app:title="Mostrar publicidad de nuevo"/>
+
+    </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/global_preferences" >
         <CheckBoxPreference

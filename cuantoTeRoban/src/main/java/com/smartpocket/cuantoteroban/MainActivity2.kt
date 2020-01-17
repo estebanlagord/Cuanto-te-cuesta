@@ -47,15 +47,13 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
     private lateinit var rotatingRefreshButtonView: ImageView
     private lateinit var refreshButtonRotation: Animation
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
-
     private lateinit var mDrawerLayout: DrawerLayout
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
     private lateinit var mDrawerList: ListView
     private lateinit var viewModel: MainActivityVM
     private lateinit var adViewHelper: AdViewHelper
-    private val preferences by lazy { PreferencesManager.getInstance() }
-
     private var currentCurr: Currency? = null
+    private val preferences by lazy { PreferencesManager.getInstance() }
     private val displayDateFormat = SimpleDateFormat("dd/MMM HH:mm", Locale("es", "AR"))
     private val shortNumberFormat = (DecimalFormat.getInstance() as DecimalFormat).apply {
         minimumFractionDigits = FRACTION_DIGITS
@@ -98,16 +96,17 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
 
     override fun onResume() {
         super.onResume()
-        if (::adViewHelper.isInitialized) adViewHelper.resume()
+//        val isAdFree = MyApplication.billingHelper().isRemoveAdsPurchased()
+        adViewHelper.resume(false)
     }
 
     override fun onPause() {
-        if (::adViewHelper.isInitialized) adViewHelper.pause()
+        adViewHelper.pause()
         super.onPause()
     }
 
     override fun onDestroy() {
-        if (::adViewHelper.isInitialized) adViewHelper.destroy()
+        adViewHelper.destroy()
         super.onDestroy()
     }
 

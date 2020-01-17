@@ -15,6 +15,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.smartpocket.cuantoteroban.AdViewHelper;
 import com.smartpocket.cuantoteroban.Currency;
+import com.smartpocket.cuantoteroban.MyApplication;
 import com.smartpocket.cuantoteroban.R;
 
 public class PreferencesActivityForCurrency extends AppCompatActivity {
@@ -41,20 +42,22 @@ public class PreferencesActivityForCurrency extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.content_frame, new MyPreferenceForCurrencyFragment()).commit();
     }
 
+	@Override
 	protected void onResume() {
 		super.onResume();
-		if (adViewHelper != null) adViewHelper.resume();
+		boolean isAdFree = MyApplication.Companion.billingHelper().isRemoveAdsPurchased();
+		adViewHelper.resume(isAdFree);
 	}
 
 	@Override
 	protected void onPause() {
-		if (adViewHelper != null) adViewHelper.pause();
+		adViewHelper.pause();
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
-		if (adViewHelper != null) adViewHelper.destroy();
+		adViewHelper.destroy();
 		super.onDestroy();
 	}
     

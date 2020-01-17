@@ -50,20 +50,22 @@ public class About extends AppCompatActivity {
 		adViewHelper = new AdViewHelper(adViewContainer, this);
 	}
 
+	@Override
 	protected void onResume() {
 		super.onResume();
-		if (adViewHelper != null) adViewHelper.resume();
+		boolean isAdFree = MyApplication.Companion.billingHelper().isRemoveAdsPurchased();
+		adViewHelper.resume(isAdFree);
 	}
 
 	@Override
 	protected void onPause() {
-		if (adViewHelper != null) adViewHelper.pause();
+		adViewHelper.pause();
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
-		if (adViewHelper != null) adViewHelper.destroy();
+		adViewHelper.destroy();
 		super.onDestroy();
 	}
 }
