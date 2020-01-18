@@ -16,9 +16,7 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
     private val logger = Logger.getLogger(javaClass.simpleName)
     private lateinit var billingClient: BillingClient
     private val preferences = PreferencesManager.getInstance()
-    private val skuList =
-//            listOf("android.test.purchased")
-            listOf("ads_removal") // THE REAL CODE
+    private val skuList = listOf("ads_removal")
     private var skuDetails: SkuDetails? = null
     private var isErrorState = false
     private var listener: BillingHelperStatusListener? = null

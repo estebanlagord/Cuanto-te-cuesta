@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -69,23 +70,23 @@ public class PreferencesActivity extends AppCompatActivity implements BillingHel
 
     @Override
     public void onBillingHelperStatusChanged(int code) {
-        String msg;
+        @StringRes int msg;
         if (code == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
-            msg = "Ya tenes la versión sin publicidad";
+            msg = R.string.billing_status_already_owned;
             adViewHelper.destroy();
         } else if (code == BillingClient.BillingResponseCode.OK) {
-            msg = "Gracias por comprar la versión sin publicidad!";
+            msg = R.string.billing_status_thanks_for_buying;
             adViewHelper.destroy();
         } else if (code == BillingClient.BillingResponseCode.USER_CANCELED) {
-            msg = "Compra cancelada por el usuario";
+            msg = R.string.billing_status_canceled;
         } else if (code == BillingClient.BillingResponseCode.ERROR) {
-            msg = "Hubo un error procesando la compra";
+            msg = R.string.billing_status_error;
         } else if (code == BillingHelperKt.PURCHASE_STATE_PENDING) {
-            msg = "Compra con pago pendiente";
+            msg = R.string.billing_status_pending;
         } else {
-            msg = "Error de conexion con Play Services. Proba de nuevo más tarde.";
+            msg = R.string.billing_status_connection_error;
         }
-        Utilities.showToast(msg);
+        Utilities.showToast(getString(msg));
     }
 
     public static class MyPreferenceFragment extends PreferenceFragmentCompat {

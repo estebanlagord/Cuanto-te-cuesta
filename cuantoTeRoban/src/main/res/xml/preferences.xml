@@ -18,7 +18,8 @@
     <PreferenceCategory android:title="Publicidad">
         <Preference
             android:key="remove_ads"
-            app:title="Quitar publicidad"
+            app:title="@string/option_remove_ads"
+            android:summary="@string/summary_remove_ads"
             android:icon="@drawable/ic_shopping_cart"/>
 
         <Preference
