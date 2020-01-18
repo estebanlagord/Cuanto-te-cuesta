@@ -120,8 +120,8 @@ public class PreferencesActivity extends AppCompatActivity implements BillingHel
                 });
             } else {
                 // PROD MODE, HIDE OPTION TO CONSUME
-                removeAdsPreference.setVisible(false);
-                removeAdsPreference.setEnabled(false);
+                showAdsPreference.setVisible(false);
+                showAdsPreference.setEnabled(false);
             }
 
             for (String prefKey : PreferencesManager.getInstance().getAllPreferenceKeys()) {
