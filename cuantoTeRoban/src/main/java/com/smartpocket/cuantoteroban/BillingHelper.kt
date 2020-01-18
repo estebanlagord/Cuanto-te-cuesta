@@ -37,7 +37,7 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
     }
 
     fun isRemoveAdsPurchased(): Boolean {
-        var result = false
+        val result: Boolean
         val purchaseList = billingClient.queryPurchases(SkuType.INAPP).purchasesList
         if (purchaseList.isNullOrEmpty()) {
             result = preferences.isRemoveAdsPurchased
@@ -116,15 +116,11 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
         } else {
             // Handle any other error codes.
             logger.log(Level.SEVERE, "Error during purchase: ${billingResult.responseCode}")
-//            val purchaseList = billingClient.queryPurchases(SkuType.INAPP).purchasesList
-//            for (purchase in purchaseList) {
-//                consumePurchase(purchase.purchaseToken)
-//            }
         }
     }
 
     private fun handlePurchase(purchase: Purchase) {
-        purchase.originalJson //todo SECURITY
+//        purchase.originalJson //todo SECURITY
 
         if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
             // Grant the item to the user, and then acknowledge the purchase
@@ -150,9 +146,8 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
         val params = AcknowledgePurchaseParams.newBuilder()
                 .setPurchaseToken(purchase.purchaseToken)
                 .build()
-        billingClient.acknowledgePurchase(params) { billingResult ->
-            val responseCode = billingResult.responseCode
-            val debugMessage = billingResult.debugMessage
+        billingClient.acknowledgePurchase(params) {
+            logger.log(Level.INFO, "Purchase acknowledged")
         }
     }
 
@@ -162,12 +157,9 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
         val consumeParams = ConsumeParams.newBuilder()
                 .setPurchaseToken(purchase.purchaseToken)
                 .build()
-        billingClient.consumeAsync(consumeParams, object : ConsumeResponseListener {
-            override fun onConsumeResponse(p0: BillingResult?, p1: String?) {
-                preferences.setIsRemoveAdsPurchased(false)
-                logger.log(Level.INFO, "on consume response $p0")
-            }
-
-        })
+        billingClient.consumeAsync(consumeParams) { p0, _ ->
+            preferences.setIsRemoveAdsPurchased(false)
+            logger.log(Level.INFO, "on consume response $p0")
+        }
     }
 }
