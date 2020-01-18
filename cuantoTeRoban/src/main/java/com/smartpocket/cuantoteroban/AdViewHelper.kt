@@ -53,6 +53,7 @@ class AdViewHelper(private val adViewContainer: ViewGroup, private val activity:
 
         val adRequest = AdRequest.Builder()
                 .addTestDevice("97EB45A0B9C0380783B9EC4628B453EB") // Galaxy S8+
+                .addTestDevice("3CCDD6B7DFE0C26EB206729F862B8B39")  // LG G3
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build()
 

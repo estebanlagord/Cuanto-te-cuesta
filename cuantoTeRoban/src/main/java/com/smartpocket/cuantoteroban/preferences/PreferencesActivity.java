@@ -78,6 +78,8 @@ public class PreferencesActivity extends AppCompatActivity implements BillingHel
             adViewHelper.destroy();
         } else if (code == BillingClient.BillingResponseCode.USER_CANCELED) {
             msg = "Compra cancelada por el usuario";
+        } else if (code == BillingClient.BillingResponseCode.ERROR) {
+            msg = "Hubo un error procesando la compra";
         } else if (code == BillingHelperKt.PURCHASE_STATE_PENDING) {
             msg = "Compra con pago pendiente";
         } else {
@@ -121,9 +123,7 @@ public class PreferencesActivity extends AppCompatActivity implements BillingHel
                 removeAdsPreference.setEnabled(false);
             }
 
-            for (String prefKey : PreferencesManager.getInstance().
-
-                    getAllPreferenceKeys()) {
+            for (String prefKey : PreferencesManager.getInstance().getAllPreferenceKeys()) {
                 Preference preference = findPreference(prefKey);
                 if (preference != null) {
                     initializeChosenCurrencyListPreference(preference);
