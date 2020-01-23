@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
     <include layout="@layout/toolbar" />
-    
+
     <LinearLayout
         android:id="@+id/topRow"
         android:layout_width="match_parent"

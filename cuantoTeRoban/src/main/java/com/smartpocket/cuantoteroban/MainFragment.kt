@@ -1,15 +1,11 @@
 package com.smartpocket.cuantoteroban
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Typeface
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
 import android.view.animation.AnimationUtils
@@ -21,27 +17,29 @@ import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.smartpocket.cuantoteroban.MainActivity.FRACTION_DIGITS
 import com.smartpocket.cuantoteroban.MainActivity.RequestCode
-import com.smartpocket.cuantoteroban.calc.Calculator
+import com.smartpocket.cuantoteroban.calc.CalculatorFragment
 import com.smartpocket.cuantoteroban.editortype.EditorType
 import com.smartpocket.cuantoteroban.editortype.EditorTypeHelper
 import com.smartpocket.cuantoteroban.preferences.PreferencesActivity
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.container_main.*
-import kotlinx.android.synthetic.main.toolbar.*
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
+class MainFragment : Fragment(), DeleteCurrencyDialogListener {
 
     private lateinit var refreshItem: MenuItem
     private lateinit var rotatingRefreshButtonView: ImageView
@@ -50,8 +48,8 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
     private lateinit var mDrawerLayout: DrawerLayout
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
     private lateinit var mDrawerList: ListView
-    private lateinit var viewModel: MainActivityVM
-    private lateinit var adViewHelper: AdViewHelper
+    private lateinit var viewModel: MainFragmentVM
+    private lateinit var singleActivityVM: SingleActivityVM
     private var currentCurr: Currency? = null
     private val preferences by lazy { PreferencesManager.getInstance() }
     private val displayDateFormat = SimpleDateFormat("dd/MMM HH:mm", Locale("es", "AR"))
@@ -66,10 +64,16 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         positiveSuffix = " %"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.container_main)
-        setSupportActionBar(my_awesome_toolbar)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.container_main, container, false)
+        val toolbar = view.findViewById(R.id.my_awesome_toolbar) as Toolbar
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        setHasOptionsMenu(true)
+        return view
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         currentCurr = null
         mSwipeRefreshLayout = activity_main_swipe_refresh_layout
@@ -79,8 +83,6 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         setupViewModel()
         setupClickListeners()
         setupNavDrawer()
-
-        adViewHelper = AdViewHelper(adViewContainer, this)
     }
 
     override fun onStart() {
@@ -94,81 +96,71 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         updateBlueVisibility(currentCurr)
     }
 
-    override fun onResume() {
-        super.onResume()
-        val isAdFree = MyApplication.billingHelper().isRemoveAdsPurchased()
-        adViewHelper.resume(isAdFree)
-    }
-
-    override fun onPause() {
-        adViewHelper.pause()
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        adViewHelper.destroy()
-        super.onDestroy()
-    }
-
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this).get(MainActivityVM::class.java)
+        viewModel = ViewModelProviders.of(this).get(MainFragmentVM::class.java)
+        singleActivityVM = ViewModelProviders.of(requireActivity()).get(SingleActivityVM::class.java)
+
         with(viewModel) {
-            isLoadingLiveData.observe(this@MainActivity2, Observer {
+            isLoadingLiveData.observe(this@MainFragment, Observer {
                 setLoadingState(it)
             })
-            currencyLiveData.observe(this@MainActivity2, Observer {
+            currencyLiveData.observe(this@MainFragment, Observer {
                 if (currentCurr != it) {
                     updateFlag(it, true)
                     updateBlueVisibility(it)
                     currentCurr = it
                 }
             })
-            amountLiveData.observe(this@MainActivity2, Observer {
+            amountLiveData.observe(this@MainFragment, Observer {
                 showValue(it, amountEditText)
             })
-            discountLiveData.observe(this@MainActivity2, Observer {
+            discountLiveData.observe(this@MainFragment, Observer {
                 showPercentage(it, discountEditText)
                 updateTotalVisibility(it, taxesLiveData.value)
             })
-            taxesLiveData.observe(this@MainActivity2, Observer {
+            taxesLiveData.observe(this@MainFragment, Observer {
                 showPercentage(it, taxesEditText)
                 updateTotalVisibility(discountLiveData.value, it)
             })
-            totalLiveData.observe(this@MainActivity2, Observer {
+            totalLiveData.observe(this@MainFragment, Observer {
                 showValue(it, totalEditText)
             })
-            pesosLiveData.observe(this@MainActivity2, Observer {
+            pesosLiveData.observe(this@MainFragment, Observer {
                 showValue(it, inPesosValue)
             })
-            creditCardLiveData.observe(this@MainActivity2, Observer {
+            creditCardLiveData.observe(this@MainFragment, Observer {
                 showValue(it, withCreditCardValue)
             })
-            blueLiveData.observe(this@MainActivity2, Observer {
+            blueLiveData.observe(this@MainFragment, Observer {
                 showValue(it, withBlueValue)
             })
-            exchangeAgencyLiveData.observe(this@MainActivity2, Observer {
+            exchangeAgencyLiveData.observe(this@MainFragment, Observer {
                 showValue(it, exchangeAgencyValue)
             })
-            currencyEditorTypeLiveData.observe(this@MainActivity2, Observer {
+            currencyEditorTypeLiveData.observe(this@MainFragment, Observer {
                 showCurrentEditor(it)
             })
-            lastUpdateLiveData.observe(this@MainActivity2, Observer {
+            lastUpdateLiveData.observe(this@MainFragment, Observer {
                 showLastUpdate(it)
             })
-            errorLiveData.observe(this@MainActivity2, Observer {
+            errorLiveData.observe(this@MainFragment, Observer {
                 showErrorMsg(it)
             })
         }
+
+        singleActivityVM.calculatorResultLD.observe(this, Observer {
+            viewModel.onCalculatorValueChanged(it.editorType, Utilities.round(it.amount, FRACTION_DIGITS))
+        })
     }
 
     private fun updateTotalVisibility(discount: Double?, taxes: Double?) {
         tableRowTotal.visibility = if (discount == 0.0 && taxes == 0.0) View.GONE else View.VISIBLE
     }
 
-    private fun showErrorMsg(errorState: MainActivityVM.ErrorState) {
+    private fun showErrorMsg(errorState: MainFragmentVM.ErrorState) {
         val msgRes = when (errorState) {
-            MainActivityVM.ErrorState.NO_INTERNET -> R.string.error_no_internet
-            MainActivityVM.ErrorState.DOWNLOAD_ERROR -> R.string.error_downloading
+            MainFragmentVM.ErrorState.NO_INTERNET -> R.string.error_no_internet
+            MainFragmentVM.ErrorState.DOWNLOAD_ERROR -> R.string.error_downloading
         }
         Utilities.showToast(getString(msgRes))
     }
@@ -253,11 +245,10 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
 //            currentEditTextBeingEdited = editText
             //currentEditTextBeingEdited_Name = editTextName;
 //            if (mActionMode != null) mActionMode.finish()
-            val calc = Intent(this@MainActivity2, Calculator::class.java)
-            calc.putExtra("editTextValue", editText.text.toString())
-            calc.putExtra("editTextName", editTextName)
-            calc.putExtra("type", editorType.name)
-            startActivityForResult(calc, RequestCode.CALCULATOR.ordinal)
+
+            val action = MainFragmentDirections
+                    .actionMainFragmentToCalculator(editText.text.toString(), editTextName, editorType)
+            findNavController().navigate(action)
         }
     }
 
@@ -266,8 +257,8 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         when (requestCode) {
             RequestCode.CALCULATOR.ordinal -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    val newValue = data!!.extras!!.getDouble(Calculator.RESULT)
-                    val editorTypeName = data.extras!!.getString(Calculator.RESULT_TYPE)
+                    val newValue = data!!.extras!!.getDouble(CalculatorFragment.RESULT)
+                    val editorTypeName = data.extras!!.getString(CalculatorFragment.RESULT_TYPE)
                     val editorType = EditorTypeHelper.getEditorType(editorTypeName)
                     viewModel.onCalculatorValueChanged(editorType,
                             Utilities.round(newValue, FRACTION_DIGITS))
@@ -281,10 +272,10 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
     }
 
     private fun setupNavDrawer() {
-        val actionBar = supportActionBar as ActionBar
+        val actionBar = (activity as AppCompatActivity).supportActionBar as ActionBar
         mDrawerLayout = drawer_layout
         mDrawerToggle = object : ActionBarDrawerToggle(
-                this,  /* host Activity */
+                requireActivity(),  /* host Activity */
                 mDrawerLayout,  /* DrawerLayout object */
                 R.string.menu_change,  /* "open drawer" description */
                 R.string.menu_change /* "close drawer" description */
@@ -293,17 +284,17 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
             override fun onDrawerClosed(view: View) {
                 super.onDrawerClosed(view)
                 actionBar.setTitle(R.string.app_name)
-                //actionBar.setDisplayShowTitleEnabled(false);
-                invalidateOptionsMenu() // creates call to onPrepareOptionsMenu()
+//                actionBar.setDisplayShowTitleEnabled(false);
+                requireActivity().invalidateOptionsMenu() // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state.  */
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
                 actionBar.setTitle(R.string.title_activity_choose_currency)
-                //actionBar.setDisplayShowTitleEnabled(true);
+//                actionBar.setDisplayShowTitleEnabled(true);
 //                updateRefreshProgress()
-                invalidateOptionsMenu() // creates call to onPrepareOptionsMenu()
+                requireActivity().invalidateOptionsMenu() // creates call to onPrepareOptionsMenu()
 //                if (mActionMode != null) mActionMode.finish()
             }
         }
@@ -313,9 +304,10 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         actionBar.setHomeButtonEnabled(true)
         mDrawerList = left_drawer
         // Set the adapter for the list view
-        mDrawerList.adapter = ChosenCurrenciesAdapter(this)
-        mDrawerList.onItemLongClickListener = ChosenCurrencyLongClickListener(this)
+        mDrawerList.adapter = ChosenCurrenciesAdapter(requireContext())
+        mDrawerList.onItemLongClickListener = ChosenCurrencyLongClickListener(requireActivity())
         mDrawerList.onItemClickListener = OnItemClickListener { _, _, position, _ -> selectItemFromNavDrawer(position) }
+        mDrawerToggle.syncState()
     }
 
     private fun selectItemFromNavDrawer(position: Int) { // Highlight the selected item
@@ -328,32 +320,25 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         mDrawerLayout.closeDrawer(mDrawerList)
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState()
-    }
-
-
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         mDrawerToggle.onConfigurationChanged(newConfig)
     }
 
-    override fun onBackPressed() {
+/*    override fun onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
-    }
+    }*/
 
     private fun updateFlag(currency: Currency, fadeFlag: Boolean) {
         val countryFlagView = countryFlag
         val newFlagIdentifier = currency.flagIdentifier
         if (fadeFlag) {
-            val fadeInAnim = AnimationUtils.loadAnimation(this, R.anim.flag_transition_in)
-            val fadeOutAnim = AnimationUtils.loadAnimation(this, R.anim.flag_transition_out)
+            val fadeInAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.flag_transition_in)
+            val fadeOutAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.flag_transition_out)
             fadeOutAnim.setAnimationListener(object : AnimationListener {
                 override fun onAnimationStart(animation: Animation) {}
                 override fun onAnimationRepeat(animation: Animation) {}
@@ -369,17 +354,17 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         currencyName.text = getString(R.string.what_they_charge_you_in, currency.name)
     }
 
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
-        menuInflater.inflate(R.menu.activity_main, menu)
-        refreshItem = menu.findItem(R.id.menu_update)
-        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        rotatingRefreshButtonView = inflater.inflate(R.layout.refresh_action_view, null) as ImageView
-        refreshButtonRotation = AnimationUtils.loadAnimation(this, R.anim.clockwise_refresh)
+        inflater.inflate(R.menu.activity_main, menu)
+//        refreshItem = menu.findItem(R.id.menu_update)
+//        val inflater2 = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+//        rotatingRefreshButtonView = inflater2.inflate(R.layout.refresh_action_view, null) as ImageView
+//        refreshButtonRotation = AnimationUtils.loadAnimation(requireContext(), R.anim.clockwise_refresh)
         // this is necessary because the update begins before onCreateOptionsMenu is called
 //        updateRefreshProgress()
-        return true
+//        return true
     }
 
     // gets the content to share with other apps
@@ -415,7 +400,7 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         return Intent.createChooser(sendIntent, getString(R.string.share_screen_title))
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean { // show/hide buttons depending on whether the nav drawer is open
+    override fun onPrepareOptionsMenu(menu: Menu) { // show/hide buttons depending on whether the nav drawer is open
         val disabledWhenNavDrawerIsOpen = intArrayOf(R.id.menu_share, R.id.menu_about, R.id.menu_help, R.id.menu_settings, R.id.menu_share, R.id.menu_update)
         val drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList)
         if (drawerOpen) {
@@ -439,16 +424,16 @@ class MainActivity2 : AppCompatActivity(), DeleteCurrencyDialogListener {
         }
         when (item.itemId) {
             R.id.menu_settings -> {
-                startActivityForResult(Intent(this, PreferencesActivity::class.java),
+                startActivityForResult(Intent(requireActivity(), PreferencesActivity::class.java),
                         RequestCode.SETTINGS.ordinal)
             }
             R.id.menu_add_currency -> {
-                startActivityForResult(Intent(this, AddCurrency::class.java),
+                startActivityForResult(Intent(requireActivity(), AddCurrency::class.java),
                         RequestCode.ADD_CURRENCY.ordinal)
             }
             R.id.menu_update -> viewModel.refreshRates(true)
-            R.id.menu_help -> startActivity(Intent(this, HelpActivity::class.java))
-            R.id.menu_about -> startActivity(Intent(this, About::class.java))
+            R.id.menu_help -> startActivity(Intent(requireActivity(), HelpActivity::class.java))
+            R.id.menu_about -> startActivity(Intent(requireActivity(), About::class.java))
             R.id.menu_share -> startActivity(getUpdatedShareIntent())
             else -> return super.onOptionsItemSelected(item)
         }

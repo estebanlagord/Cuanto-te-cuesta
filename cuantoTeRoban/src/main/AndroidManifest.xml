@@ -20,31 +20,32 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/CuantoTeRobanTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-6954073861191346~7695861654" />
-
-        <activity android:name=".MainActivity" />
-
-        <activity
-            android:name=".MainActivity2"
-            android:windowSoftInputMode="stateAlwaysHidden">
+        <activity android:name=".SingleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6954073861191346~7695861654" />
+
+        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainFragment"
+            android:windowSoftInputMode="stateAlwaysHidden">
+        </activity>
         <activity
             android:name=".preferences.PreferencesActivity"
             android:label="@string/application_preferences"
-            android:parentActivityName=".MainActivity2">
+            android:parentActivityName=".MainFragment">
 
             <!-- Parent activity meta-data to support API level 7+ -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity2" />
+                android:value=".MainFragment" />
         </activity>
         <activity
             android:name=".preferences.PreferencesActivityForCurrency"
@@ -57,33 +58,23 @@
                 android:value="com.smartpocket.cuantoteroban.preferences.PreferencesActivity" />
         </activity>
         <activity
-            android:name=".calc.Calculator"
-            android:parentActivityName=".MainActivity2"
-            android:windowSoftInputMode="stateAlwaysHidden">
-
-            <!-- Parent activity meta-data to support API level 7+ -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity2" />
-        </activity>
-        <activity
             android:name=".About"
             android:label="@string/title_activity_about"
-            android:parentActivityName=".MainActivity2">
+            android:parentActivityName=".MainFragment">
 
             <!-- Parent activity meta-data to support API level 7+ -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity2" />
+                android:value=".MainFragment" />
         </activity>
         <activity
             android:name=".AddCurrency"
             android:label="@string/title_activity_add_currency"
             android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity2">
+            android:parentActivityName=".MainFragment">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity2" />
+                android:value=".MainFragment" />
 
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -102,11 +93,11 @@
         <activity
             android:name=".HelpActivity"
             android:label="@string/title_activity_help_activity"
-            android:parentActivityName=".MainActivity2"
+            android:parentActivityName=".MainFragment"
             tools:ignore="UnusedAttribute">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity2" />
+                android:value=".MainFragment" />
         </activity>
     </application>
 

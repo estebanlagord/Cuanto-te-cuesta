@@ -13,7 +13,7 @@ import kotlinx.coroutines.*
 import java.util.*
 import java.util.logging.Logger
 
-class MainActivityVM : ViewModel() {
+class MainFragmentVM : ViewModel() {
 
     private val parentJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)

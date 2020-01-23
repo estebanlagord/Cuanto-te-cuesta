@@ -43,7 +43,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.smartpocket.cuantoteroban.calc.Calculator;
+import com.smartpocket.cuantoteroban.calc.CalculatorFragment;
 import com.smartpocket.cuantoteroban.editortype.EditorType;
 import com.smartpocket.cuantoteroban.editortype.EditorTypeHelper;
 import com.smartpocket.cuantoteroban.preferences.PreferencesActivity;
@@ -587,11 +587,11 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 			}
 		} else if (requestCode == RequestCode.CALCULATOR.ordinal()){
 			if (resultCode == RESULT_OK){
-				String editorTypeName = data.getExtras().getString(Calculator.RESULT_TYPE);
+				String editorTypeName = data.getExtras().getString(CalculatorFragment.RESULT_TYPE);
 				EditorType editorType = EditorTypeHelper.getEditorType(editorTypeName);
 				EditText targetEditText = EditorTypeHelper.getEditTextForEditorType(this, editorType);
 				
-				double newValue = data.getExtras().getDouble(Calculator.RESULT);
+				double newValue = data.getExtras().getDouble(CalculatorFragment.RESULT);
 				newValue = Utilities.round(newValue, FRACTION_DIGITS);
 				String valueStr = shortNumberFormat.format(newValue);
 				targetEditText.setText(valueStr);
@@ -820,8 +820,8 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 			
 				Intent resultIntent = new Intent();
 				Bundle bundle = new Bundle();
-				bundle.putDouble(Calculator.RESULT, lastConversionValue);
-				bundle.putString(Calculator.RESULT_TYPE, editorType.name());
+				bundle.putDouble(CalculatorFragment.RESULT, lastConversionValue);
+				bundle.putString(CalculatorFragment.RESULT_TYPE, editorType.name());
 				resultIntent.putExtras(bundle);
 			
 				onActivityResult(RequestCode.CALCULATOR.ordinal(), RESULT_OK, resultIntent);
@@ -1011,9 +1011,9 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 								AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.getInstance());
 
 								if (newNumber == 100 && currentEditTextBeingEdited == discountText){
-									builder.setMessage(Calculator.INVALID_DISCOUNT100);
+									builder.setMessage(CalculatorFragment.INVALID_DISCOUNT100);
 								} else { 
-									builder.setMessage(Calculator.INVALID_PERCENTAGE + " pero el portapapeles tiene el valor: " + newNumber);
+									builder.setMessage(CalculatorFragment.INVALID_PERCENTAGE + " pero el portapapeles tiene el valor: " + newNumber);
 								}
 								builder.setTitle("Error");
 								builder.setNeutralButton("OK", null);
@@ -1025,8 +1025,8 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 						
 						Intent resultIntent = new Intent();
 						Bundle bundle = new Bundle();
-						bundle.putDouble(Calculator.RESULT, newNumber);
-						bundle.putString(Calculator.RESULT_TYPE, currentEditorType.name());
+						bundle.putDouble(CalculatorFragment.RESULT, newNumber);
+						bundle.putString(CalculatorFragment.RESULT_TYPE, currentEditorType.name());
 						resultIntent.putExtras(bundle);
 						setResult(RESULT_OK, resultIntent);
 						onActivityResult(RequestCode.CALCULATOR.ordinal(), RESULT_OK, resultIntent);
@@ -1078,7 +1078,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 			if (mActionMode != null)
 				mActionMode.finish();
 				
-			Intent calc = new Intent(MainActivity.this, Calculator.class);
+			Intent calc = new Intent(MainActivity.this, CalculatorFragment.class);
 			calc.putExtra("editTextValue", editText.getText().toString());
 			calc.putExtra("editTextName", editTextName);
 			calc.putExtra("type", editorType.name());
@@ -1129,8 +1129,8 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 						// set the value to 0
 					Intent resultIntent = new Intent();
 					Bundle bundle = new Bundle();
-					bundle.putDouble(Calculator.RESULT, 0);
-					bundle.putString(Calculator.RESULT_TYPE, editorType.name());
+					bundle.putDouble(CalculatorFragment.RESULT, 0);
+					bundle.putString(CalculatorFragment.RESULT_TYPE, editorType.name());
 					resultIntent.putExtras(bundle);
 					onActivityResult(RequestCode.CALCULATOR.ordinal(), RESULT_OK, resultIntent);
 				}

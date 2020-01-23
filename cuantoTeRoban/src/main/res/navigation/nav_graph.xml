@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.smartpocket.cuantoteroban.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/container_main">
+        <action
+            android:id="@+id/action_mainFragment_to_calculator"
+            app:destination="@id/calculator" />
+    </fragment>
+    <fragment
+        android:id="@+id/calculator"
+        android:name="com.smartpocket.cuantoteroban.calc.CalculatorFragment"
+        android:label="calculator"
+        tools:layout="@layout/calculator" >
+        <argument
+            android:name="editTextValue"
+            app:argType="string" />
+        <argument
+            android:name="editTextName"
+            app:argType="string" />
+        <argument
+            android:name="type"
+            app:argType="com.smartpocket.cuantoteroban.editortype.EditorType" />
+    </fragment>
+</navigation>

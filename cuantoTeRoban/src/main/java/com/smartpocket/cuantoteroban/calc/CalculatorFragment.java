@@ -9,32 +9,37 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.text.ClipboardManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.smartpocket.cuantoteroban.MainActivity;
 import com.smartpocket.cuantoteroban.R;
+import com.smartpocket.cuantoteroban.SingleActivityVM;
 import com.smartpocket.cuantoteroban.Utilities;
 import com.smartpocket.cuantoteroban.editortype.EditorType;
-import com.smartpocket.cuantoteroban.editortype.EditorTypeHelper;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 
 @SuppressWarnings("deprecation")
-public class Calculator extends AppCompatActivity {
+public class CalculatorFragment extends Fragment {
 
     public static final String RESULT = "result";
     public static final String RESULT_TYPE = "result_type";
@@ -54,6 +59,7 @@ public class Calculator extends AppCompatActivity {
     private ImageView clear, allClear;
     private Handler mHandler = new Handler();
     private ActionMode mActionMode;
+    private SingleActivityVM singleActivityVM;
 
     private Runnable mUpdateTask = new Runnable() {
         public void run() {
@@ -63,18 +69,22 @@ public class Calculator extends AppCompatActivity {
         }
     };
 
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle b = getIntent().getExtras();
-        this.resultTextNameStr = b.getString("editTextName");
-        this.editorType = EditorTypeHelper.getEditorType(b.getString("type"));
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.calculator, container, false);
+        Toolbar toolbar = view.findViewById(R.id.my_awesome_toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        return view;
+    }
 
-        setContentView(R.layout.calculator);
-        Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
-        setSupportActionBar(toolbar);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        CalculatorFragmentArgs args = CalculatorFragmentArgs.fromBundle(getArguments());
+        this.resultTextNameStr = args.getEditTextName();
+        this.editorType = args.getType();
 
-        ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         actionBar.setTitle("Ingresa un valor para");
         actionBar.setSubtitle(resultTextNameStr);
         //actionBar.setLogo(R.drawable.logo);
@@ -86,33 +96,33 @@ public class Calculator extends AppCompatActivity {
         //localNumberFormat.setRoundingMode(RoundingMode.HALF_UP);
         localNumberFormat.setGroupingUsed(false);
 
-        previous = findViewById(R.id.previous);
-        calcDialogDisplay = findViewById(R.id.calc_dialog_display);
-        enterTotal = findViewById(R.id.enter_total);
-        allClear = findViewById(R.id.all_clear);
-        clear = findViewById(R.id.clear);
-        seven = findViewById(R.id.seven);
-        eight = findViewById(R.id.eight);
-        nine = findViewById(R.id.nine);
-        division = findViewById(R.id.division);
-        four = findViewById(R.id.four);
-        five = findViewById(R.id.five);
-        six = findViewById(R.id.six);
-        multiply = findViewById(R.id.multiply);
-        one = findViewById(R.id.one);
-        two = findViewById(R.id.two);
-        three = findViewById(R.id.three);
-        subtract = findViewById(R.id.substract);
-        decimal = findViewById(R.id.decimal);
-        zero = findViewById(R.id.zero);
-        equals = findViewById(R.id.equals);
-        addition = findViewById(R.id.addition);
-        left = findViewById(R.id.left);
-        right = findViewById(R.id.right);
+        previous = view.findViewById(R.id.previous);
+        calcDialogDisplay = view.findViewById(R.id.calc_dialog_display);
+        enterTotal = view.findViewById(R.id.enter_total);
+        allClear = view.findViewById(R.id.all_clear);
+        clear = view.findViewById(R.id.clear);
+        seven = view.findViewById(R.id.seven);
+        eight = view.findViewById(R.id.eight);
+        nine = view.findViewById(R.id.nine);
+        division = view.findViewById(R.id.division);
+        four = view.findViewById(R.id.four);
+        five = view.findViewById(R.id.five);
+        six = view.findViewById(R.id.six);
+        multiply = view.findViewById(R.id.multiply);
+        one = view.findViewById(R.id.one);
+        two = view.findViewById(R.id.two);
+        three = view.findViewById(R.id.three);
+        subtract = view.findViewById(R.id.substract);
+        decimal = view.findViewById(R.id.decimal);
+        zero = view.findViewById(R.id.zero);
+        equals = view.findViewById(R.id.equals);
+        addition = view.findViewById(R.id.addition);
+        left = view.findViewById(R.id.left);
+        right = view.findViewById(R.id.right);
 
         //calcDialogDisplay.setKeyListener(DigitsKeyListener.getInstance(true,true));
 
-        previous.setText(b.getString("editTextValue"));
+        previous.setText(args.getEditTextValue());
         decimal.setText(Character.toString(decimalSeparator));
 
         registerListeners();
@@ -120,15 +130,18 @@ public class Calculator extends AppCompatActivity {
         Typeface typeFace = MainActivity.TYPEFACE_ROBOTO_BLACK;
         TextView[] views = new TextView[]{enterTotal, seven, eight, nine, division, four, five, six, multiply, one, two, three, subtract, decimal, zero, equals, addition, left, right};
         //previous.setTypeface(MainActivity.TYPEFACE_CANTARELL);
-        for (TextView view : views) {
-            view.setTypeface(typeFace);
+        for (TextView v : views) {
+            v.setTypeface(typeFace);
             //view.setTextSize(20);
         }
+
+        singleActivityVM = ViewModelProviders.of(requireActivity()).get(SingleActivityVM.class);
     }
 
-    // Called when the device is rotated
+
+/*    // Called when the device is rotated //TODO
     @Override
-    protected void onSaveInstanceState(@NotNull Bundle outState) {
+    public void onSaveInstanceState(@NotNull Bundle outState) {
         // Called then
         super.onSaveInstanceState(outState);
         outState.putString("previous", previous.getText().toString());
@@ -140,7 +153,7 @@ public class Calculator extends AppCompatActivity {
         String previousValue = savedInstanceState.getString("previous");
         if (previousValue != null)
             previous.setText(previousValue);
-    }
+    }*/
 
     @SuppressLint("ClickableViewAccessibility")
     public void registerListeners() {
@@ -212,7 +225,7 @@ public class Calculator extends AppCompatActivity {
             String value = calcDialogDisplay.getText().toString();
             value = localToEnglishNumber(value);
             if (value.length() == 0) {
-                finish();
+                NavHostFragment.findNavController(this).navigateUp();
             } else {
                 try {
                     Parser parser = new Parser(value);
@@ -235,13 +248,9 @@ public class Calculator extends AppCompatActivity {
                         }
                     }
 
-                    Intent resultIntent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putDouble(RESULT, result);
-                    bundle.putString(RESULT_TYPE, editorType.name());
-                    resultIntent.putExtras(bundle);
-                    setResult(RESULT_OK, resultIntent);
-                    finish();
+                    SingleActivityVM.CalculatorResult resultValue = new SingleActivityVM.CalculatorResult(result, editorType);
+                    singleActivityVM.getCalculatorResultLD().setValue(resultValue);
+                    NavHostFragment.findNavController(this).navigateUp();
                 } catch (RuntimeException e) {
                     showErrorMessage(v, INVALID_EXPRESSION);
                 }
@@ -261,7 +270,7 @@ public class Calculator extends AppCompatActivity {
                 return false;
             }
 
-            mActionMode = startSupportActionMode(mActionModeCallback);
+//            mActionMode = startSupportActionMode(mActionModeCallback);
             return true;
         });
     }
@@ -287,7 +296,7 @@ public class Calculator extends AppCompatActivity {
     private void showErrorMessage(View view, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
         builder.setMessage(message).setTitle("Error");
-        builder.setPositiveButton("Ignorar", (dialog, which) -> finish());
+        builder.setPositiveButton("Ignorar", (dialog, which) -> NavHostFragment.findNavController(this).navigateUp());
         builder.setNegativeButton("Corregir", null);
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -315,7 +324,7 @@ public class Calculator extends AppCompatActivity {
         // Called when the user selects a contextual menu item
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipboardManager clipboard = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
 
             switch (item.getItemId()) {
                 case R.id.menu_copy:
