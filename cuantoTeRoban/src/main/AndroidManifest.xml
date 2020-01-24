@@ -57,16 +57,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.smartpocket.cuantoteroban.preferences.PreferencesActivity" />
         </activity>
-        <activity
-            android:name=".About"
-            android:label="@string/title_activity_about"
-            android:parentActivityName=".MainFragment">
 
-            <!-- Parent activity meta-data to support API level 7+ -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainFragment" />
-        </activity>
         <activity
             android:name=".AddCurrency"
             android:label="@string/title_activity_add_currency"
@@ -90,15 +81,6 @@
             android:authorities="com.smartpocket.cuantoteroban.CurrencySuggestionProvider"
             android:exported="false" />
 
-        <activity
-            android:name=".HelpActivity"
-            android:label="@string/title_activity_help_activity"
-            android:parentActivityName=".MainFragment"
-            tools:ignore="UnusedAttribute">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainFragment" />
-        </activity>
     </application>
 
 </manifest>

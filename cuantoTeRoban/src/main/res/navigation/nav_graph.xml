@@ -13,12 +13,18 @@
         <action
             android:id="@+id/action_mainFragment_to_calculator"
             app:destination="@id/calculator" />
+        <action
+            android:id="@+id/action_mainFragment_to_about"
+            app:destination="@id/about" />
+        <action
+            android:id="@+id/action_mainFragment_to_helpActivity"
+            app:destination="@id/helpActivity" />
     </fragment>
     <fragment
         android:id="@+id/calculator"
         android:name="com.smartpocket.cuantoteroban.calc.CalculatorFragment"
         android:label="calculator"
-        tools:layout="@layout/calculator" >
+        tools:layout="@layout/calculator">
         <argument
             android:name="editTextValue"
             app:argType="string" />
@@ -29,4 +35,14 @@
             android:name="type"
             app:argType="com.smartpocket.cuantoteroban.editortype.EditorType" />
     </fragment>
+    <fragment
+        android:id="@+id/about"
+        android:name="com.smartpocket.cuantoteroban.About"
+        android:label="about"
+        tools:layout="@layout/about" />
+    <fragment
+        android:id="@+id/helpActivity"
+        android:name="com.smartpocket.cuantoteroban.HelpActivity"
+        android:label="helpActivity"
+        tools:layout="@layout/activity_help2" />
 </navigation>

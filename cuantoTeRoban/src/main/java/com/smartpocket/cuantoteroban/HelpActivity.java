@@ -2,15 +2,6 @@ package com.smartpocket.cuantoteroban;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBar.Tab;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,40 +10,55 @@ import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBar.Tab;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Locale;
 
-public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavigationListener {
-	static final String[] TAB_TITLES = new String[] { "Introducción",        "Oficial"           , "Turista"           , "Blue"           , "Casa de cambio"              , "Mis Monedas"};
-	static final String[] PAGE_TITLES = new String[] { "Pantalla principal", "Cotización oficial", "Cotización turista", "Cotización blue", "Cotización en casa de cambio", "Mis Monedas"};
-    ViewPager mPager;
-	private AdViewHelper adViewHelper;
-	
+public class HelpActivity extends Fragment implements ActionBar.OnNavigationListener {
+	private static final String[] TAB_TITLES = new String[] { "Introducción",        "Oficial"           , "Turista"           , "Blue"           , "Casa de cambio"              , "Mis Monedas"};
+	private static final String[] PAGE_TITLES = new String[] { "Pantalla principal", "Cotización oficial", "Cotización turista", "Cotización blue", "Cotización en casa de cambio", "Mis Monedas"};
+    private ViewPager mPager;
+
+	@Nullable
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_help2);
-		Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
-        setSupportActionBar(toolbar);
-		
-		final ActionBar actionBar = getSupportActionBar();
+	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.activity_help2, container, false);
+		Toolbar toolbar = view.findViewById(R.id.my_awesome_toolbar);
+		((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+		((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		return view;
+	}
+
+	@Override
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+		final ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         actionBar.setTitle("Ayuda");
         //actionBar.setLogo(R.drawable.logo);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setDisplayHomeAsUpEnabled(true); // for Android 2
         
-        ArrayAdapter<String> spinnerAdapter = new CustomArrayAdapter<String>(actionBar.getThemedContext(), TAB_TITLES);
+        ArrayAdapter<String> spinnerAdapter = new CustomArrayAdapter<>(actionBar.getThemedContext(), TAB_TITLES);
         
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         actionBar.setListNavigationCallbacks(spinnerAdapter, this);
         
         
-        MyAdapter myAdapter = new MyAdapter(getSupportFragmentManager(), getApplicationContext());
-        mPager = findViewById(R.id.pager);
+        MyAdapter myAdapter = new MyAdapter(getChildFragmentManager(), requireContext());
+        mPager = view.findViewById(R.id.pager);
         mPager.setAdapter(myAdapter);
 
-        ViewGroup adViewContainer = findViewById(R.id.adViewContainer);
-		adViewHelper = new AdViewHelper(adViewContainer, this);
-       
         ActionBar.TabListener tabListener = new ActionBar.TabListener() {
             public void onTabSelected(Tab tab, FragmentTransaction ft) {
                 // When the tab is selected, switch to the corresponding page in the ViewPager.
@@ -88,7 +94,7 @@ public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavig
 	
 	static class CustomArrayAdapter<T> extends ArrayAdapter<T>
 	{
-	    public CustomArrayAdapter(Context ctx, T [] objects)
+	    CustomArrayAdapter(Context ctx, T[] objects)
 	    {
 	        super(ctx, android.R.layout.simple_spinner_item, objects);
 	    }
@@ -98,8 +104,8 @@ public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavig
 	static class MyAdapter extends FragmentPagerAdapter {
 		Context context;
 		
-	    public MyAdapter(FragmentManager fm, Context context) {
-	        super(fm);
+	    MyAdapter(FragmentManager fm, Context context) {
+	        super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 	        this.context = context;
 	    }
 
@@ -108,7 +114,8 @@ public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavig
 	        return HelpActivity.TAB_TITLES.length;
 	    }
 
-	    @Override
+	    @NotNull
+		@Override
 	    public Fragment getItem(int i) {
 	        CharSequence content = "";
 	        
@@ -141,8 +148,7 @@ public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavig
 				break;
 			}
 
-	        Fragment fragment = HelpTabFragment.newInstance(content);
-	        return fragment;
+			return HelpTabFragment.newInstance(content);
 
 	    }
 	    @Override
@@ -155,7 +161,7 @@ public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavig
 	        private static final String KEY_CONTENT = "Fragment:Content";
 	        private CharSequence mContent = "";
 
-	        public static HelpTabFragment newInstance(CharSequence content) {
+	        static HelpTabFragment newInstance(CharSequence content) {
 	        	HelpTabFragment fragment = new HelpTabFragment();
 	            fragment.mContent = content;
 	            return fragment;
@@ -171,7 +177,7 @@ public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavig
 	        }
 	        
 	        @Override
-	        public void onSaveInstanceState(Bundle outState) {
+	        public void onSaveInstanceState(@NotNull Bundle outState) {
 	            super.onSaveInstanceState(outState);
 	            outState.putCharSequence(KEY_CONTENT, mContent);
 	        }
@@ -201,24 +207,5 @@ public class HelpActivity extends AppCompatActivity implements ActionBar.OnNavig
 	public boolean onNavigationItemSelected(int arg0, long arg1) {
 		mPager.setCurrentItem(arg0);
 		return true;
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		boolean isAdFree = MyApplication.Companion.billingHelper().isRemoveAdsPurchased();
-		adViewHelper.resume(isAdFree);
-	}
-
-	@Override
-	protected void onPause() {
-		adViewHelper.pause();
-		super.onPause();
-	}
-
-	@Override
-	protected void onDestroy() {
-		adViewHelper.destroy();
-		super.onDestroy();
 	}
 }

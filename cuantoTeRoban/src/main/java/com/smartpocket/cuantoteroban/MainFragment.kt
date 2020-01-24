@@ -432,8 +432,8 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
                         RequestCode.ADD_CURRENCY.ordinal)
             }
             R.id.menu_update -> viewModel.refreshRates(true)
-            R.id.menu_help -> startActivity(Intent(requireActivity(), HelpActivity::class.java))
-            R.id.menu_about -> startActivity(Intent(requireActivity(), About::class.java))
+            R.id.menu_help -> findNavController().navigate(MainFragmentDirections.actionMainFragmentToHelpActivity())
+            R.id.menu_about -> findNavController().navigate(MainFragmentDirections.actionMainFragmentToAbout())
             R.id.menu_share -> startActivity(getUpdatedShareIntent())
             else -> return super.onOptionsItemSelected(item)
         }
