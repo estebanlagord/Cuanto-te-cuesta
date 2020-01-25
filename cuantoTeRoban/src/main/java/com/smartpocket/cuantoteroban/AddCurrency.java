@@ -1,29 +1,26 @@
 package com.smartpocket.cuantoteroban;
 
-import android.annotation.TargetApi;
 import android.app.SearchManager;
-import android.app.SearchableInfo;
 import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
-import androidx.core.view.MenuItemCompat;
-import androidx.cursoradapter.widget.CursorAdapter;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
 import android.widget.SimpleAdapter;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,246 +30,188 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class AddCurrency extends AppCompatActivity {
-	private enum COLUMN_NAMES {FLAG, NAME, CODE}
+public class AddCurrency extends Fragment {
+    private enum COLUMN_NAMES {FLAG, NAME, CODE}
 
-	private AdViewHelper adViewHelper;
-	private SearchView searchView = null;
+    private ListView listView;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_currency);
-		Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
-        setSupportActionBar(toolbar);
-		
-		ActionBar actionBar = getSupportActionBar();
-        //actionBar.setLogo(R.drawable.logo);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_add_currency, container, false);
+        Toolbar toolbar = view.findViewById(R.id.my_awesome_toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        return view;
+    }
 
-		ViewGroup adViewContainer = findViewById(R.id.adViewContainer);
-		adViewHelper = new AdViewHelper(adViewContainer, this);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-	    handleIntent(getIntent());
-		
-	    ListView listView = findViewById(R.id.unused_currencies_list);
-	    listView.setFastScrollEnabled(true);
+//	    handleIntent(getIntent());
 
-	    listView.setOnItemClickListener(new OnItemClickListener() {
+        listView = view.findViewById(R.id.unused_currencies_list);
+        listView.setFastScrollEnabled(true);
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				
-				@SuppressWarnings("unchecked")
-				HashMap<String, Object> map = (HashMap<String, Object>) parent.getItemAtPosition(position);
-				String currCode = (String)map.get(COLUMN_NAMES.CODE.name());
+        listView.setOnItemClickListener((parent, view1, position, id) -> {
+            closeKeyboard();
+            @SuppressWarnings("unchecked")
+            HashMap<String, Object> map = (HashMap<String, Object>) parent.getItemAtPosition(position);
+            String currCode = (String) map.get(COLUMN_NAMES.CODE.name());
 
-				Currency newCurrency = CurrencyManager.getInstance().findCurrency(currCode);
-				CurrencyManager.getInstance().addToUserCurrencies(newCurrency);
-				
-				Intent resultIntent = new Intent();
-				setResult(RESULT_OK, resultIntent);
-				finish();
-			}
-		});
-	}
+            Currency newCurrency = CurrencyManager.getInstance().findCurrency(currCode);
+            CurrencyManager.getInstance().addToUserCurrencies(newCurrency);
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		boolean isAdFree = MyApplication.Companion.billingHelper().isRemoveAdsPurchased();
-		adViewHelper.resume(isAdFree);
-	}
+//            Intent resultIntent = new Intent();
+//				setResult(RESULT_OK, resultIntent);
+//				finish();
+            NavHostFragment.findNavController(AddCurrency.this).navigateUp();
+        });
 
-	@Override
-	protected void onPause() {
-		adViewHelper.pause();
-		super.onPause();
-	}
+        setHasOptionsMenu(true);
+        updateCurrenciesList(null);
+    }
 
-	@Override
-	protected void onDestroy() {
-		adViewHelper.destroy();
-		super.onDestroy();
-	}
-	
-	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-		setIntent(intent);
-		handleIntent(intent);
-	}
-	
-	private void handleIntent(Intent intent) {
-	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-	    	String searchText = intent.getStringExtra(SearchManager.QUERY);
-	    	
-	    	Log.d("Add currency", "Searched for: " + searchText);
-	    	updateCurrenciesList(searchText);
-	    } else {
-	    	updateCurrenciesList(null);
-	    }
-	}
 
-	
-	private void updateCurrenciesList(String query) {
-		if (query!= null)
-			query = query.toLowerCase(Locale.US);
-		
-		String[] from = new String[] {COLUMN_NAMES.FLAG.name(), COLUMN_NAMES.NAME.name(), COLUMN_NAMES.CODE.name() };
-        int[] to = new int[] { R.id.addCurrencyFlag, R.id.addCurrencyName, R.id.addCurrencyCode};
- 
+    private void updateCurrenciesList(String query) {
+        if (query != null)
+            query = query.toLowerCase(Locale.US);
+
+        String[] from = new String[]{COLUMN_NAMES.FLAG.name(), COLUMN_NAMES.NAME.name(), COLUMN_NAMES.CODE.name()};
+        int[] to = new int[]{R.id.addCurrencyFlag, R.id.addCurrencyName, R.id.addCurrencyCode};
+
         Set<Currency> currencies = CurrencyManager.getInstance().getAllUnusedCurrencies();
-        
+
         // prepare the list of all records
-        List<HashMap<String, Object>> fillMaps = new ArrayList<HashMap<String, Object>>();
-        for(Currency curr : currencies){
-        	if (curr.matchesQuery(query))
-        	{
-	            HashMap<String, Object> map = new HashMap<String, Object>();
-	            map.put(COLUMN_NAMES.FLAG.name(), curr.getFlagIdentifier());
-	            map.put(COLUMN_NAMES.NAME.name(), curr.getName());
-	            map.put(COLUMN_NAMES.CODE.name(), curr.getCode());
-	            fillMaps.add(map);
-        	}
+        List<HashMap<String, Object>> fillMaps = new ArrayList<>();
+        for (Currency curr : currencies) {
+            if (curr.matchesQuery(query)) {
+                HashMap<String, Object> map = new HashMap<>();
+                map.put(COLUMN_NAMES.FLAG.name(), curr.getFlagIdentifier());
+                map.put(COLUMN_NAMES.NAME.name(), curr.getName());
+                map.put(COLUMN_NAMES.CODE.name(), curr.getCode());
+                fillMaps.add(map);
+            }
         }
- 
+
         // fill in the grid_item layout
-        SimpleAdapter adapter = new AddCurrencyAdapter(this, fillMaps, R.layout.add_currency_row, from, to);
-        
-		ListView listView = findViewById(R.id.unused_currencies_list);
-		listView.setAdapter(adapter);
-		listView.setFastScrollEnabled(true);
+        SimpleAdapter adapter = new AddCurrencyAdapter(requireContext(), fillMaps, R.layout.add_currency_row, from, to);
 
-	}
+        ListView listView = requireView().findViewById(R.id.unused_currencies_list);
+        listView.setAdapter(adapter);
+        listView.setFastScrollEnabled(true);
 
-	@TargetApi(Build.VERSION_CODES.FROYO)
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.add_currency, menu);
-		MenuItem searchItem = menu.findItem(R.id.action_search);
-		
-		// the Search View only works on Android 2.1 (API 8)
-	    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
-	    	menu.removeItem(searchItem.getItemId());
-	    } else {
-		    searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-		    
-		    searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-		    	
-				@Override
-				public boolean onSuggestionSelect(int position) {
-					return true;
-				}
-				
-				@Override
-				public boolean onSuggestionClick(int position) {
-			           CursorAdapter selectedView = searchView.getSuggestionsAdapter();
-			           Cursor cursor = (Cursor) selectedView.getItem(position);
-			           int index = cursor.getColumnIndexOrThrow(SearchManager.SUGGEST_COLUMN_TEXT_1);
-			           searchView.setQuery(cursor.getString(index), true);
-			           return true;
-				}
-			});
-		    
-		    MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
-				
-				@Override
-				public boolean onMenuItemActionCollapse(MenuItem arg0) {
-					updateCurrenciesList(null);
-					return true;
-				}
+    }
 
-				@Override
-				public boolean onMenuItemActionExpand(MenuItem arg0) {
-					return true;
-				}
-			});
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.add_currency, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
 
-		    
-		    
-		    // Configure the search info and add any event listeners
-		    
-		    
-		    // Get the SearchView and set the searchable configuration
-		    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-		    //SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        SearchView searchView = (SearchView) searchItem.getActionView();
 
-		    //SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-		    // Assumes current activity is the searchable activity
-		    //SearchableInfo searchInfo =  searchManager.getSearchablesInGlobalSearch().get(0);
-		    
-		    
-		    //SearchCurrenciesActivity searchActivity = new SearchCurrenciesActivity();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (listView.getCount() == 1) {
+                    listView.performItemClick(null, 0, 0);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                updateCurrenciesList(newText);
+                return true;
+            }
+        });
+
+
+        // Configure the search info and add any event listeners
+
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) requireContext().getSystemService(Context.SEARCH_SERVICE);
+        //SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+        //SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        // Assumes current activity is the searchable activity
+        //SearchableInfo searchInfo =  searchManager.getSearchablesInGlobalSearch().get(0);
+
+
+        //SearchCurrenciesActivity searchActivity = new SearchCurrenciesActivity();
 //		    ComponentName component = new ComponentName(SearchCurrenciesActivity.class.getPackage().getName(),
 //		    		SearchCurrenciesActivity.class.getCanonicalName());
-		    
-		    //searchView.setSearchableInfo(searchInfo);
+
+        //searchView.setSearchableInfo(searchInfo);
 //		    SearchableInfo searchableInfo = searchManager.getSearchableInfo(component);
-			SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
-		    searchView.setSearchableInfo(searchableInfo);
-		    searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+//        SearchableInfo searchableInfo = searchManager.getSearchableInfo(requireActivity().getComponentName());
+//        searchView.setSearchableInfo(searchableInfo);
+        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
-	    }
+    }
 
+    class AddCurrencyAdapter extends SimpleAdapter implements SectionIndexer {
+        //Set<Character> sections = new TreeSet<Character>();
+        Map<String, Integer> mapIndex = new TreeMap<>();
+        String[] sections;
 
-	    
-	    
-		return true;
-	}
+        /**
+         * Constructor
+         *
+         * @param context  The context where the View associated with this SimpleAdapter is running
+         * @param data     A List of Maps. Each entry in the List corresponds to one row in the list. The
+         *                 Maps contain the data for each row, and should include all the entries specified in
+         *                 "from"
+         * @param resource Resource identifier of a view layout that defines the views for this list
+         *                 item. The layout file should include at least those named views defined in "to"
+         * @param from     A list of column names that will be added to the Map associated with each
+         *                 item.
+         * @param to       The views that should display column in the "from" parameter. These should all be
+         *                 TextViews. The first N views in this list are given the values of the first N columns
+         */
+        AddCurrencyAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
+            super(context, data, resource, from, to);
 
-	class AddCurrencyAdapter extends SimpleAdapter implements SectionIndexer{
-		//Set<Character> sections = new TreeSet<Character>();
-		Map<String, Integer> mapIndex = new TreeMap<String, Integer>();
-		String[] sections;
+            for (int x = 0; x < data.size(); x++) {
+                //for (Map<String, ?> map : data) {
+                Map<String, ?> map = data.get(x);
+                String name = map.get(COLUMN_NAMES.NAME.name()).toString().toUpperCase();
+                if (name.length() > 0) {
+                    String ch = name.substring(0, 1);
+                    if (!mapIndex.containsKey(ch))
+                        mapIndex.put(ch, x);
+                }
+            }
 
-		/**
-		 * Constructor
-		 *
-		 * @param context  The context where the View associated with this SimpleAdapter is running
-		 * @param data     A List of Maps. Each entry in the List corresponds to one row in the list. The
-		 *                 Maps contain the data for each row, and should include all the entries specified in
-		 *                 "from"
-		 * @param resource Resource identifier of a view layout that defines the views for this list
-		 *                 item. The layout file should include at least those named views defined in "to"
-		 * @param from     A list of column names that will be added to the Map associated with each
-		 *                 item.
-		 * @param to       The views that should display column in the "from" parameter. These should all be
-		 *                 TextViews. The first N views in this list are given the values of the first N columns
-		 */
-		public AddCurrencyAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
-			super(context, data, resource, from, to);
+            Set<String> sectionLetters = mapIndex.keySet();
+            sections = sectionLetters.toArray(new String[0]);
+        }
 
-			for (int x = 0; x < data.size() ; x++) {
-			//for (Map<String, ?> map : data) {
-				Map<String, ?> map = data.get(x);
-				String name = map.get(COLUMN_NAMES.NAME.name()).toString().toUpperCase();
-				if (name != null && name.length() > 0) {
-						String ch = name.substring(0, 1);
-						if (!mapIndex.containsKey(ch))
-							mapIndex.put(ch, x);
-				}
-			}
+        @Override
+        public Object[] getSections() {
+            return sections;
+        }
 
-			Set<String> sectionLetters = mapIndex.keySet();
-			sections = sectionLetters.toArray(new String[sectionLetters.size()]);
-		}
+        @Override
+        public int getPositionForSection(int sectionIndex) {
+            return mapIndex.get(sections[sectionIndex]);
+        }
 
-		@Override
-		public Object[] getSections() {
-			return sections;
-		}
+        @Override
+        public int getSectionForPosition(int position) {
+            return 0;
+        }
+    }
 
-		@Override
-		public int getPositionForSection(int sectionIndex) {
-			return mapIndex.get(sections[sectionIndex]);
-		}
-
-		@Override
-		public int getSectionForPosition(int position) {
-			return 0;
-		}
-	}
+    private void closeKeyboard() {
+        // Check if no view has focus:
+        View view = requireView().findFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
 }

@@ -1,7 +1,5 @@
 package com.smartpocket.cuantoteroban;
 
-import java.util.Set;
-
 import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -9,10 +7,14 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 public class CurrencySuggestionProvider extends ContentProvider {
 	Set<Currency> allUnusedCurrencies = null;
 	
-	public Cursor query(Uri uri, String[] projection, String selection,	String[] selectionArgs, String sortOrder) {
+	public Cursor query(@NotNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		if (allUnusedCurrencies == null)
 			allUnusedCurrencies = CurrencyManager.getInstance().getAllUnusedCurrencies();
 		
@@ -42,25 +44,25 @@ public class CurrencySuggestionProvider extends ContentProvider {
 	}
 
 	@Override
-	public String getType(Uri uri) {
+	public String getType(@NotNull Uri uri) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Uri insert(Uri uri, ContentValues values) {
+	public Uri insert(@NotNull Uri uri, ContentValues values) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int delete(Uri uri, String selection, String[] selectionArgs) {
+	public int delete(@NotNull Uri uri, String selection, String[] selectionArgs) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+	public int update(@NotNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

@@ -132,13 +132,7 @@
         <b><u>Nota</u>:</b> Sólo las cotizaciones para tus monedas elegidas se actualizan desde Internet.\n\n
         
         Al apretar el botón <b>+</b>, la aplicación muestra una lista con todas las monedas que podes agregar a tu lista de favoritas (alrededor de 130).\n
-        Es posible <b>buscar</b> una moneda en esta lista presionando el botón de búsqueda. También se pueden realizar búsquedas por voz, presionando el micrófono y diciendo por ejemplo “dólar”.\n\n
-        
-        <b><u>Nota 2</u>:</b> Las funciones de búsqueda solo funcionan en Android 2.2 o posterior. \n\n
-        
-        <b><u>Nota 3</u>:</b> Para que funcione la <b>búsqueda por voz</b>, tenes que tener instalada la aplicación <a href="market://details?id=com.google.android.googlequicksearchbox">Google</a>.\n
-		Una vez instalada, tenes que ir a las opciones de esa aplicación,  “Voz”, “Idioma”, y configurarla para que reconozca el idioma español.\n
-		Si además queres que funcione offline, tenes que configurar el idioma “Español (España)” porque es la única variante que te permite descargar en “Reconocimiento sin conexión”.
+        Es posible <b>buscar</b> una moneda en esta lista presionando el botón de búsqueda.\n
     </string>
 
     <string name="title_activity_help2">Help2Activity</string>

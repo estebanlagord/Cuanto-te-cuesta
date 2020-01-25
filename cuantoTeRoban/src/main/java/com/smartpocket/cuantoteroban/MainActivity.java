@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
         payPalText.setOnClickListener(new OnClickListenerShowCalc(payPalText, getResources().getString(R.string.Paypal), EditorType.PAYPAL));
         payPalText.setOnLongClickListener(onLongClickShowCopyPaste(payPalText, EditorType.PAYPAL));
         
-        mDrawerList.setOnItemLongClickListener(new ChosenCurrencyLongClickListener(this));
+//        mDrawerList.setOnItemLongClickListener(new ChosenCurrencyLongClickListener(this));
         mDrawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

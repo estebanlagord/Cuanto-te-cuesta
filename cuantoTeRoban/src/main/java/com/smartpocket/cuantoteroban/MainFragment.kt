@@ -304,7 +304,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
         mDrawerList = left_drawer
         // Set the adapter for the list view
         mDrawerList.adapter = ChosenCurrenciesAdapter(requireContext())
-        mDrawerList.onItemLongClickListener = ChosenCurrencyLongClickListener(requireActivity())
+        mDrawerList.onItemLongClickListener = ChosenCurrencyLongClickListener(this)
         mDrawerList.onItemClickListener = OnItemClickListener { _, _, position, _ -> selectItemFromNavDrawer(position) }
         mDrawerToggle.syncState()
     }
@@ -422,11 +422,8 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
             return true
         }
         when (item.itemId) {
-            R.id.menu_add_currency -> {
-                startActivityForResult(Intent(requireActivity(), AddCurrency::class.java),
-                        RequestCode.ADD_CURRENCY.ordinal)
-            }
             R.id.menu_update -> viewModel.refreshRates(true)
+            R.id.menu_add_currency -> findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddCurrency())
             R.id.menu_settings -> findNavController().navigate(MainFragmentDirections.actionMainFragmentToPreferencesFragment())
             R.id.menu_help -> findNavController().navigate(MainFragmentDirections.actionMainFragmentToHelpActivity())
             R.id.menu_about -> findNavController().navigate(MainFragmentDirections.actionMainFragmentToAbout())

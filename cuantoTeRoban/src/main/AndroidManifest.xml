@@ -23,7 +23,6 @@
         <activity android:name=".SingleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -32,29 +31,5 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-6954073861191346~7695861654" />
 
-        <activity
-            android:name=".AddCurrency"
-            android:label="@string/title_activity_add_currency"
-            android:launchMode="singleTop"
-            android:parentActivityName=".MainFragment">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainFragment" />
-
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
-
-        <provider
-            android:name=".CurrencySuggestionProvider"
-            android:authorities="com.smartpocket.cuantoteroban.CurrencySuggestionProvider"
-            android:exported="false" />
-
     </application>
-
 </manifest>

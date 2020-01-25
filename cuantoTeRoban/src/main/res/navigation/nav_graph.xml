@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_mainFragment_to_preferencesFragment"
             app:destination="@id/preferencesFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_addCurrency"
+            app:destination="@id/addCurrency" />
     </fragment>
     <fragment
         android:id="@+id/calculator"
@@ -61,4 +64,9 @@
         android:id="@+id/preferencesFragmentForCurrency"
         android:name="com.smartpocket.cuantoteroban.preferences.PreferencesFragmentForCurrency"
         android:label="PreferenceForCurrencyFragment" />
+    <fragment
+        android:id="@+id/addCurrency"
+        android:name="com.smartpocket.cuantoteroban.AddCurrency"
+        android:label="activity_add_currency"
+        tools:layout="@layout/activity_add_currency" />
 </navigation>
