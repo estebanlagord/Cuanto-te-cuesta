@@ -31,7 +31,6 @@ import com.smartpocket.cuantoteroban.MainActivity.RequestCode
 import com.smartpocket.cuantoteroban.calc.CalculatorFragment
 import com.smartpocket.cuantoteroban.editortype.EditorType
 import com.smartpocket.cuantoteroban.editortype.EditorTypeHelper
-import com.smartpocket.cuantoteroban.preferences.PreferencesActivity
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.container_main.*
@@ -423,15 +422,12 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
             return true
         }
         when (item.itemId) {
-            R.id.menu_settings -> {
-                startActivityForResult(Intent(requireActivity(), PreferencesActivity::class.java),
-                        RequestCode.SETTINGS.ordinal)
-            }
             R.id.menu_add_currency -> {
                 startActivityForResult(Intent(requireActivity(), AddCurrency::class.java),
                         RequestCode.ADD_CURRENCY.ordinal)
             }
             R.id.menu_update -> viewModel.refreshRates(true)
+            R.id.menu_settings -> findNavController().navigate(MainFragmentDirections.actionMainFragmentToPreferencesFragment())
             R.id.menu_help -> findNavController().navigate(MainFragmentDirections.actionMainFragmentToHelpActivity())
             R.id.menu_about -> findNavController().navigate(MainFragmentDirections.actionMainFragmentToAbout())
             R.id.menu_share -> startActivity(getUpdatedShareIntent())

@@ -32,32 +32,6 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-6954073861191346~7695861654" />
 
-        <activity android:name=".MainActivity" />
-        <activity
-            android:name=".MainFragment"
-            android:windowSoftInputMode="stateAlwaysHidden">
-        </activity>
-        <activity
-            android:name=".preferences.PreferencesActivity"
-            android:label="@string/application_preferences"
-            android:parentActivityName=".MainFragment">
-
-            <!-- Parent activity meta-data to support API level 7+ -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainFragment" />
-        </activity>
-        <activity
-            android:name=".preferences.PreferencesActivityForCurrency"
-            android:label="@string/application_preferences"
-            android:parentActivityName=".preferences.PreferencesActivity">
-
-            <!-- Parent activity meta-data to support API level 7+ -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.smartpocket.cuantoteroban.preferences.PreferencesActivity" />
-        </activity>
-
         <activity
             android:name=".AddCurrency"
             android:label="@string/title_activity_add_currency"

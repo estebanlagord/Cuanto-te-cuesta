@@ -1,92 +1,47 @@
 package com.smartpocket.cuantoteroban.preferences;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.ActionBar;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.android.billingclient.api.BillingClient;
-import com.smartpocket.cuantoteroban.AdViewHelper;
-import com.smartpocket.cuantoteroban.BillingHelperKt;
-import com.smartpocket.cuantoteroban.BillingHelperStatusListener;
 import com.smartpocket.cuantoteroban.BuildConfig;
 import com.smartpocket.cuantoteroban.Currency;
 import com.smartpocket.cuantoteroban.CurrencyManager;
 import com.smartpocket.cuantoteroban.MyApplication;
 import com.smartpocket.cuantoteroban.R;
-import com.smartpocket.cuantoteroban.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PreferencesActivity extends AppCompatActivity implements BillingHelperStatusListener {
+public class PreferencesFragment extends Fragment {
 
-    private AdViewHelper adViewHelper;
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.pref_with_toolbar);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-        ViewGroup adViewContainer = findViewById(R.id.adViewContainer);
-        adViewHelper = new AdViewHelper(adViewContainer, this);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, new MyPreferenceFragment()).commit();
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.pref_with_toolbar, container, false);
+        Toolbar toolbar = view.findViewById(R.id.my_awesome_toolbar);
+        toolbar.setTitle(R.string.application_preferences);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        return view;
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        boolean isAdFree = MyApplication.Companion.billingHelper().isRemoveAdsPurchased();
-        adViewHelper.resume(isAdFree);
-    }
-
-    @Override
-    protected void onPause() {
-        adViewHelper.pause();
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        adViewHelper.destroy();
-        super.onDestroy();
-    }
-
-    @Override
-    public void onBillingHelperStatusChanged(int code) {
-        @StringRes int msg;
-        if (code == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
-            msg = R.string.billing_status_already_owned;
-            adViewHelper.destroy();
-        } else if (code == BillingClient.BillingResponseCode.OK) {
-            msg = R.string.billing_status_thanks_for_buying;
-            adViewHelper.destroy();
-        } else if (code == BillingClient.BillingResponseCode.USER_CANCELED) {
-            msg = R.string.billing_status_canceled;
-        } else if (code == BillingClient.BillingResponseCode.ERROR) {
-            msg = R.string.billing_status_error;
-        } else if (code == BillingHelperKt.PURCHASE_STATE_PENDING) {
-            msg = R.string.billing_status_pending;
-        } else {
-            msg = R.string.billing_status_connection_error;
-        }
-        Utilities.showToast(getString(msg));
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, new MyPreferenceFragment()).commit();
     }
 
     public static class MyPreferenceFragment extends PreferenceFragmentCompat {
@@ -101,13 +56,14 @@ public class PreferencesActivity extends AppCompatActivity implements BillingHel
 
             Preference currencyPreference = findPreference("currency_preference");
             currencyPreference.setOnPreferenceClickListener(preference -> {
-                startActivity(new Intent(requireContext(), PreferencesActivityForCurrency.class));
+                NavHostFragment.findNavController(MyPreferenceFragment.this)
+                        .navigate(PreferencesFragmentDirections.actionPreferencesFragmentToMyPreferenceForCurrencyFragment());
                 return true;
             });
 
             Preference removeAdsPreference = findPreference("remove_ads");
             removeAdsPreference.setOnPreferenceClickListener(preference -> {
-                MyApplication.Companion.billingHelper().launchBillingFlow(requireActivity(), (BillingHelperStatusListener) requireActivity());
+                MyApplication.Companion.billingHelper().launchBillingFlow(requireActivity());
                 return true;
             });
 

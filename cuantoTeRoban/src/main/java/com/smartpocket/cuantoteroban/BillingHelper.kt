@@ -1,7 +1,8 @@
 package com.smartpocket.cuantoteroban
 
-import android.app.Activity
 import android.content.Context
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProviders
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.*
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
@@ -19,14 +20,14 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
     private val skuList = listOf("ads_removal")
     private var skuDetails: SkuDetails? = null
     private var isErrorState = false
-    private var listener: BillingHelperStatusListener? = null
+    private var singleActivityVM: SingleActivityVM? = null
 
     init {
         setupBillingClient()
     }
 
-    fun launchBillingFlow(activity: Activity, listener: BillingHelperStatusListener) {
-        this.listener = listener
+    fun launchBillingFlow(activity: FragmentActivity) {
+        singleActivityVM = ViewModelProviders.of(activity).get(SingleActivityVM::class.java)
         if (isErrorState) setupBillingClient() //TODO ?
 
         val billingFlowParams = BillingFlowParams
@@ -104,7 +105,7 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
     }
 
     override fun onPurchasesUpdated(billingResult: BillingResult, purchases: List<Purchase>?) {
-        listener?.onBillingHelperStatusChanged(billingResult.responseCode)
+        singleActivityVM?.billingStatusLD?.postValue(billingResult.responseCode)
         if (billingResult.responseCode == BillingResponseCode.OK && purchases != null) {
             for (purchase in purchases) {
                 handlePurchase(purchase)
@@ -137,7 +138,7 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
             // are given to them. You can also choose to remind the user in the
             // future to complete the purchase if you detect that it is still
             // pending.
-            listener?.onBillingHelperStatusChanged(PURCHASE_STATE_PENDING)
+            singleActivityVM?.billingStatusLD?.postValue(PURCHASE_STATE_PENDING)
         }
 
     }

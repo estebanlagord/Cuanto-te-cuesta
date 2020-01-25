@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_mainFragment_to_helpActivity"
             app:destination="@id/helpActivity" />
+        <action
+            android:id="@+id/action_mainFragment_to_preferencesFragment"
+            app:destination="@id/preferencesFragment" />
     </fragment>
     <fragment
         android:id="@+id/calculator"
@@ -45,4 +48,17 @@
         android:name="com.smartpocket.cuantoteroban.HelpActivity"
         android:label="helpActivity"
         tools:layout="@layout/activity_help2" />
+    <fragment
+        android:id="@+id/preferencesFragment"
+        android:name="com.smartpocket.cuantoteroban.preferences.PreferencesFragment"
+        android:label="Preferences"
+        tools:layout="@layout/pref_with_toolbar" >
+        <action
+            android:id="@+id/action_preferencesFragment_to_myPreferenceForCurrencyFragment"
+            app:destination="@id/preferencesFragmentForCurrency" />
+    </fragment>
+    <fragment
+        android:id="@+id/preferencesFragmentForCurrency"
+        android:name="com.smartpocket.cuantoteroban.preferences.PreferencesFragmentForCurrency"
+        android:label="PreferenceForCurrencyFragment" />
 </navigation>

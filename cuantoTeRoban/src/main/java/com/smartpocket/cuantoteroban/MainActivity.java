@@ -46,7 +46,6 @@ import android.widget.TextView;
 import com.smartpocket.cuantoteroban.calc.CalculatorFragment;
 import com.smartpocket.cuantoteroban.editortype.EditorType;
 import com.smartpocket.cuantoteroban.editortype.EditorTypeHelper;
-import com.smartpocket.cuantoteroban.preferences.PreferencesActivity;
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager;
 
 import java.text.DecimalFormat;
@@ -507,8 +506,8 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
     	switch(item.getItemId()){
     		case R.id.menu_settings:
     			//Intent settingsIntent = new Intent(this, PreferencesScreen.class);
-    			Intent settingsIntent = new Intent(this, PreferencesActivity.class);
-    			startActivityForResult(settingsIntent, RequestCode.SETTINGS.ordinal());
+//    			Intent settingsIntent = new Intent(this, PreferencesActivity.class);
+//    			startActivityForResult(settingsIntent, RequestCode.SETTINGS.ordinal());
     			break;
     		case R.id.menu_update:
     			updateExchangeRate(true);
