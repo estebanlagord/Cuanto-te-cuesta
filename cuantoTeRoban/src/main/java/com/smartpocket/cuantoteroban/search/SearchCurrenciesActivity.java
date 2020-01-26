@@ -1,4 +1,4 @@
-package com.smartpocket.cuantoteroban;
+package com.smartpocket.cuantoteroban.search;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +10,10 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.SimpleAdapter;
+
+import com.smartpocket.cuantoteroban.Currency;
+import com.smartpocket.cuantoteroban.CurrencyManager;
+import com.smartpocket.cuantoteroban.R;
 
 public class SearchCurrenciesActivity extends ListActivity {
 	private enum COLUMN_NAMES {FLAG, CURRENCY_NAME}

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/addCurrencyFlag"
@@ -10,7 +11,7 @@
         android:layout_height="50sp"
         android:layout_gravity="center_vertical"
         android:layout_weight="0.15"
-        android:src="@drawable/usd" />
+        tools:src="@drawable/usd" />
 
     <TextView
         android:id="@+id/addCurrencyName"
@@ -19,8 +20,9 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/padding_small"
         android:layout_weight="0.70"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
-    
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+        tools:text="Dólar estadounidense" />
+
     <TextView
         android:id="@+id/addCurrencyCode"
         android:layout_width="0dip"
@@ -28,6 +30,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/padding_small"
         android:layout_weight="0.15"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+        tools:text="USD" />
 
 </LinearLayout>

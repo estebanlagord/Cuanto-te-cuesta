@@ -47,6 +47,7 @@ import com.smartpocket.cuantoteroban.calc.CalculatorFragment;
 import com.smartpocket.cuantoteroban.editortype.EditorType;
 import com.smartpocket.cuantoteroban.editortype.EditorTypeHelper;
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager;
+import com.smartpocket.cuantoteroban.search.AddCurrencyFragment;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -518,7 +519,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 //				startActivityForResult(chooseCurrency, RequestCode.CHOOSE_CURRENCY.ordinal());
 //				break;
     		case R.id.menu_add_currency:
-    			Intent intent = new Intent(this, AddCurrency.class);
+    			Intent intent = new Intent(this, AddCurrencyFragment.class);
     	    	startActivityForResult(intent, RequestCode.ADD_CURRENCY.ordinal());
 				break;
     		case R.id.menu_help:
