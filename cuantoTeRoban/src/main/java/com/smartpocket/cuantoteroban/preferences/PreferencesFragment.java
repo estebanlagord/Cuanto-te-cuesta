@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
@@ -19,8 +20,8 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.smartpocket.cuantoteroban.BuildConfig;
 import com.smartpocket.cuantoteroban.Currency;
 import com.smartpocket.cuantoteroban.CurrencyManager;
-import com.smartpocket.cuantoteroban.MyApplication;
 import com.smartpocket.cuantoteroban.R;
+import com.smartpocket.cuantoteroban.SingleActivityVM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +47,12 @@ public class PreferencesFragment extends Fragment {
 
     public static class MyPreferenceFragment extends PreferenceFragmentCompat {
         private static final String CURRENT_VALUE = "Valor actual: ";
+        private SingleActivityVM singleActivityVM;
 
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            singleActivityVM = ViewModelProviders.of(requireActivity()).get(SingleActivityVM.class);
 
             getPreferenceManager().setSharedPreferencesName(PreferencesManager.PREFS_NAME_SHARED);
             addPreferencesFromResource(R.xml.preferences);
@@ -63,7 +66,7 @@ public class PreferencesFragment extends Fragment {
 
             Preference removeAdsPreference = findPreference("remove_ads");
             removeAdsPreference.setOnPreferenceClickListener(preference -> {
-                MyApplication.Companion.billingHelper().launchBillingFlow(requireActivity());
+                singleActivityVM.getLaunchPurchaseLD().postValue(true);
                 return true;
             });
 
@@ -71,7 +74,7 @@ public class PreferencesFragment extends Fragment {
             if (BuildConfig.DEBUG) {
                 // DEBUG MODE, SHOW OPTION TO CONSUME
                 showAdsPreference.setOnPreferenceClickListener(preference -> {
-                    MyApplication.Companion.billingHelper().consumeRemoveAdsPurchase();
+                    singleActivityVM.getLaunchRestoreAdsLD().postValue(true);
                     return true;
                 });
             } else {

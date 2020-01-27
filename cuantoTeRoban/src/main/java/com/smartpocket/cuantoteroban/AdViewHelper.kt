@@ -4,9 +4,12 @@ import android.app.Activity
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
+import java.util.logging.Level
+import java.util.logging.Logger
 
 // This is an ad unit ID for a test ad. Replace with your own banner ad unit ID.
 private const val AD_UNIT_ID = "ca-app-pub-6954073861191346/2251963282" //REAL ADS
@@ -14,37 +17,58 @@ private const val AD_UNIT_ID = "ca-app-pub-6954073861191346/2251963282" //REAL A
 
 class AdViewHelper(private val adViewContainer: ViewGroup, private val activity: Activity) {
 
+    private val logger = Logger.getLogger(javaClass.simpleName)
     private var adView: AdView? = null
     private var isLoaded = false
-    var isAdFree = false
 
-    fun resume(isAdFree : Boolean) {
-        this.isAdFree = isAdFree
-        if (isAdFree) {
-            adViewContainer.visibility = View.GONE
-        } else {
-            adViewContainer.visibility = View.VISIBLE
+    fun showBanner(doShow: Boolean) {
+        if (doShow) {
             if (isLoaded.not()) {
                 loadBanner()
             }
-            adView?.resume()
+        } else {
+            destroy()
         }
     }
 
-    fun pause() = adView?.pause()
     fun destroy() {
+        isLoaded = false
         adViewContainer.visibility = View.GONE
         adView?.destroy()
         adView = null
     }
 
     private fun loadBanner() {
+        isLoaded = true
+        adViewContainer.visibility = View.VISIBLE
         // Create an ad request. Check your logcat output for the hashed device ID to
         // get test ads on a physical device. e.g.
         // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
-        val localAdView = AdView(activity)
+        val localAdView = AdView(activity).apply {
+            adUnitId = AD_UNIT_ID
+            adListener = object : AdListener() {
+
+                override fun onAdFailedToLoad(p0: Int) {
+                    val error = when (p0) {
+                        AdRequest.ERROR_CODE_INTERNAL_ERROR -> "Internal error"
+                        AdRequest.ERROR_CODE_INVALID_REQUEST -> "Invalid request"
+                        AdRequest.ERROR_CODE_NETWORK_ERROR -> "Network connectivity error"
+                        AdRequest.ERROR_CODE_NO_FILL -> "Lack of ad inventory"
+                        else -> "Unspecified error"
+                    }
+                    logger.log(Level.INFO, "Ad failed to load: $error")
+                    // Will retry again automatically in 60 seconds
+                    isLoaded = false
+                }
+
+                override fun onAdLoaded() {
+                    logger.log(Level.INFO, "Ad loaded successfully")
+                    isLoaded = true
+                }
+            }
+        }
+
         adView = localAdView
-        localAdView.adUnitId = AD_UNIT_ID
         adViewContainer.removeAllViews()
         adViewContainer.addView(localAdView)
 

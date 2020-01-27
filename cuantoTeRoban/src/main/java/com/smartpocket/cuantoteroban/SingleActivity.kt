@@ -13,6 +13,7 @@ class SingleActivity : AppCompatActivity() {
 
     private lateinit var adViewHelper: AdViewHelper
     private lateinit var singleActivityVM: SingleActivityVM
+    private lateinit var billingHelper: BillingHelper
 //    private lateinit var appBarConfiguration: AppBarConfiguration
 
 
@@ -27,21 +28,21 @@ class SingleActivity : AppCompatActivity() {
 //        toolbar.setupWithNavController(navController, appBarConfiguration)
 //        setupActionBarWithNavController(this, navController)
         adViewHelper = AdViewHelper(adViewContainer, this)
+        billingHelper = BillingHelper(this)
+
         singleActivityVM = ViewModelProviders.of(this).get(SingleActivityVM::class.java)
         singleActivityVM.billingStatusLD.observe(this, Observer {
             onBillingHelperStatusChanged(it)
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val isAdFree = MyApplication.billingHelper().isRemoveAdsPurchased()
-        adViewHelper.resume(isAdFree)
-    }
-
-    override fun onPause() {
-        adViewHelper.pause()
-        super.onPause()
+        singleActivityVM.showAdsLD.observe(this, Observer {
+            adViewHelper.showBanner(it)
+        })
+        singleActivityVM.launchPurchaseLD.observe(this, Observer {
+            billingHelper.launchBillingFlow(this)
+        })
+        singleActivityVM.launchRestoreAdsLD.observe(this, Observer {
+            billingHelper.consumeRemoveAdsPurchase()
+        })
     }
 
     override fun onDestroy() {

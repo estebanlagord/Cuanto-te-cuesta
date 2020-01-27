@@ -1,6 +1,5 @@
 package com.smartpocket.cuantoteroban
 
-import android.content.Context
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import com.android.billingclient.api.*
@@ -12,7 +11,7 @@ import java.util.logging.Logger
 
 const val PURCHASE_STATE_PENDING = -1
 
-class BillingHelper(val context: Context) : PurchasesUpdatedListener {
+class BillingHelper(val activity: FragmentActivity) : PurchasesUpdatedListener {
 
     private val logger = Logger.getLogger(javaClass.simpleName)
     private lateinit var billingClient: BillingClient
@@ -20,14 +19,13 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
     private val skuList = listOf("ads_removal")
     private var skuDetails: SkuDetails? = null
     private var isErrorState = false
-    private var singleActivityVM: SingleActivityVM? = null
+    private var singleActivityVM: SingleActivityVM = ViewModelProviders.of(activity).get(SingleActivityVM::class.java)
 
     init {
         setupBillingClient()
     }
 
     fun launchBillingFlow(activity: FragmentActivity) {
-        singleActivityVM = ViewModelProviders.of(activity).get(SingleActivityVM::class.java)
         if (isErrorState) setupBillingClient() //TODO ?
 
         val billingFlowParams = BillingFlowParams
@@ -38,18 +36,19 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
     }
 
     fun isRemoveAdsPurchased(): Boolean {
-        val result: Boolean
+        val isPurchased: Boolean
         val purchaseList = billingClient.queryPurchases(SkuType.INAPP).purchasesList
         if (purchaseList.isNullOrEmpty()) {
-            result = preferences.isRemoveAdsPurchased
+            isPurchased = preferences.isRemoveAdsPurchased
         } else {
             val purchase = purchaseList[0]
             //TODO SECURITY ON JSON
-            result = purchase.purchaseState == Purchase.PurchaseState.PURCHASED
-            preferences.setIsRemoveAdsPurchased(result)
+            isPurchased = purchase.purchaseState == Purchase.PurchaseState.PURCHASED
+            preferences.setIsRemoveAdsPurchased(isPurchased)
         }
-        logger.log(Level.INFO, "Is Remove Ads purchased? $result")
-        return result
+        logger.log(Level.INFO, "Is Remove Ads purchased? $isPurchased")
+        singleActivityVM.showAdsLD.postValue(isPurchased.not())
+        return isPurchased
     }
 
     fun consumeRemoveAdsPurchase() {
@@ -60,8 +59,8 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
     }
 
     private fun setupBillingClient() {
-        logger.log(Level.FINE, "Setting up BillingHelper")
-        billingClient = newBuilder(context)
+        logger.log(Level.INFO, "Setting up BillingHelper")
+        billingClient = newBuilder(activity.applicationContext)
                 .enablePendingPurchases()
                 .setListener(this)
                 .build()
@@ -69,8 +68,9 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingResponseCode.OK) {
                     // The BillingClient is setup successfully
-                    logger.log(Level.FINE, "Setup Billing Done")
+                    logger.log(Level.INFO, "Setup Billing Done")
                     loadAllSKUs()
+                    isRemoveAdsPurchased()
                 }
             }
 
@@ -100,7 +100,7 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
         isErrorState = false
 
     } else {
-        logger.log(Level.FINE, "Billing Client not ready")
+        logger.log(Level.INFO, "Billing Client not ready")
         isErrorState = true
     }
 
@@ -118,6 +118,7 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
             // Handle any other error codes.
             logger.log(Level.SEVERE, "Error during purchase: ${billingResult.responseCode}")
         }
+        isRemoveAdsPurchased()
     }
 
     private fun handlePurchase(purchase: Purchase) {
@@ -131,14 +132,13 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
             if (!purchase.isAcknowledged) {
                 acknowledgePurchase(purchase)
             }
-//            consumePurchase(purchase)  //TODO REMOVE, TESTING ONLY
         } else if (purchase.purchaseState == Purchase.PurchaseState.PENDING) {
             // Here you can confirm to the user that they've started the pending
             // purchase, and to complete it, they should follow instructions that
             // are given to them. You can also choose to remind the user in the
             // future to complete the purchase if you detect that it is still
             // pending.
-            singleActivityVM?.billingStatusLD?.postValue(PURCHASE_STATE_PENDING)
+            singleActivityVM.billingStatusLD.postValue(PURCHASE_STATE_PENDING)
         }
 
     }
@@ -160,6 +160,7 @@ class BillingHelper(val context: Context) : PurchasesUpdatedListener {
                 .build()
         billingClient.consumeAsync(consumeParams) { p0, _ ->
             preferences.setIsRemoveAdsPurchased(false)
+            isRemoveAdsPurchased()
             logger.log(Level.INFO, "on consume response $p0")
         }
     }
