@@ -80,7 +80,7 @@ public class CurrencyManager {
 
 				new Currency("THB", "Baht tailandés", "Tailandia", R.drawable.thb),
 				new Currency("ETB", "Birr etíope", "Etiopia", R.drawable.etb),
-				new Currency("VEF", "Bolívar Fuerte Venezolano", "Venezuela", R.drawable.vef),
+				new Currency("VES", "Bolívar Soberano", "Venezuela", R.drawable.vef),
 				new Currency("BOB", "Boliviano", "Bolivia", R.drawable.bob),
 				new Currency("PAB", "Balboa panameño", "Panamá", R.drawable.pab),
 				new Currency("CRC", "Colón costarricense", "Costa Rica", R.drawable.crc),

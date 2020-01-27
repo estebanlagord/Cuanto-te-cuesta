@@ -85,6 +85,7 @@ public class PreferencesManager {
         updatePreferencesToVersion11();
         updatePreferencesToVersion14();
         updatePreferencesToVersion27();
+        updatePreferencesToVersion30();
 
         updateCurrentPreferencesVersion();
 
@@ -746,6 +747,26 @@ public class PreferencesManager {
                 Editor editor = getPreferencesByApp().edit();
                 editor.putString(AFIP_PERCENTAGE, String.valueOf(DEFAULT_AFIP_PERCENTAGE));
                 editor.putBoolean(ARE_UPDATES_ENABLED, true);
+                editor.apply();
+            }
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void updatePreferencesToVersion30() {
+        try {
+            if (getCurrentPreferencesVersion() < 30) {
+                final String old_venezuela = "VEF";
+                final String new_venezuela = "VES";
+                Editor editor = getPreferencesByApp().edit();
+                if (getPreferencesByApp().getString(CURRENT_CURRENCY, "").equals(old_venezuela)) {
+                    editor.putString(CURRENT_CURRENCY, new_venezuela);
+                }
+                String chosenCurrencies = getPreferencesByApp().getString(CHOSEN_CURRENCIES, "");
+                if (chosenCurrencies.contains(old_venezuela)) {
+                    chosenCurrencies = chosenCurrencies.replace(old_venezuela, new_venezuela);
+                    editor.putString(CHOSEN_CURRENCIES, chosenCurrencies);
+                }
                 editor.apply();
             }
         } catch (Exception ignored) {
