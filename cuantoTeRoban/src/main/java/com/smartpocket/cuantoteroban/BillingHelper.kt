@@ -1,7 +1,7 @@
 package com.smartpocket.cuantoteroban
 
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.*
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
@@ -19,7 +19,7 @@ class BillingHelper(val activity: FragmentActivity) : PurchasesUpdatedListener {
     private val skuList = listOf("ads_removal")
     private var skuDetails: SkuDetails? = null
     private var isErrorState = false
-    private var singleActivityVM: SingleActivityVM = ViewModelProviders.of(activity).get(SingleActivityVM::class.java)
+    private var singleActivityVM: SingleActivityVM = ViewModelProvider(activity)[SingleActivityVM::class.java]
 
     init {
         setupBillingClient()

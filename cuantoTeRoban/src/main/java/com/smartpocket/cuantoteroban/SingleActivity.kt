@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.android.billingclient.api.BillingClient
 import kotlinx.android.synthetic.main.activity_single.*
@@ -30,7 +30,7 @@ class SingleActivity : AppCompatActivity() {
         adViewHelper = AdViewHelper(adViewContainer, this)
         billingHelper = BillingHelper(this)
 
-        singleActivityVM = ViewModelProviders.of(this).get(SingleActivityVM::class.java)
+        singleActivityVM = ViewModelProvider(this)[SingleActivityVM::class.java]
         singleActivityVM.billingStatusLD.observe(this, Observer {
             onBillingHelperStatusChanged(it)
         })

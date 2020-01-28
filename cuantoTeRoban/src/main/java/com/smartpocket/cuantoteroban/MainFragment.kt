@@ -23,7 +23,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.smartpocket.cuantoteroban.MainActivity.FRACTION_DIGITS
@@ -96,8 +96,8 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this).get(MainFragmentVM::class.java)
-        singleActivityVM = ViewModelProviders.of(requireActivity()).get(SingleActivityVM::class.java)
+        viewModel = ViewModelProvider(this)[MainFragmentVM::class.java]
+        singleActivityVM = ViewModelProvider(requireActivity())[SingleActivityVM::class.java]
 
         with(viewModel) {
             isLoadingLiveData.observe(this@MainFragment, Observer {
