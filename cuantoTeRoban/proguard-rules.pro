@@ -21,3 +21,7 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.android.vending.billing.**
+
+#Fix for ClassNotFoundException while inflating nav_graph.xml
+-keep class * extends androidx.fragment.app.Fragment{}
+-keep class com.smartpocket.cuantoteroban.editortype.EditorType
