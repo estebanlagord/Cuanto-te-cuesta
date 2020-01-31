@@ -54,6 +54,7 @@ public class CalculatorFragment extends Fragment {
     private char decimalSeparator;
     private EditorType editorType;
 
+    private TextInputLayout til;
     private EditText etCalculator;
     private TextView previous, enterTotal, seven, eight, nine, division, four, five, six, multiply, one, two, three, subtract, decimal, zero, equals, addition, left, right;
     private Button clear, allClear;
@@ -85,7 +86,7 @@ public class CalculatorFragment extends Fragment {
         this.editorType = args.getType();
 
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
-        actionBar.setTitle("Ingresa un valor");
+        actionBar.setTitle("Ingresa el valor");
         //actionBar.setLogo(R.drawable.logo);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -95,13 +96,12 @@ public class CalculatorFragment extends Fragment {
         //localNumberFormat.setRoundingMode(RoundingMode.HALF_UP);
         localNumberFormat.setGroupingUsed(false);
 
-        TextInputLayout til = view.findViewById(R.id.calc_dialog_display);
+        til = view.findViewById(R.id.calc_dialog_display);
         til.setHint(resultTextNameStr);
 
         previous = view.findViewById(R.id.previous);
         etCalculator = view.findViewById(R.id.etCalculator);
         enterTotal = view.findViewById(R.id.enter_total);
-        allClear = view.findViewById(R.id.all_clear);
         clear = view.findViewById(R.id.clear);
         seven = view.findViewById(R.id.seven);
         eight = view.findViewById(R.id.eight);
@@ -177,20 +177,13 @@ public class CalculatorFragment extends Fragment {
         division.setOnClickListener(new AddValueListener("/"));
         decimal.setOnClickListener(new AddValueListener(Character.toString(decimalSeparator)));
 
-        allClear.setOnClickListener(v -> {
-            finishCopyPasteMode();
-            etCalculator.setText("");
-            previous.setText("");
-
-        });
-
-
         clear.setOnTouchListener((v, motionevent) -> {
             finishCopyPasteMode();
 
             int action = motionevent.getAction();
             if (action == MotionEvent.ACTION_DOWN) {
                 mHandler.removeCallbacks(mUpdateTask);
+                til.setError(null);
                 deleteOneChar();
                 mHandler.postAtTime(mUpdateTask, SystemClock.uptimeMillis() + DELETE_FREQUENCY * 2);
             } else if (action == MotionEvent.ACTION_UP) {
@@ -218,7 +211,7 @@ public class CalculatorFragment extends Fragment {
                 etCalculator.setText(result);
                 etCalculator.setSelection(result.length());
             } catch (SyntaxError e) {
-                etCalculator.setText(INVALID_EXPRESSION);
+                til.setError(INVALID_EXPRESSION);
             }
         });
 
@@ -254,6 +247,7 @@ public class CalculatorFragment extends Fragment {
                     singleActivityVM.getCalculatorResultLD().setValue(resultValue);
                     NavHostFragment.findNavController(this).navigateUp();
                 } catch (RuntimeException e) {
+                    til.setError(INVALID_EXPRESSION);
                     showErrorMessage(v, INVALID_EXPRESSION);
                 }
             }
@@ -377,6 +371,7 @@ public class CalculatorFragment extends Fragment {
         public void onClick(View v) {
             finishCopyPasteMode();
 
+            til.setError(null);
             String text = etCalculator.getText().toString();
             int start = etCalculator.getSelectionStart();
             String result = text.substring(0, start) + str;

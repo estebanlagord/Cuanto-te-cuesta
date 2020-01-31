@@ -10,5 +10,6 @@
 	<dimen name="main_activity_text_size_medium">18sp</dimen>
 
     <dimen name="calculator_button_margin">5dp</dimen>
+    <dimen name="calculator_padding">8dp</dimen>
     
 </resources>

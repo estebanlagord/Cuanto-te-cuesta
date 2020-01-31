@@ -18,5 +18,5 @@
 
     <color name="calculator_button_number">#616161</color>
     <color name="calculator_button_symbol">#009688</color>
-    <color name="calculator_button_ok">#009688</color>
+    <color name="calculator_button_ok">#66BB6A</color>
 </resources>
