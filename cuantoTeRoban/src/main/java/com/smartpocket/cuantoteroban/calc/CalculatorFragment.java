@@ -29,6 +29,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.smartpocket.cuantoteroban.MainActivity;
 import com.smartpocket.cuantoteroban.R;
 import com.smartpocket.cuantoteroban.SingleActivityVM;
@@ -53,7 +54,7 @@ public class CalculatorFragment extends Fragment {
     private char decimalSeparator;
     private EditorType editorType;
 
-    private EditText calcDialogDisplay;
+    private EditText etCalculator;
     private TextView previous, enterTotal, seven, eight, nine, division, four, five, six, multiply, one, two, three, subtract, decimal, zero, equals, addition, left, right;
     private Button clear, allClear;
     private Handler mHandler = new Handler();
@@ -84,8 +85,7 @@ public class CalculatorFragment extends Fragment {
         this.editorType = args.getType();
 
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
-        actionBar.setTitle("Ingresa un valor para");
-        actionBar.setSubtitle(resultTextNameStr);
+        actionBar.setTitle("Ingresa un valor");
         //actionBar.setLogo(R.drawable.logo);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -95,8 +95,11 @@ public class CalculatorFragment extends Fragment {
         //localNumberFormat.setRoundingMode(RoundingMode.HALF_UP);
         localNumberFormat.setGroupingUsed(false);
 
+        TextInputLayout til = view.findViewById(R.id.calc_dialog_display);
+        til.setHint(resultTextNameStr);
+
         previous = view.findViewById(R.id.previous);
-        calcDialogDisplay = view.findViewById(R.id.calc_dialog_display);
+        etCalculator = view.findViewById(R.id.etCalculator);
         enterTotal = view.findViewById(R.id.enter_total);
         allClear = view.findViewById(R.id.all_clear);
         clear = view.findViewById(R.id.clear);
@@ -119,7 +122,7 @@ public class CalculatorFragment extends Fragment {
         left = view.findViewById(R.id.left);
         right = view.findViewById(R.id.right);
 
-        //calcDialogDisplay.setKeyListener(DigitsKeyListener.getInstance(true,true));
+        //etCalculator.setKeyListener(DigitsKeyListener.getInstance(true,true));
 
         previous.setText(args.getEditTextValue());
         decimal.setText(Character.toString(decimalSeparator));
@@ -176,7 +179,7 @@ public class CalculatorFragment extends Fragment {
 
         allClear.setOnClickListener(v -> {
             finishCopyPasteMode();
-            calcDialogDisplay.setText("");
+            etCalculator.setText("");
             previous.setText("");
 
         });
@@ -199,11 +202,11 @@ public class CalculatorFragment extends Fragment {
         equals.setOnClickListener(v -> {
             try {
                 finishCopyPasteMode();
-                String prevExpr = calcDialogDisplay.getText().toString();
+                String prevExpr = etCalculator.getText().toString();
                 if (!prevExpr.equals(INVALID_EXPRESSION))
                     previous.setText(prevExpr);
 
-                Parser parser = new Parser(localToEnglishNumber(calcDialogDisplay.getText().toString()));
+                Parser parser = new Parser(localToEnglishNumber(etCalculator.getText().toString()));
                 double resultDouble = parser.evaluate();
                 if (Double.isInfinite(resultDouble) || Double.isNaN(resultDouble)) {
                     showErrorMessage(v, INFINITE_OR_NAN);
@@ -212,16 +215,16 @@ public class CalculatorFragment extends Fragment {
 
                 resultDouble = Utilities.round(resultDouble, FRACTION_DIGITS);
                 String result = localNumberFormat.format(resultDouble);
-                calcDialogDisplay.setText(result);
-                calcDialogDisplay.setSelection(result.length());
+                etCalculator.setText(result);
+                etCalculator.setSelection(result.length());
             } catch (SyntaxError e) {
-                calcDialogDisplay.setText(INVALID_EXPRESSION);
+                etCalculator.setText(INVALID_EXPRESSION);
             }
         });
 
         enterTotal.setOnClickListener(v -> {
             finishCopyPasteMode();
-            String value = calcDialogDisplay.getText().toString();
+            String value = etCalculator.getText().toString();
             value = localToEnglishNumber(value);
             if (value.length() == 0) {
                 NavHostFragment.findNavController(this).navigateUp();
@@ -256,15 +259,15 @@ public class CalculatorFragment extends Fragment {
             }
         });
 
-        //calcDialogDisplay.setKeyListener(null);
+        //etCalculator.setKeyListener(null);
 
         // for phones with physical keyboards, we want the enter key to mean "OK"
-        calcDialogDisplay.setOnEditorActionListener((v, actionId, event) -> {
+        etCalculator.setOnEditorActionListener((v, actionId, event) -> {
             enterTotal.performClick();
             return true;
         });
 
-        calcDialogDisplay.setOnLongClickListener(v -> {
+        etCalculator.setOnLongClickListener(v -> {
             if (mActionMode != null) {
                 return false;
             }
@@ -280,14 +283,14 @@ public class CalculatorFragment extends Fragment {
 
 
     private void deleteOneChar() {
-        String text = calcDialogDisplay.getText().toString();
-        int start = calcDialogDisplay.getSelectionStart();
+        String text = etCalculator.getText().toString();
+        int start = etCalculator.getSelectionStart();
         if (start > 0) {
             String newText = text.substring(0, start - 1);
             newText += text.substring(start);
 
-            calcDialogDisplay.setText(newText);
-            calcDialogDisplay.setSelection(start - 1);
+            etCalculator.setText(newText);
+            etCalculator.setSelection(start - 1);
         }
     }
 
@@ -327,8 +330,8 @@ public class CalculatorFragment extends Fragment {
 
             switch (item.getItemId()) {
                 case R.id.menu_copy:
-                    if (calcDialogDisplay != null && calcDialogDisplay.getText() != null) {
-                        String copiedText = calcDialogDisplay.getText().toString().trim();
+                    if (etCalculator != null && etCalculator.getText() != null) {
+                        String copiedText = etCalculator.getText().toString().trim();
                         clipboard.setText(copiedText);
                         Utilities.showToast("Valor copiado: " + copiedText);
                     }
@@ -341,8 +344,8 @@ public class CalculatorFragment extends Fragment {
                         Utilities.showToast("El contenido del portapapeles no se puede pegar");
                     } else {
                         String content = clipboardText.toString().trim();
-                        calcDialogDisplay.setText(content);
-                        calcDialogDisplay.setSelection(content.length());
+                        etCalculator.setText(content);
+                        etCalculator.setSelection(content.length());
                     }
                     mode.finish(); // Action picked, so close the CAB
                     return true;
@@ -374,13 +377,13 @@ public class CalculatorFragment extends Fragment {
         public void onClick(View v) {
             finishCopyPasteMode();
 
-            String text = calcDialogDisplay.getText().toString();
-            int start = calcDialogDisplay.getSelectionStart();
+            String text = etCalculator.getText().toString();
+            int start = etCalculator.getSelectionStart();
             String result = text.substring(0, start) + str;
             if (text.length() > start)
                 result += text.substring(start);
-            calcDialogDisplay.setText(result);
-            calcDialogDisplay.setSelection(start + 1);
+            etCalculator.setText(result);
+            etCalculator.setSelection(start + 1);
         }
     }
 }
