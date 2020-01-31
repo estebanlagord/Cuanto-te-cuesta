@@ -1,15 +1,39 @@
 <resources>
 
+    <style name="CuantoTeRobanThemeMaterial" parent="Theme.MaterialComponents.Light.NoActionBar" />
     <style name="CuantoTeRobanTheme" parent="CuantoTeRobanTheme.Base" />
 
-    <style name="CuantoTeRobanTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="CuantoTeRobanTheme.Base" parent="CuantoTeRobanThemeMaterial">
 
         <!-- Set AppCompat’s color theming attrs -->
-        <item name="colorPrimary">@color/my_app_green</item>
-        <item name="colorPrimaryDark">@color/my_app_darker_green</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorSecondary">@color/color_secondary</item>
         <item name="android:windowNoTitle">true</item>
 
         <item name="actionModeShareDrawable">@drawable/social_share</item>
+    </style>
+
+    <style name="SplashTheme" parent="CuantoTeRobanTheme">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+
+    <style name="CalculatorButton" parent="@style/Widget.MaterialComponents.Button">
+        <item name="android:layout_marginStart">@dimen/calculator_button_margin</item>
+        <item name="android:layout_marginEnd">@dimen/calculator_button_margin</item>
+        <item name="backgroundTint">@color/calculator_button_number</item>
+    </style>
+
+    <style name="ButtonText" parent="CalculatorButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/calculator_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ButtonImage" parent="CalculatorButton">
+        <item name="iconTint">@color/white</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">0dp</item>
     </style>
 
 </resources>

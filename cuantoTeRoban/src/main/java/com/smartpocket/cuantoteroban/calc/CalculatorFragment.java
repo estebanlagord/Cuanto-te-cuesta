@@ -3,7 +3,6 @@ package com.smartpocket.cuantoteroban.calc;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,8 +15,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -56,7 +55,7 @@ public class CalculatorFragment extends Fragment {
 
     private EditText calcDialogDisplay;
     private TextView previous, enterTotal, seven, eight, nine, division, four, five, six, multiply, one, two, three, subtract, decimal, zero, equals, addition, left, right;
-    private ImageView clear, allClear;
+    private Button clear, allClear;
     private Handler mHandler = new Handler();
     private ActionMode mActionMode;
     private SingleActivityVM singleActivityVM;
