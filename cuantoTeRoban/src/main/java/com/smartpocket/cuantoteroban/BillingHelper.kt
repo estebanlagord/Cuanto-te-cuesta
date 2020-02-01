@@ -8,10 +8,9 @@ import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import java.util.logging.Level
 import java.util.logging.Logger
 
-
 const val PURCHASE_STATE_PENDING = -1
 
-class BillingHelper(val activity: FragmentActivity) : PurchasesUpdatedListener {
+class BillingHelper(private val activity: FragmentActivity) : PurchasesUpdatedListener {
 
     private val logger = Logger.getLogger(javaClass.simpleName)
     private lateinit var billingClient: BillingClient
@@ -89,23 +88,24 @@ class BillingHelper(val activity: FragmentActivity) : PurchasesUpdatedListener {
                 .setSkusList(skuList)
                 .setType(SkuType.INAPP)
                 .build()
-        billingClient.querySkuDetailsAsync(params) { billingResult: BillingResult, skuDetailsList: MutableList<SkuDetails> ->
+        billingClient.querySkuDetailsAsync(params) { billingResult: BillingResult, skuDetailsList: MutableList<SkuDetails>? ->
             // Process the result.
-            if (billingResult.responseCode == BillingResponseCode.OK && skuDetailsList.isNotEmpty()) {
+            if ((billingResult.responseCode == BillingResponseCode.OK)
+                    && (skuDetailsList?.isNotEmpty() == true)) {
                 this.skuDetails = skuDetailsList[0]
+                isErrorState = false
             } else {
+                isErrorState = true
                 logger.log(Level.WARNING, billingResult.debugMessage)
             }
         }
-        isErrorState = false
-
     } else {
         logger.log(Level.INFO, "Billing Client not ready")
         isErrorState = true
     }
 
     override fun onPurchasesUpdated(billingResult: BillingResult, purchases: List<Purchase>?) {
-        singleActivityVM?.billingStatusLD?.postValue(billingResult.responseCode)
+        singleActivityVM.billingStatusLD.postValue(billingResult.responseCode)
         if (billingResult.responseCode == BillingResponseCode.OK && purchases != null) {
             for (purchase in purchases) {
                 handlePurchase(purchase)
