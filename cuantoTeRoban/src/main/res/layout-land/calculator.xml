@@ -21,10 +21,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/calculator_margin"
+        android:layout_marginStart="@dimen/calculator_margin"
         android:gravity="end|bottom"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        app:layout_constraintBottom_toTopOf="@+id/calc_dialog_display"
-        app:layout_constraintEnd_toEndOf="@id/calc_dialog_display"
+        app:layout_constraintBaseline_toBaselineOf="@id/calc_dialog_display"
+        app:layout_constraintEnd_toStartOf="@id/calc_dialog_display"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/my_awesome_toolbar"
         tools:text="Previous value" />
@@ -35,13 +36,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/calculator_margin"
+        android:layout_marginTop="@dimen/calculator_margin"
         android:layout_marginEnd="@dimen/calculator_margin"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@+id/left"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/previous"
+        app:layout_constraintStart_toEndOf="@id/previous"
+        app:layout_constraintTop_toBottomOf="@+id/my_awesome_toolbar"
         tools:hint="Monto">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -61,12 +62,11 @@
         style="@style/ButtonImage"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/calculator_margin"
         android:backgroundTint="@color/calculator_button_symbol"
         app:icon="@drawable/ic_backspace"
-        app:layout_constraintBottom_toTopOf="@+id/seven"
-        app:layout_constraintEnd_toStartOf="@+id/left"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/division"
+        app:layout_constraintEnd_toStartOf="@+id/enter_total"
+        app:layout_constraintStart_toEndOf="@+id/nine"
         app:layout_constraintTop_toBottomOf="@+id/calc_dialog_display" />
 
     <com.google.android.material.button.MaterialButton
@@ -76,22 +76,23 @@
         android:layout_height="0dp"
         android:backgroundTint="@color/calculator_button_symbol"
         android:text="("
-        app:layout_constraintBottom_toTopOf="@+id/eight"
-        app:layout_constraintEnd_toStartOf="@+id/right"
-        app:layout_constraintStart_toEndOf="@+id/clear"
-        app:layout_constraintTop_toBottomOf="@+id/calc_dialog_display" />
+        app:layout_constraintBottom_toTopOf="@+id/right"
+        app:layout_constraintEnd_toStartOf="@+id/substract"
+        app:layout_constraintStart_toEndOf="@+id/three"
+        app:layout_constraintTop_toBottomOf="@+id/division" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/right"
         style="@style/ButtonText"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/calculator_margin_bottom"
         android:backgroundTint="@color/calculator_button_symbol"
         android:text=")"
-        app:layout_constraintBottom_toTopOf="@+id/nine"
-        app:layout_constraintEnd_toStartOf="@+id/enter_total"
-        app:layout_constraintStart_toEndOf="@+id/left"
-        app:layout_constraintTop_toBottomOf="@+id/calc_dialog_display" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addition"
+        app:layout_constraintStart_toEndOf="@+id/equals"
+        app:layout_constraintTop_toBottomOf="@+id/left" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/enter_total"
@@ -101,9 +102,9 @@
         android:layout_marginEnd="@dimen/calculator_margin"
         android:backgroundTint="@color/calculator_button_ok"
         app:icon="@drawable/ic_check_circle"
-        app:layout_constraintBottom_toTopOf="@+id/division"
+        app:layout_constraintBottom_toTopOf="@+id/multiply"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/right"
+        app:layout_constraintStart_toEndOf="@+id/clear"
         app:layout_constraintTop_toBottomOf="@+id/calc_dialog_display" />
 
     <com.google.android.material.button.MaterialButton
@@ -112,51 +113,46 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/calculator_margin"
-        android:width="0px"
         android:text="7"
         app:layout_constraintBottom_toTopOf="@+id/four"
         app:layout_constraintEnd_toStartOf="@+id/eight"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clear" />
+        app:layout_constraintTop_toBottomOf="@+id/calc_dialog_display" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/eight"
         style="@style/ButtonText"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:width="0px"
         android:text="8"
         app:layout_constraintBottom_toTopOf="@+id/five"
         app:layout_constraintEnd_toStartOf="@+id/nine"
         app:layout_constraintStart_toEndOf="@+id/seven"
-        app:layout_constraintTop_toBottomOf="@+id/left" />
+        app:layout_constraintTop_toBottomOf="@+id/calc_dialog_display" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/nine"
         style="@style/ButtonText"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:width="0px"
         android:text="9"
         app:layout_constraintBottom_toTopOf="@+id/six"
-        app:layout_constraintEnd_toStartOf="@+id/division"
+        app:layout_constraintEnd_toStartOf="@+id/clear"
         app:layout_constraintStart_toEndOf="@+id/eight"
-        app:layout_constraintTop_toBottomOf="@+id/right" />
+        app:layout_constraintTop_toBottomOf="@+id/calc_dialog_display" />
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/division"
         style="@style/ButtonText"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="@dimen/calculator_margin"
-        android:width="0px"
         android:backgroundTint="@color/calculator_button_symbol"
         android:text="÷"
-        app:layout_constraintBottom_toTopOf="@+id/multiply"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/nine"
+        app:layout_constraintBottom_toTopOf="@+id/left"
+        app:layout_constraintEnd_toStartOf="@+id/multiply"
+        app:layout_constraintStart_toEndOf="@+id/six"
         app:layout_constraintTop_toBottomOf="@+id/clear" />
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/four"
@@ -188,7 +184,7 @@
         android:layout_height="0dp"
         android:text="6"
         app:layout_constraintBottom_toTopOf="@+id/three"
-        app:layout_constraintEnd_toStartOf="@+id/multiply"
+        app:layout_constraintEnd_toStartOf="@+id/division"
         app:layout_constraintStart_toEndOf="@+id/five"
         app:layout_constraintTop_toBottomOf="@+id/nine" />
 
@@ -202,8 +198,8 @@
         android:text="X"
         app:layout_constraintBottom_toTopOf="@+id/substract"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/six"
-        app:layout_constraintTop_toBottomOf="@+id/division" />
+        app:layout_constraintStart_toEndOf="@+id/division"
+        app:layout_constraintTop_toBottomOf="@+id/enter_total" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/one"
@@ -235,9 +231,10 @@
         android:layout_height="0dp"
         android:text="3"
         app:layout_constraintBottom_toTopOf="@+id/equals"
-        app:layout_constraintEnd_toStartOf="@+id/substract"
+        app:layout_constraintEnd_toStartOf="@+id/left"
         app:layout_constraintStart_toEndOf="@+id/two"
         app:layout_constraintTop_toBottomOf="@+id/six" />
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/substract"
@@ -249,9 +246,8 @@
         android:text="-"
         app:layout_constraintBottom_toTopOf="@+id/addition"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/three"
+        app:layout_constraintStart_toEndOf="@+id/left"
         app:layout_constraintTop_toBottomOf="@+id/multiply" />
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/decimal"
@@ -286,7 +282,7 @@
         android:layout_marginBottom="@dimen/calculator_margin_bottom"
         android:text="="
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/addition"
+        app:layout_constraintEnd_toStartOf="@+id/right"
         app:layout_constraintStart_toEndOf="@+id/zero"
         app:layout_constraintTop_toBottomOf="@+id/three" />
 
@@ -301,7 +297,7 @@
         android:text="+"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/equals"
+        app:layout_constraintStart_toEndOf="@+id/right"
         app:layout_constraintTop_toBottomOf="@+id/substract" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

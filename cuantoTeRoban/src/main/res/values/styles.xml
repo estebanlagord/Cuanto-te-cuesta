@@ -1,6 +1,7 @@
 <resources>
 
     <style name="CuantoTeRobanThemeMaterial" parent="Theme.MaterialComponents.Light.NoActionBar" />
+
     <style name="CuantoTeRobanTheme" parent="CuantoTeRobanTheme.Base" />
 
     <style name="CuantoTeRobanTheme.Base" parent="CuantoTeRobanThemeMaterial">
@@ -22,6 +23,7 @@
         <item name="android:layout_marginStart">@dimen/calculator_button_margin</item>
         <item name="android:layout_marginEnd">@dimen/calculator_button_margin</item>
         <item name="backgroundTint">@color/calculator_button_number</item>
+        <item name="android:padding">0dp</item>
     </style>
 
     <style name="ButtonText" parent="CalculatorButton">
