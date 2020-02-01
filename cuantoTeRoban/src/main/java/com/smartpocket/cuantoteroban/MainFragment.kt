@@ -77,7 +77,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
 
         currentCurr = null
         mSwipeRefreshLayout = activity_main_swipe_refresh_layout
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.my_app_green)
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark)
         mSwipeRefreshLayout.setOnRefreshListener { viewModel.refreshRates(true) }
 
         setupViewModel()

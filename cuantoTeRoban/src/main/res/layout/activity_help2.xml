@@ -20,7 +20,7 @@
             android:id="@+id/pager_title_strip"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@color/my_app_green"
+            android:background="@color/color_primary"
             android:gravity="center" />
     </androidx.viewpager.widget.ViewPager>
 
