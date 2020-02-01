@@ -4,17 +4,17 @@
     <item
         android:id="@+id/menu_share"
         android:title="@string/menu_share"
-        android:icon="@drawable/social_share"
+        android:icon="@drawable/ic_share"
         yourapp:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_add_currency"
-        android:icon="@drawable/content_new"
+        android:icon="@drawable/ic_add_circle_outline"
         android:orderInCategory="50"
         android:title="@string/menu_add_currency"
         yourapp:showAsAction="always" />
     <item
         android:id="@+id/menu_update"
-        android:icon="@drawable/navigation_refresh"
+        android:icon="@drawable/ic_refresh"
         android:orderInCategory="150"
         android:title="@string/menu_update"
         yourapp:showAsAction="never" />
