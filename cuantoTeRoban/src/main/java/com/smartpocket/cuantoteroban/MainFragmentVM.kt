@@ -236,13 +236,6 @@ class MainFragmentVM : ViewModel() {
     }
 
     fun onSettingsChanged() {
-        if (preferences.isShowDiscount.not()) {
-            preferences.discount = 0.0
-        }
-        if (preferences.isShowTaxes.not()) {
-            preferences.taxes = 0.0
-        }
-
         restoreLastConversion()
         refreshRates(false)
     }

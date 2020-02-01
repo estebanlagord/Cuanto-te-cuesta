@@ -75,12 +75,6 @@
             android:title="@string/show_discount" />
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="show_taxes"
-            android:summaryOff="@string/show_taxes_off_explained"
-            android:summaryOn="@string/show_taxes_on_explained"
-            android:title="@string/show_taxes" />
-        <CheckBoxPreference
-            android:defaultValue="true"
             android:key="show_pesos"
             android:title="@string/show_pesos" />
 <!--        <CheckBoxPreference

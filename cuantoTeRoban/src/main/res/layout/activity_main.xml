@@ -94,71 +94,56 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/discountTextView"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/discountTIL"
+                        style="@style/DiscountTaxField"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/Discount"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
-
-                    <EditText
-                        android:id="@+id/discountEditText"
-                        android:layout_width="0dip"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:layout_marginStart="@dimen/padding_medium"
+                        android:layout_marginEnd="@dimen/padding_large"
                         android:layout_weight="1"
-                        android:ems="10"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:inputType="none"
-                        android:longClickable="false" />
+                        android:hint="Descuento"
+                        tools:hint="">
 
-                    <ImageView
-                        android:id="@+id/deleteDiscount"
-                        android:layout_width="wrap_content"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/discountEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:inputType="none"
+                            android:longClickable="false" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/taxesTIL"
+                        style="@style/DiscountTaxField"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_delete_forever" />
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRowTaxes"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/taxesTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/Taxes"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
-
-                    <EditText
-                        android:id="@+id/taxesEditText"
-                        android:layout_width="0dip"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:layout_marginStart="@dimen/padding_medium"
+                        android:layout_marginStart="@dimen/padding_large"
                         android:layout_weight="1"
-                        android:ems="10"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:inputType="none"
-                        android:longClickable="false" />
+                        android:hint="Recargo"
+                        tools:hint="">
 
-                    <ImageView
-                        android:id="@+id/deleteTaxes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_delete_forever" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/taxesEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="4dp"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:inputType="none"
+                            android:longClickable="false" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
                 </TableRow>
 
                 <TableRow
                     android:id="@+id/tableRowTotal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_medium"
                     android:weightSum="1.0">
 
                     <TextView

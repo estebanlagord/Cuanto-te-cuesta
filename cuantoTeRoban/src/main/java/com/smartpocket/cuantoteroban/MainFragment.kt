@@ -26,6 +26,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.transition.TransitionManager
 import com.smartpocket.cuantoteroban.MainActivity.FRACTION_DIGITS
 import com.smartpocket.cuantoteroban.MainActivity.RequestCode
 import com.smartpocket.cuantoteroban.calc.CalculatorFragment
@@ -88,7 +89,6 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
         super.onStart()
         viewModel.onStart()
         tableRowDiscount.visibility = if (preferences.isShowDiscount) View.VISIBLE else View.GONE
-        tableRowTaxes.visibility = if (preferences.isShowTaxes) View.VISIBLE else View.GONE
         tableRowPesos.visibility = if (preferences.isShowPesos) View.VISIBLE else View.GONE
         tableRowWithCard.visibility = if (preferences.isShowCreditCard) View.VISIBLE else View.GONE
         tableRowExchangeAgency.visibility = if (preferences.isShowExchangeAgency) View.VISIBLE else View.GONE
@@ -116,10 +116,12 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
             discountLiveData.observe(this@MainFragment, Observer {
                 showPercentage(it, discountEditText)
                 updateTotalVisibility(it, taxesLiveData.value)
+                discountTIL.isEndIconVisible = it != 0.0
             })
             taxesLiveData.observe(this@MainFragment, Observer {
                 showPercentage(it, taxesEditText)
                 updateTotalVisibility(discountLiveData.value, it)
+                taxesTIL.isEndIconVisible = it != 0.0
             })
             totalLiveData.observe(this@MainFragment, Observer {
                 showValue(it, totalEditText)
@@ -221,7 +223,10 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
     }
 
     private fun showPercentage(value: Double, textView: TextView) {
-        textView.text = percentageNumberFormat.format(value)
+        textView.text = if (value == 0.0)
+            null
+        else
+            percentageNumberFormat.format(value)
     }
 
     private fun setupClickListeners() {
@@ -234,9 +239,16 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
 //        withSavingsValue.setOnClickListener(OnClickListenerShowCalc(withSavingsValue, resources.getString(R.string.WithSavings), EditorType.SAVINGS))
         withBlueValue.setOnClickListener(OnClickListenerShowCalc(withBlueValue, resources.getString(R.string.WithBlue), EditorType.BLUE))
         exchangeAgencyValue.setOnClickListener(OnClickListenerShowCalc(exchangeAgencyValue, resources.getString(R.string.ExchangeAgency), EditorType.EXCHANGE_AGENCY))
-        deleteDiscount.setOnClickListener { viewModel.onDeleteDiscount() }
-        deleteTaxes.setOnClickListener { viewModel.onDeleteTaxes() }
         countryFlag.setOnClickListener { mDrawerLayout.openDrawer(GravityCompat.START) }
+
+        discountTIL.setEndIconOnClickListener {
+            viewModel.onDeleteDiscount()
+            TransitionManager.beginDelayedTransition(scrollView1)
+        }
+        taxesTIL.setEndIconOnClickListener {
+            viewModel.onDeleteTaxes()
+            TransitionManager.beginDelayedTransition(scrollView1)
+        }
     }
 
     inner class OnClickListenerShowCalc(private val editText: EditText, editTextName: String, private val editorType: EditorType) : View.OnClickListener {
@@ -371,7 +383,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
     private fun getUpdatedShareIntent(): Intent {
         val currentCurrency = preferences.currentCurrency
         val showDiscount = preferences.isShowDiscount && viewModel.discountLiveData.value != 0.0
-        val showTaxes = preferences.isShowTaxes && viewModel.taxesLiveData.value != 0.0
+        val showTaxes = preferences.isShowDiscount && viewModel.taxesLiveData.value != 0.0
         val showTotal = showDiscount || showTaxes
         val showPesos = preferences.isShowPesos
         val showCreditCard = preferences.isShowCreditCard

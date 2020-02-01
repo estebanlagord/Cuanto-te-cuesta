@@ -39,4 +39,10 @@
         <item name="iconSize">@dimen/calculator_button_icon_size</item>
     </style>
 
+    <style name="DiscountTaxField" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="endIconMode">clear_text</item>
+        <item name="errorEnabled">false</item>
+        <item name="boxBackgroundColor">@color/background_color</item>
+    </style>
+
 </resources>

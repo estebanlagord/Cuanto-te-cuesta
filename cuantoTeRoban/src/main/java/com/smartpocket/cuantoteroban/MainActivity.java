@@ -316,10 +316,10 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
         //foreignCurrencyFlag.setOnTouchListener(new OnTouchListenerShowNavDrawer());
         foreignCurrencyFlag.setOnClickListener(new OnClickListenerShowNavDrawer());
         
-        View deleteDiscountView = findViewById(R.id.deleteDiscount);
-        deleteDiscountView.setOnClickListener(new OnClickListenerDeleteDiscountOrTax(DiscountOrTax.DISCOUNT));
-        View deleteTaxesView = findViewById(R.id.deleteTaxes);
-        deleteTaxesView.setOnClickListener(new OnClickListenerDeleteDiscountOrTax(DiscountOrTax.TAXES));
+//        View deleteDiscountView = findViewById(R.id.deleteDiscount);
+//        deleteDiscountView.setOnClickListener(new OnClickListenerDeleteDiscountOrTax(DiscountOrTax.DISCOUNT));
+//        View deleteTaxesView = findViewById(R.id.deleteTaxes);
+//        deleteTaxesView.setOnClickListener(new OnClickListenerDeleteDiscountOrTax(DiscountOrTax.TAXES));
 
 		// swipe to refresh
 		mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -623,8 +623,8 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 	}
     
     private void updateDeleteTaxOrDiscountVisibility() {
-    	View deleteTaxButton = findViewById(R.id.deleteTaxes);
-    	View deleteDiscountButton = findViewById(R.id.deleteDiscount);
+//    	View deleteTaxButton = findViewById(R.id.deleteTaxes);
+//    	View deleteDiscountButton = findViewById(R.id.deleteDiscount);
     	String discountStr = ((TextView) findViewById(R.id.discountEditText)).getText().toString();
     	String taxStr = ((TextView) findViewById(R.id.taxesEditText)).getText().toString();
     	
@@ -632,8 +632,8 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 	    	NumberFormat nf = NumberFormat.getInstance();
 	    	double discount = nf.parse(discountStr).doubleValue();
 	    	double tax      = nf.parse(taxStr).doubleValue();
-	    	deleteDiscountButton.setVisibility(discount==0 ? View.GONE : View.VISIBLE);
-	    	deleteTaxButton.setVisibility(tax==0 ? View.GONE : View.VISIBLE);
+//	    	deleteDiscountButton.setVisibility(discount==0 ? View.GONE : View.VISIBLE);
+//	    	deleteTaxButton.setVisibility(tax==0 ? View.GONE : View.VISIBLE);
     	} catch (ParseException e) {}
     }
 
@@ -883,7 +883,6 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 	
 	private void showOrHideConversions() {
 		View discountView = findViewById(R.id.tableRowDiscount);
-		View taxesView    = findViewById(R.id.tableRowTaxes);
 		View totalView    = findViewById(R.id.tableRowTotal);
 		View pesosView    =  findViewById(R.id.tableRowPesos);
 		View cardView     =  findViewById(R.id.tableRowWithCard);
@@ -901,13 +900,13 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
        			PreferencesManager.getInstance().setDiscount(0);
        	}
        	
-       	if (PreferencesManager.getInstance().isShowTaxes())
+/*       	if (PreferencesManager.getInstance().isShowTaxes())
        		taxesView.setVisibility(View.VISIBLE);
        	else {
        		taxesView.setVisibility(View.GONE);
        		if (PreferencesManager.getInstance().getTaxes() != 0)
        			PreferencesManager.getInstance().setTaxes(0);
-       	}
+       	}*/
 
        	// if "Discount %" and "Taxes%" are both 0, hide "Total"
 		if (PreferencesManager.getInstance().getDiscount() == 0 && PreferencesManager.getInstance().getTaxes() == 0)

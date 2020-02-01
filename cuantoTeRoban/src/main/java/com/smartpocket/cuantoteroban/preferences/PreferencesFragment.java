@@ -10,8 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.preference.CheckBoxPreference;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -48,14 +49,24 @@ public class PreferencesFragment extends Fragment {
     public static class MyPreferenceFragment extends PreferenceFragmentCompat {
         private static final String CURRENT_VALUE = "Valor actual: ";
         private SingleActivityVM singleActivityVM;
+        private final PreferencesManager preferences = PreferencesManager.getInstance();
 
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            singleActivityVM = ViewModelProviders.of(requireActivity()).get(SingleActivityVM.class);
+            singleActivityVM = new ViewModelProvider(requireActivity()).get(SingleActivityVM.class);
 
             getPreferenceManager().setSharedPreferencesName(PreferencesManager.PREFS_NAME_SHARED);
             addPreferencesFromResource(R.xml.preferences);
+
+            CheckBoxPreference showDiscountTaxPreference = findPreference(PreferencesManager.SHOW_DISCOUNT);
+            showDiscountTaxPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                if (newValue.equals(false)) {
+                    preferences.setDiscount(0.0);
+                    preferences.setTaxes(0.0);
+                }
+                return true;
+            });
 
             Preference currencyPreference = findPreference("currency_preference");
             currencyPreference.setOnPreferenceClickListener(preference -> {

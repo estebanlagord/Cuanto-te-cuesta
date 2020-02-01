@@ -62,12 +62,9 @@
     <string name="update_frequency">Frecuencia de actualización (horas)</string>
     <string name="update_frequency_explained">Las cotizaciones se actualizarán desde Internet con esta frecuencia.</string>
     <string name="show_conversions_category">Mostrar/Ocultar conversiones</string>
-    <string name="show_discount">Mostrar \"Descuento %\"</string>
-    <string name="show_discount_on_explained">Se aplicará el descuento ingresado</string>
-    <string name="show_discount_off_explained">No se realizará ningún descuento</string>
-    <string name="show_taxes">Mostrar \"Recargo %\"</string>
-    <string name="show_taxes_on_explained">Se aplicará el recargo ingresado</string>
-    <string name="show_taxes_off_explained">No se realizará ningún recargo</string>
+    <string name="show_discount">Mostrar \"Descuento\" y "Recargo"</string>
+    <string name="show_discount_on_explained">Se aplicará el descuento y recargo ingresado</string>
+    <string name="show_discount_off_explained">No se realizará ningún descuento ni recargo</string>
     <string name="show_pesos">Mostrar \"Oficial\"</string>
     <string name="show_savings">Mostrar \"Ahorro\"</string>
     <string name="show_credit_card">Mostrar \"Turista\"</string>
