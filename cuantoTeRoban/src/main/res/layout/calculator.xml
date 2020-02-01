@@ -95,12 +95,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/enter_total"
-        style="@style/ButtonText"
+        style="@style/ButtonImage"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="@dimen/calculator_padding"
         android:backgroundTint="@color/calculator_button_ok"
-        android:text="OK"
+        app:icon="@drawable/ic_check_circle"
         app:layout_constraintBottom_toTopOf="@+id/division"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/right"

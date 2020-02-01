@@ -34,6 +34,7 @@
         <item name="iconTint">@color/white</item>
         <item name="iconGravity">textStart</item>
         <item name="iconPadding">0dp</item>
+        <item name="iconSize">@dimen/calculator_button_icon_size</item>
     </style>
 
 </resources>
