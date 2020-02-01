@@ -1,7 +1,6 @@
 package com.smartpocket.cuantoteroban.calc;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.Toolbar;
@@ -29,6 +29,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.smartpocket.cuantoteroban.MainActivity;
 import com.smartpocket.cuantoteroban.R;
@@ -290,7 +291,7 @@ public class CalculatorFragment extends Fragment {
 
 
     private void showErrorMessage(View view, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(view.getContext());
         builder.setMessage(message).setTitle("Error");
         builder.setPositiveButton("Ignorar", (dialog, which) -> NavHostFragment.findNavController(this).navigateUp());
         builder.setNegativeButton("Corregir", null);

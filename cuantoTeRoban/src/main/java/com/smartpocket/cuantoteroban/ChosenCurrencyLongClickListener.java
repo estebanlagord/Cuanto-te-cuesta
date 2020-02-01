@@ -1,6 +1,5 @@
 package com.smartpocket.cuantoteroban;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager;
 
 import org.jetbrains.annotations.NotNull;
@@ -67,14 +67,14 @@ public class ChosenCurrencyLongClickListener implements OnItemLongClickListener 
 	    @NotNull
 		@Override
 	    public Dialog onCreateDialog(Bundle savedInstanceState) {
-	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-	        builder.setTitle("¿Borrar?")
+	        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext())
+					.setTitle("¿Borrar?")
 	        		.setMessage("¿Queres borrar la moneda " + currency.getName() + " de esta lista?")
 	        		.setNegativeButton("Cancelar", null)
-	        		.setPositiveButton("OK", (dialog, id) -> {
+	        		.setPositiveButton("Borrar", (dialog, id) -> {
                         Currency currentCurrency = PreferencesManager.getInstance().getCurrentCurrency();
                         if (currency.equals(currentCurrency)) {
-                            AlertDialog.Builder builder2 = new AlertDialog.Builder(getActivity());
+                            MaterialAlertDialogBuilder builder2 = new MaterialAlertDialogBuilder(requireContext());
                             builder2.setMessage("No se puede borrar la moneda " + currency.getName() + " porque es la que se está mostrando ahora en la pantalla principal.");
                             builder2.setNeutralButton("OK", null);
                             Dialog d = builder2.create();
