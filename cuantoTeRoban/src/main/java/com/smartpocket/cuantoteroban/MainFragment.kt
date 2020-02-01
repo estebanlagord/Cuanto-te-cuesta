@@ -233,6 +233,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
         withCreditCardValue.setOnClickListener(OnClickListenerShowCalc(withCreditCardValue, resources.getString(R.string.WithCreditCard), EditorType.CREDIT_CARD))
 //        withSavingsValue.setOnClickListener(OnClickListenerShowCalc(withSavingsValue, resources.getString(R.string.WithSavings), EditorType.SAVINGS))
         withBlueValue.setOnClickListener(OnClickListenerShowCalc(withBlueValue, resources.getString(R.string.WithBlue), EditorType.BLUE))
+        exchangeAgencyValue.setOnClickListener(OnClickListenerShowCalc(exchangeAgencyValue, resources.getString(R.string.ExchangeAgency), EditorType.EXCHANGE_AGENCY))
         deleteDiscount.setOnClickListener { viewModel.onDeleteDiscount() }
         deleteTaxes.setOnClickListener { viewModel.onDeleteTaxes() }
         countryFlag.setOnClickListener { mDrawerLayout.openDrawer(GravityCompat.START) }
