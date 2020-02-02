@@ -42,7 +42,8 @@ public class Utilities {
 		
 		return result;
 	}
-	
+
+	@Deprecated
 	public static void showToast(String text) {
     	Context context = MyApplication.Companion.applicationContext();
     	int duration = Toast.LENGTH_LONG;

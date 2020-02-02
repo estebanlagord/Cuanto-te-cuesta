@@ -14,6 +14,7 @@ class SingleActivityVM : ViewModel() {
     val billingStatusLD = SingleLiveEvent<Int>()
     val launchPurchaseLD = SingleLiveEvent<Boolean>()
     val launchRestoreAdsLD = SingleLiveEvent<Boolean>()
+    val snackbarLD = SingleLiveEvent<String>()
 
     class CalculatorResult(val amount: Double, val editorType: EditorType)
 }

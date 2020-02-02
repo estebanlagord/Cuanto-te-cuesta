@@ -328,7 +328,7 @@ public class CalculatorFragment extends Fragment {
                     if (etCalculator != null && etCalculator.getText() != null) {
                         String copiedText = etCalculator.getText().toString().trim();
                         clipboard.setText(copiedText);
-                        Utilities.showToast("Valor copiado: " + copiedText);
+                        singleActivityVM.getSnackbarLD().setValue("Valor copiado: " + copiedText);
                     }
                     mode.finish(); // Action picked, so close the CAB
                     return true;
@@ -336,7 +336,7 @@ public class CalculatorFragment extends Fragment {
                 case R.id.menu_paste:
                     CharSequence clipboardText = clipboard.getText();
                     if (clipboardText == null) {
-                        Utilities.showToast("El contenido del portapapeles no se puede pegar");
+                        singleActivityVM.getSnackbarLD().setValue("El contenido del portapapeles no se puede pegar");
                     } else {
                         String content = clipboardText.toString().trim();
                         etCalculator.setText(content);

@@ -163,7 +163,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
             MainFragmentVM.ErrorState.NO_INTERNET -> R.string.error_no_internet
             MainFragmentVM.ErrorState.DOWNLOAD_ERROR -> R.string.error_downloading
         }
-        Utilities.showToast(getString(msgRes))
+        singleActivityVM.snackbarLD.value = getString(msgRes)
     }
 
     private fun showLastUpdate(date: Date) {

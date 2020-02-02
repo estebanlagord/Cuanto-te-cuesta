@@ -493,7 +493,7 @@
                 android:layout_height="fill_parent"
                 android:layout_gravity="end"
                 android:gravity="bottom"
-                android:paddingEnd="@dimen/padding_medium">
+                android:paddingEnd="@dimen/padding_large">
 
                 <TextView
                     android:id="@+id/textLastUpdate"
