@@ -12,19 +12,39 @@
         tools:layout="@layout/container_main">
         <action
             android:id="@+id/action_mainFragment_to_calculator"
-            app:destination="@id/calculator" />
+            app:destination="@id/calculator"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/none"
+            app:popEnterAnim="@anim/none"
+            app:popExitAnim="@anim/exit_to_right" />
         <action
             android:id="@+id/action_mainFragment_to_about"
-            app:destination="@id/about" />
+            app:destination="@id/about"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/none"
+            app:popEnterAnim="@anim/none"
+            app:popExitAnim="@anim/exit_to_right" />
         <action
             android:id="@+id/action_mainFragment_to_helpActivity"
-            app:destination="@id/helpActivity" />
+            app:destination="@id/helpActivity"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/none"
+            app:popEnterAnim="@anim/none"
+            app:popExitAnim="@anim/exit_to_right" />
         <action
             android:id="@+id/action_mainFragment_to_preferencesFragment"
-            app:destination="@id/preferencesFragment" />
+            app:destination="@id/preferencesFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/none"
+            app:popEnterAnim="@anim/none"
+            app:popExitAnim="@anim/exit_to_right" />
         <action
             android:id="@+id/action_mainFragment_to_addCurrency"
-            app:destination="@id/addCurrency" />
+            app:destination="@id/addCurrency"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/none"
+            app:popEnterAnim="@anim/none"
+            app:popExitAnim="@anim/exit_to_right" />
     </fragment>
     <fragment
         android:id="@+id/calculator"
@@ -55,10 +75,14 @@
         android:id="@+id/preferencesFragment"
         android:name="com.smartpocket.cuantoteroban.preferences.PreferencesFragment"
         android:label="Preferences"
-        tools:layout="@layout/pref_with_toolbar" >
+        tools:layout="@layout/pref_with_toolbar">
         <action
             android:id="@+id/action_preferencesFragment_to_myPreferenceForCurrencyFragment"
-            app:destination="@id/preferencesFragmentForCurrency" />
+            app:destination="@id/preferencesFragmentForCurrency"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/none"
+            app:popEnterAnim="@anim/none"
+            app:popExitAnim="@anim/exit_to_right" />
     </fragment>
     <fragment
         android:id="@+id/preferencesFragmentForCurrency"
