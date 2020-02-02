@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.smartpocket.cuantoteroban.Currency
 import com.smartpocket.cuantoteroban.CurrencyManager
@@ -89,6 +89,6 @@ class AddCurrencyFragment : Fragment(), OnCurrencyItemClickListener {
     override fun onItemClick(currency: Currency) {
         closeKeyboard()
         CurrencyManager.getInstance().addToUserCurrencies(currency)
-        NavHostFragment.findNavController(this@AddCurrencyFragment).navigateUp()
+        findNavController().navigateUp()
     }
 }

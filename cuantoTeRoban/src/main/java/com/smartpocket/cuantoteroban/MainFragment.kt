@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -320,6 +321,15 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
         mDrawerList.onItemLongClickListener = ChosenCurrencyLongClickListener(this)
         mDrawerList.onItemClickListener = OnItemClickListener { _, _, position, _ -> selectItemFromNavDrawer(position) }
         mDrawerToggle.syncState()
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                mDrawerLayout.closeDrawer(GravityCompat.START)
+            } else {
+                isEnabled = false
+                activity?.onBackPressed()
+            }
+        }
     }
 
     private fun selectItemFromNavDrawer(position: Int) { // Highlight the selected item
