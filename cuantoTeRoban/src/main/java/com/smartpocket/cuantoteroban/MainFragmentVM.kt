@@ -20,7 +20,7 @@ class MainFragmentVM : ViewModel() {
     private val logger = Logger.getLogger(javaClass.simpleName)
     private val repository by lazy { CurrencyRepository() }
     val preferences by lazy { PreferencesManager.getInstance() }
-    val currencyManager = CurrencyManager.getInstance()
+//    val currencyManager = CurrencyManager.getInstance()
 
     private var bankExchangeRate = 0.0
     private var invertBankExchangeRate = false
@@ -56,7 +56,7 @@ class MainFragmentVM : ViewModel() {
 
     fun onAmountValueChanged(amount: Double) {
         val total = amountToTotal(amount)
-        amountLiveData.value = amount
+        amountLiveData.postValue(amount)
         updateTotal(total)
         updatePesos(total)
         updateCreditCard(total)
@@ -65,61 +65,61 @@ class MainFragmentVM : ViewModel() {
     }
 
     private fun updateAmount(total: Double) {
-        amountLiveData.value = totalToAmount(total)
+        amountLiveData.postValue(totalToAmount(total))
     }
 
     private fun updateDiscount() {
-        discountLiveData.value = discount
+        discountLiveData.postValue(discount)
     }
 
     private fun updateTaxes() {
-        taxesLiveData.value = taxes
+        taxesLiveData.postValue(taxes)
     }
 
     private fun updateTotal(total: Double) {
-        totalLiveData.value = total
+        totalLiveData.postValue(total)
     }
 
     private fun updatePesos(total: Double) {
-        pesosLiveData.value = totalToPesos(total)
+        pesosLiveData.postValue(totalToPesos(total))
     }
 
     private fun updateCreditCard(total: Double) {
-        creditCardLiveData.value = totalToCreditCard(total)
+        creditCardLiveData.postValue(totalToCreditCard(total))
     }
 
     private fun updateBlue(total: Double) {
-        blueLiveData.value = totalToBlue(total)
+        blueLiveData.postValue(totalToBlue(total))
     }
 
     private fun updateAgency(total: Double) {
-        exchangeAgencyLiveData.value = totalToAgency(total)
+        exchangeAgencyLiveData.postValue(totalToAgency(total))
     }
 
     fun onCalculatorValueChanged(editorType: EditorType, newValue: Double) {
-        when (editorType) {
-            EditorType.AMOUNT -> onAmountValueChanged(newValue)
-            EditorType.PESOS -> onPesosValueChanged(newValue)
-            EditorType.CREDIT_CARD -> onCreditCardValueChanged(newValue)
-            EditorType.EXCHANGE_AGENCY -> onAgencyValueChanged(newValue)
-            EditorType.PAYPAL -> {
+            when (editorType) {
+                EditorType.AMOUNT -> onAmountValueChanged(newValue)
+                EditorType.PESOS -> onPesosValueChanged(newValue)
+                EditorType.CREDIT_CARD -> onCreditCardValueChanged(newValue)
+                EditorType.EXCHANGE_AGENCY -> onAgencyValueChanged(newValue)
+                EditorType.PAYPAL -> {
+                }
+                EditorType.DISCOUNT -> onDiscountValueChanged(newValue)
+                EditorType.TAXES -> onTaxesValueChanged(newValue)
+                EditorType.TOTAL -> onTotalValueChanged(newValue)
+                EditorType.SAVINGS -> {
+                }
+                EditorType.BLUE -> onBlueValueChanged(newValue)
             }
-            EditorType.DISCOUNT -> onDiscountValueChanged(newValue)
-            EditorType.TAXES -> onTaxesValueChanged(newValue)
-            EditorType.TOTAL -> onTotalValueChanged(newValue)
-            EditorType.SAVINGS -> {
+            if (editorType != EditorType.TAXES && editorType != EditorType.DISCOUNT) {
+                preferences.lastConversionType = editorType
+                preferences.lastConversionValue = newValue
             }
-            EditorType.BLUE -> onBlueValueChanged(newValue)
-        }
-        if (editorType != EditorType.TAXES && editorType != EditorType.DISCOUNT) {
-            preferences.lastConversionType = editorType
-            preferences.lastConversionValue = newValue
-        }
-        currencyEditorTypeLiveData.value = editorType
+            currencyEditorTypeLiveData.postValue(editorType)
     }
 
     private fun onBlueValueChanged(newValue: Double) {
-        blueLiveData.value = newValue
+        blueLiveData.postValue(newValue)
         val total = blueToTotal(newValue)
         updateAmount(total)
         updateTotal(total)
@@ -129,7 +129,7 @@ class MainFragmentVM : ViewModel() {
     }
 
     private fun onTotalValueChanged(total: Double) {
-        totalLiveData.value = total
+        totalLiveData.postValue(total)
         updateAmount(total)
         updatePesos(total)
         updateCreditCard(total)
@@ -140,19 +140,19 @@ class MainFragmentVM : ViewModel() {
     private fun onTaxesValueChanged(newValue: Double) {
         this.taxes = newValue
         preferences.taxes = newValue
-        taxesLiveData.value = newValue
+        taxesLiveData.postValue(newValue)
         onAmountValueChanged(amountLiveData.value ?: 0.0)
     }
 
     private fun onDiscountValueChanged(newValue: Double) {
         this.discount = newValue
         preferences.discount = newValue
-        discountLiveData.value = newValue
+        discountLiveData.postValue(newValue)
         onAmountValueChanged(amountLiveData.value ?: 0.0)
     }
 
     private fun onAgencyValueChanged(newValue: Double) {
-        exchangeAgencyLiveData.value = newValue
+        exchangeAgencyLiveData.postValue(newValue)
         val total = agencyToTotal(newValue)
         updateAmount(total)
         updateTotal(total)
@@ -162,7 +162,7 @@ class MainFragmentVM : ViewModel() {
     }
 
     private fun onCreditCardValueChanged(newValue: Double) {
-        creditCardLiveData.value = newValue
+        creditCardLiveData.postValue(newValue)
         val total = creditCardToTotal(newValue)
         updateAmount(total)
         updateTotal(total)
@@ -172,7 +172,7 @@ class MainFragmentVM : ViewModel() {
     }
 
     private fun onPesosValueChanged(newValue: Double) {
-        pesosLiveData.value = newValue
+        pesosLiveData.postValue(newValue)
         val total = pesosToTotal(newValue)
         updateAmount(total)
         updateTotal(total)
@@ -236,8 +236,10 @@ class MainFragmentVM : ViewModel() {
     }
 
     fun onSettingsChanged() {
-        restoreLastConversion()
-        refreshRates(false)
+        coroutineScope.launch {
+            restoreLastConversion()
+            refreshRates(false)
+        }
     }
 
     fun onStart() {
@@ -269,10 +271,10 @@ class MainFragmentVM : ViewModel() {
         }
 
         val currentCurrency = preferences.currentCurrency
-        currencyLiveData.value = currentCurrency
-        lastUpdateLiveData.value = preferences.getLastUpdateDate(currentCurrency)
-        discountLiveData.value = discount
-        taxesLiveData.value = taxes
+        currencyLiveData.postValue(currentCurrency)
+        lastUpdateLiveData.postValue(preferences.getLastUpdateDate(currentCurrency))
+        discountLiveData.postValue(discount)
+        taxesLiveData.postValue(taxes)
 
         val lastConversionType = preferences.lastConversionType
         if (lastConversionType != null) {
@@ -281,31 +283,37 @@ class MainFragmentVM : ViewModel() {
     }
 
     fun refreshRates(isForced: Boolean) {
-        isLoadingLiveData.value = true
-        val currency = preferences.currentCurrency
         coroutineScope.launch {
+            isLoadingLiveData.postValue(true)
+            val currency = preferences.currentCurrency
             try {
                 repository.getCurrencyExchange(currency, CurrencyManager.ARS, 0.0, isForced)
                 restoreLastConversion()
             } catch (e: Exception) {
                 e.printStackTrace()
-                errorLiveData.value = if (isInternetAvailable()) ErrorState.DOWNLOAD_ERROR else ErrorState.NO_INTERNET
+                errorLiveData.value =
+                        if (isInternetAvailable()) ErrorState.DOWNLOAD_ERROR
+                        else ErrorState.NO_INTERNET
             }
-            isLoadingLiveData.value = false
+            isLoadingLiveData.postValue(false)
         }
     }
 
     fun onDeleteDiscount() {
-        onDiscountValueChanged(0.0)
+        coroutineScope.launch {
+            onDiscountValueChanged(0.0)
+        }
     }
 
     fun onDeleteTaxes() {
-        onTaxesValueChanged(0.0)
+        coroutineScope.launch {
+            onTaxesValueChanged(0.0)
+        }
     }
 
     override fun onCleared() {
         super.onCleared()
-        coroutineScope.cancel()
+        coroutineScope.cancel("ViewModel onCleared()")
     }
 
     private fun isInternetAvailable(): Boolean {
