@@ -882,14 +882,14 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 	}
 	
 	private void showOrHideConversions() {
-		View discountView = findViewById(R.id.tableRowDiscount);
-		View totalView    = findViewById(R.id.tableRowTotal);
-		View pesosView    =  findViewById(R.id.tableRowPesos);
-		View cardView     =  findViewById(R.id.tableRowWithCard);
-        View savingsView  =  findViewById(R.id.tableRowSavings);
-        View blueView     =  findViewById(R.id.tableRowBlue);
-		View agencyView   =  findViewById(R.id.tableRowExchangeAgency);
-		View paypalView   =  findViewById(R.id.tableRowPayPal);
+		View discountView = null;//findViewById(R.id.tableRowDiscount);
+		View totalView    = null;//findViewById(R.id.tableRowTotal);
+		View pesosView    =  null;//findViewById(R.id.tableRowPesos);
+		View cardView     =  null;//findViewById(R.id.tableRowWithCard);
+        View savingsView  =  null;//findViewById(R.id.tableRowSavings);
+        View blueView     =  null;//findViewById(R.id.tableRowBlue);
+		View agencyView   =  null;//findViewById(R.id.tableRowExchangeAgency);
+		View paypalView   =  null;//findViewById(R.id.tableRowPayPal);
 		
        	// if "Discount %" or "Taxes %" is disabled, set its preference value to 0
        	if (PreferencesManager.getInstance().isShowDiscount())

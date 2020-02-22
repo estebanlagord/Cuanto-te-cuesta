@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="padding_micro">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">8dp</dimen>
     <dimen name="padding_large">16dp</dimen>
@@ -8,6 +9,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 	<dimen name="calculator_text_size">35sp</dimen>
 	<dimen name="main_activity_text_size_medium">18sp</dimen>
+    <dimen name="main_flag_size">90dp</dimen>
 
     <dimen name="calculator_button_margin">5dp</dimen>
     <dimen name="calculator_margin">8dp</dimen>

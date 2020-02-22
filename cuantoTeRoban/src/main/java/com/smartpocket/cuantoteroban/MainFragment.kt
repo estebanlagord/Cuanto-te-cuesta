@@ -35,6 +35,7 @@ import com.smartpocket.cuantoteroban.editortype.EditorType
 import com.smartpocket.cuantoteroban.editortype.EditorTypeHelper
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.container_main.*
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -51,6 +52,11 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
     private lateinit var mDrawerList: ListView
     private lateinit var viewModel: MainFragmentVM
     private lateinit var singleActivityVM: SingleActivityVM
+    private lateinit var totalViews: List<View>
+    private lateinit var pesosViews: List<View>
+    private lateinit var withCardViews: List<View>
+    private lateinit var blueViews: List<View>
+    private lateinit var exchangeAgencyViews: List<View>
     private var currentCurr: Currency? = null
     private val preferences by lazy { PreferencesManager.getInstance() }
     private val displayDateFormat = SimpleDateFormat("dd/MMM HH:mm", Locale("es", "AR"))
@@ -70,6 +76,13 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
         val toolbar = view.findViewById(R.id.my_awesome_toolbar) as Toolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
+
+        totalViews = listOf(view.totalTextView, view.totalEditText)
+        pesosViews = listOf(view.textViewInPesos, view.pesosBill, view.inPesosValue)
+        withCardViews = listOf(view.textViewWithCard, view.ivCreditCard, view.withCreditCardValue)
+        blueViews = listOf(view.textViewBlue, view.ivDolarBlue, view.withBlueValue)
+        exchangeAgencyViews = listOf(view.textViewAgency, view.exchangeAgencyValue)
+
         return view
     }
 
@@ -89,10 +102,15 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
     override fun onStart() {
         super.onStart()
         viewModel.onStart()
-        tableRowDiscount.visibility = if (preferences.isShowDiscount) View.VISIBLE else View.GONE
-        tableRowPesos.visibility = if (preferences.isShowPesos) View.VISIBLE else View.GONE
-        tableRowWithCard.visibility = if (preferences.isShowCreditCard) View.VISIBLE else View.GONE
-        tableRowExchangeAgency.visibility = if (preferences.isShowExchangeAgency) View.VISIBLE else View.GONE
+        discountTIL.visibility = if (preferences.isShowDiscount) View.VISIBLE else View.GONE
+        val pesosVisibility = if (preferences.isShowPesos) View.VISIBLE else View.GONE
+        pesosViews.forEach { it.visibility = pesosVisibility }
+
+        val creditCardVisibility = if (preferences.isShowCreditCard) View.VISIBLE else View.GONE
+        withCardViews.forEach { it.visibility = creditCardVisibility }
+
+        val exchangeAgencyVisibility = if (preferences.isShowExchangeAgency) View.VISIBLE else View.GONE
+        exchangeAgencyViews.forEach { it.visibility = exchangeAgencyVisibility }
         updateBlueVisibility(currentCurr)
     }
 
@@ -156,7 +174,8 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
     }
 
     private fun updateTotalVisibility(discount: Double?, taxes: Double?) {
-        tableRowTotal.visibility = if (discount == 0.0 && taxes == 0.0) View.GONE else View.VISIBLE
+        val totalVisibility = if (discount == 0.0 && taxes == 0.0) View.GONE else View.VISIBLE
+        totalViews.forEach { it.visibility = totalVisibility }
     }
 
     private fun showErrorMsg(errorState: MainFragmentVM.ErrorState) {
@@ -174,11 +193,12 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
     }
 
     private fun updateBlueVisibility(curr: Currency?) {
-        tableRowBlue.visibility = if (shouldShowBlue(curr)) {
+        val blueVisibility = if (shouldShowBlue(curr)) {
             View.VISIBLE
         } else {
             View.GONE
         }
+        blueViews.forEach { it.visibility = blueVisibility }
     }
 
     private fun shouldShowBlue(curr: Currency?) = preferences.isShowBlue && (curr?.code == CurrencyManager.USD)
@@ -202,18 +222,18 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
             EditorType.PESOS -> highlightOnly(inPesosValue)
             EditorType.CREDIT_CARD -> highlightOnly(withCreditCardValue)
             EditorType.EXCHANGE_AGENCY -> highlightOnly(exchangeAgencyValue)
-            EditorType.PAYPAL -> highlightOnly(payPalValue)
+//            EditorType.PAYPAL -> highlightOnly(payPalValue)
             EditorType.DISCOUNT -> highlightOnly(discountEditText)
             EditorType.TAXES -> highlightOnly(taxesEditText)
             EditorType.TOTAL -> highlightOnly(totalEditText)
-            EditorType.SAVINGS -> highlightOnly(withSavingsValue)
+//            EditorType.SAVINGS -> highlightOnly(withSavingsValue)
             EditorType.BLUE -> highlightOnly(withBlueValue)
         }
     }
 
     private fun highlightOnly(editText: TextView) {
         listOf<TextView>(amountEditText, discountEditText, taxesEditText, totalEditText, inPesosValue,
-                withCreditCardValue, withSavingsValue, withBlueValue)
+                withCreditCardValue, withBlueValue)
                 .forEach {
                     it.setTypeface(null, if (it == editText) Typeface.BOLD else Typeface.NORMAL)
                 }
