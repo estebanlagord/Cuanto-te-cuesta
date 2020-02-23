@@ -20,18 +20,18 @@ public class EditorTypeHelper {
 			case CREDIT_CARD:
 				id = R.id.withCreditCardValue;
 				break;
-            case SAVINGS:
-                id = R.id.withSavingsValue;
-                break;
+//            case SAVINGS:
+//                id = R.id.withSavingsValue;
+//                break;
             case BLUE:
                 id = R.id.withBlueValue;
                 break;
 			case EXCHANGE_AGENCY:
 				id = R.id.exchangeAgencyValue;
 				break;
-			case PAYPAL:
-				id = R.id.payPalValue;
-				break;
+//			case PAYPAL:
+//				id = R.id.payPalValue;
+//				break;
 			case PESOS:
 				id = R.id.inPesosValue;
 				break;

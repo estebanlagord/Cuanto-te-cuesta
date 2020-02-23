@@ -1,515 +1,469 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fadingEdge="vertical"
+    android:fillViewport="true"
+    android:scrollbarStyle="outsideOverlay"
+    tools:context=".MainFragment">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/scrollView1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fadingEdge="vertical"
-        android:fillViewport="true"
-        android:scrollbarStyle="outsideOverlay"
-        tools:context=".MainActivity"
-        tools:ignore="UselessParent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_medium">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+
+        <TextView
+            android:id="@+id/whatTheyChargeYou"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:gravity="center_vertical"
+            android:text="@string/what_they_charge_you"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="32dp"
+            tools:layout_conversion_absoluteWidth="178dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp" />
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        <TextView
+            android:id="@+id/currencyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/whatTheyChargeYou"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="157dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="40dp"
+            tools:text="@string/in_us_dollar" />
 
-                <TableLayout
-                    android:id="@+id/tableLayoutMonto"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:padding="@dimen/padding_medium">
 
-                    <TableRow
-                        android:id="@+id/tableRow1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/countryFlag"
+            android:layout_width="@dimen/main_flag_size"
+            android:layout_height="@dimen/main_flag_size"
+            android:layout_marginEnd="@dimen/padding_medium"
+            app:layout_constraintEnd_toStartOf="@id/vertical_var"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/usd" />
 
-                        <LinearLayout
-                            android:layout_width="0dip"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.8"
-                            android:orientation="vertical">
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/countryFlagBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="countryFlag,currencyName" />
 
-                            <TextView
-                                android:id="@+id/whatTheyChargeYou"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:text="@string/what_they_charge_you"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
 
-                            <TextView
-                                android:id="@+id/currencyName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="@string/in_us_dollar" />
-                        </LinearLayout>
+        <TextView
+            android:id="@+id/amountTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/amountEditText"
+            android:text="@string/Ammount"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            app:layout_constraintBaseline_toBaselineOf="@id/amountEditText"
+            app:layout_constraintStart_toStartOf="parent" />
 
-                        <ImageView
-                            android:id="@+id/countryFlag"
-                            android:layout_width="0dip"
-                            android:layout_height="62dp"
-                            android:layout_weight="0.2"
-                            tools:src="@drawable/usd" />
-                    </TableRow>
+        <EditText
+            android:id="@+id/amountEditText"
+            style="@style/ValueEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toStartOf="@id/vertical_var"
+            app:layout_constraintStart_toEndOf="@id/amountTextView"
+            app:layout_constraintTop_toBottomOf="@id/countryFlagBarrier" />
 
-                    <TableRow
-                        android:id="@+id/tableRowMonto"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/discountTIL"
+            style="@style/DiscountTaxField"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_large"
+            android:hint="Descuento"
+            app:layout_constraintEnd_toStartOf="@id/taxesTIL"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/amountEditText">
 
-                        <TextView
-                            android:id="@+id/amountTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="@string/Ammount"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/discountEditText"
+                style="@style/ValueEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                        <EditText
-                            android:id="@+id/amountEditText"
-                            android:layout_width="0dip"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="top"
-                            android:layout_marginStart="@dimen/padding_medium"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:hint="@string/AmmountTip"
-                            android:inputType="none" />
-                    </TableRow>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/taxesTIL"
+            style="@style/DiscountTaxField"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_large"
+            android:layout_marginEnd="@dimen/padding_medium_large"
+            android:hint="Recargo"
+            app:layout_constraintEnd_toStartOf="@id/vertical_var"
+            app:layout_constraintStart_toEndOf="@id/discountTIL"
+            app:layout_constraintTop_toTopOf="@id/discountTIL">
 
-                    <TableRow
-                        android:id="@+id/tableRowDiscount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/taxesEditText"
+                style="@style/ValueEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/discountTIL"
-                            style="@style/DiscountTaxField"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="top"
-                            android:layout_marginEnd="@dimen/padding_large"
-                            android:layout_weight="1"
-                            android:hint="Descuento">
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/discountEditText"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:cursorVisible="false"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:inputType="none"
-                                android:longClickable="false" />
-                        </com.google.android.material.textfield.TextInputLayout>
+        <!--<com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/discountEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:inputType="none"
+            android:longClickable="false"
+            app:layout_constraintEnd_toStartOf="@id/taxesEditText"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/amountEditText" />
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/taxesTIL"
-                            style="@style/DiscountTaxField"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/padding_large"
-                            android:layout_marginEnd="4dp"
-                            android:layout_weight="1"
-                            android:hint="Recargo"
-                            tools:hint="">
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/taxesEditText"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:cursorVisible="false"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:inputType="none"
-                                android:longClickable="false" />
-                        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/taxesEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:inputType="none"
+            android:longClickable="false"
+            app:layout_constraintEnd_toStartOf="@id/vertical_var"
+            app:layout_constraintStart_toEndOf="@id/discountEditText"
+            app:layout_constraintTop_toBottomOf="@id/amountEditText" />-->
 
-                    </TableRow>
 
-                    <TableRow
-                        android:id="@+id/tableRowTotal"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_medium"
-                        android:weightSum="1.0">
+        <TextView
+            android:id="@+id/totalTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/totalEditText"
+            android:text="@string/Total"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            app:layout_constraintBaseline_toBaselineOf="@id/totalEditText"
+            app:layout_constraintStart_toStartOf="parent" />
 
-                        <TextView
-                            android:id="@+id/totalTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="@string/Total"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+        <EditText
+            android:id="@+id/totalEditText"
+            style="@style/ValueEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_medium"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toStartOf="@id/vertical_var"
+            app:layout_constraintStart_toStartOf="@id/amountEditText"
+            app:layout_constraintTop_toBottomOf="@id/discountTIL" />
 
-                        <EditText
-                            android:id="@+id/totalEditText"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="top"
-                            android:layout_marginStart="@dimen/padding_medium"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:hint="@string/AmmountTip"
-                            android:inputType="none"
-                            android:longClickable="false" />
-                    </TableRow>
-                </TableLayout>
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/padding_small"
-                    android:layout_marginBottom="@dimen/padding_small"
-                    android:background="@color/black" />
+        <View
+            android:id="@+id/vertical_var"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/barrier"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                <TableLayout
-                    android:id="@+id/tableConverted"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:padding="@dimen/padding_medium">
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="totalEditText,exchangeAgencyValue" />
 
-                    <TableRow
-                        android:id="@+id/tableRowCost"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/whatItCostsYou"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:gravity="center_vertical"
+            android:text="@string/WhatItCostsYou"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+            app:layout_constraintStart_toEndOf="@id/vertical_var"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                        <LinearLayout
-                            android:layout_width="0dip"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.8"
-                            android:orientation="vertical">
+        <TextView
+            android:id="@+id/pesosCurrencyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:text="@string/in_arg_pesos"
+            app:layout_constraintStart_toEndOf="@id/vertical_var"
+            app:layout_constraintTop_toBottomOf="@id/whatItCostsYou"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="130dp"
+            tools:layout_editor_absoluteX="374dp"
+            tools:layout_editor_absoluteY="40dp" />
 
-                            <TextView
-                                android:id="@+id/whatItCostsYou"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.8"
-                                android:gravity="center_vertical"
-                                android:text="@string/WhatItCostsYou"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
 
-                            <TextView
-                                android:id="@+id/pesosCurrencyName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.8"
-                                android:text="@string/in_arg_pesos" />
-                        </LinearLayout>
+        <ImageView
+            android:id="@+id/imageArgentina"
+            android:layout_width="@dimen/main_flag_size"
+            android:layout_height="@dimen/main_flag_size"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ars"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageView
-                            android:id="@+id/imageArgentina"
-                            android:layout_width="0dip"
-                            android:layout_height="62dp"
-                            android:layout_weight="0.2"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/ars" />
-                    </TableRow>
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierPesos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="imageArgentina,pesosCurrencyName" />
 
-                    <TableRow
-                        android:id="@+id/tableRowPesos"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="1.0">
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="0.55"
-                            android:gravity="top">
+        <TextView
+            android:id="@+id/textViewInPesos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:labelFor="@id/inPesosValue"
+            android:paddingEnd="@dimen/padding_medium"
+            android:text="@string/InPesos"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            app:layout_constraintBaseline_toBaselineOf="@id/inPesosValue"
+            app:layout_constraintStart_toEndOf="@id/vertical_var"
+            tools:ignore="RtlSymmetry" />
 
-                            <TextView
-                                android:id="@+id/textViewInPesos"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center_vertical"
-                                android:text="@string/InPesos"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
 
-                            <LinearLayout
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:layout_marginBottom="5dp"
-                                android:gravity="end"
-                                android:paddingEnd="@dimen/padding_small">
+        <ImageView
+            android:id="@+id/pesosBill"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:paddingEnd="@dimen/padding_medium"
+            android:src="@drawable/cien_pesos"
+            app:layout_constraintBottom_toBottomOf="@id/inPesosValue"
+            app:layout_constraintStart_toEndOf="@id/textViewInPesos"
+            app:layout_constraintTop_toTopOf="@id/inPesosValue"
+            tools:ignore="RtlSymmetry" />
 
-                                <ImageView
-                                    android:id="@+id/imagePeso"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:adjustViewBounds="true"
-                                    android:src="@drawable/cien_pesos" />
-                            </LinearLayout>
-                        </LinearLayout>
+        <EditText
+            android:id="@+id/inPesosValue"
+            style="@style/ValueEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrierBills"
+            app:layout_constraintTop_toBottomOf="@id/barrierPesos"
+            tools:layout_conversion_absoluteHeight="45dp"
+            tools:layout_conversion_absoluteWidth="157dp"
+            tools:layout_editor_absoluteX="566dp"
+            tools:layout_editor_absoluteY="70dp" />
 
-                        <EditText
-                            android:id="@+id/inPesosValue"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.45"
-                            android:ems="10"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:hint="@string/AmmountTip"
-                            android:inputType="none"
-                            android:longClickable="false" />
-                    </TableRow>
 
-                    <TableRow
-                        android:id="@+id/tableRowSavings"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:weightSum="1.0">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="0.55"
-                            android:gravity="top">
-
-                            <TextView
-                                android:id="@+id/textViewSavings"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center_vertical"
-                                android:text="@string/WithSavings"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
-
-                            <LinearLayout
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:layout_marginBottom="5dp"
-                                android:gravity="end"
-                                android:paddingEnd="@dimen/padding_small">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:adjustViewBounds="true"
-                                    android:src="@drawable/ahorro" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <EditText
-                            android:id="@+id/withSavingsValue"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.45"
-                            android:ems="10"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:hint="@string/AmmountTip"
-                            android:inputType="none"
-                            android:longClickable="false" />
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/tableRowWithCard"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="1.0">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="0.55">
-
-                            <TextView
-                                android:id="@+id/textViewWithCard"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:paddingEnd="@dimen/padding_medium"
-                                android:text="@string/WithCreditCard"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
-
-                            <LinearLayout
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:layout_marginBottom="5dp"
-                                android:gravity="end"
-                                android:paddingEnd="@dimen/padding_small">
-
-                                <ImageView
-                                    android:id="@+id/chooseCurrencyFlag"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:adjustViewBounds="true"
-                                    android:src="@drawable/tarjeta_de_credito" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <EditText
-                            android:id="@+id/withCreditCardValue"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.45"
-                            android:ems="10"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:hint="@string/AmmountTip"
-                            android:inputType="none"
-                            android:longClickable="false" />
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/tableRowBlue"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="1.0">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="0.55">
-
-                            <TextView
-                                android:id="@+id/textViewBlue"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:paddingEnd="@dimen/padding_medium"
-                                android:text="@string/WithBlue"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
-
-                            <LinearLayout
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:layout_marginBottom="5dp"
-                                android:gravity="end"
-                                android:paddingEnd="@dimen/padding_small">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:adjustViewBounds="true"
-                                    android:src="@drawable/dolarblue" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <EditText
-                            android:id="@+id/withBlueValue"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.45"
-                            android:ems="10"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:hint="@string/AmmountTip"
-                            android:inputType="none"
-                            android:longClickable="false" />
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/tableRowExchangeAgency"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="1.0">
-
-                        <TextView
-                            android:id="@+id/textViewAgency"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.55"
-                            android:text="@string/ExchangeAgency"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
-
-                        <EditText
-                            android:id="@+id/exchangeAgencyValue"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.45"
-                            android:ems="10"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:hint="@string/AmmountTip"
-                            android:inputType="none"
-                            android:longClickable="false" />
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/tableRowPayPal"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:weightSum="1.0">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="0.55">
-
-                            <ImageView
-                                android:id="@+id/imagePayPal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="fill_parent"
-                                android:adjustViewBounds="true"
-                                android:gravity="start"
-                                android:src="@drawable/paypal" />
-                        </LinearLayout>
-
-                        <EditText
-                            android:id="@+id/payPalValue"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.45"
-                            android:ems="10"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:hint="@string/AmmountTip"
-                            android:inputType="none"
-                            android:longClickable="false" />
-                    </TableRow>
-                </TableLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_gravity="end"
-                android:gravity="bottom"
-                android:paddingEnd="@dimen/padding_large">
-
-                <TextView
-                    android:id="@+id/textLastUpdate"
+        <!--        <TextView
+                    android:id="@+id/textViewSavings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/LastUpdate"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:text="@string/WithSavings"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                    tools:layout_conversion_absoluteHeight="0dp"
+                    tools:layout_conversion_absoluteWidth="0dp"
+                    tools:layout_editor_absoluteX="366dp"
+                    tools:layout_editor_absoluteY="0dp" />
 
-                <TextView
-                    android:id="@+id/textLastUpdateValue"
+
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
-            </LinearLayout>
-        </LinearLayout>
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ahorro"
+                    tools:layout_conversion_absoluteHeight="0dp"
+                    tools:layout_conversion_absoluteWidth="0dp"
+                    tools:layout_editor_absoluteX="366dp"
+                    tools:layout_editor_absoluteY="0dp" />
 
-    </ScrollView>
 
-</LinearLayout>
+                <EditText
+                    android:id="@+id/withSavingsValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/AmmountTip"
+                    android:inputType="none"
+                    android:longClickable="false"
+                    tools:layout_conversion_absoluteHeight="0dp"
+                    tools:layout_conversion_absoluteWidth="0dp"
+                    tools:layout_editor_absoluteX="366dp"
+                    tools:layout_editor_absoluteY="0dp" />-->
+
+
+        <TextView
+            android:id="@+id/textViewWithCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:labelFor="@id/withCreditCardValue"
+            android:paddingEnd="@dimen/padding_medium"
+            android:text="@string/WithCreditCard"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            app:layout_constraintBaseline_toBaselineOf="@id/withCreditCardValue"
+            app:layout_constraintStart_toEndOf="@id/vertical_var"
+            tools:ignore="RtlSymmetry" />
+
+        <ImageView
+            android:id="@+id/ivCreditCard"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/tarjeta_de_credito"
+            app:layout_constraintBottom_toBottomOf="@id/withCreditCardValue"
+            app:layout_constraintStart_toEndOf="@id/textViewWithCard"
+            app:layout_constraintTop_toTopOf="@+id/withCreditCardValue" />
+
+
+        <EditText
+            android:id="@+id/withCreditCardValue"
+            style="@style/ValueEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_medium"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrierBills"
+            app:layout_constraintTop_toBottomOf="@id/inPesosValue" />
+
+
+        <TextView
+            android:id="@+id/textViewBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:labelFor="@id/withBlueValue"
+            android:paddingEnd="@dimen/padding_medium"
+            android:text="@string/WithBlue"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            app:layout_constraintBaseline_toBaselineOf="@id/withBlueValue"
+            app:layout_constraintStart_toEndOf="@id/vertical_var"
+            tools:ignore="RtlSymmetry" />
+
+
+        <ImageView
+            android:id="@+id/ivDolarBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/dolarblue"
+            app:layout_constraintBottom_toBottomOf="@+id/withBlueValue"
+            app:layout_constraintStart_toEndOf="@id/textViewBlue"
+            app:layout_constraintTop_toTopOf="@+id/withBlueValue" />
+
+        <EditText
+            android:id="@+id/withBlueValue"
+            style="@style/ValueEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_medium"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrierBills"
+            app:layout_constraintTop_toBottomOf="@id/withCreditCardValue" />
+
+        <TextView
+            android:id="@+id/textViewAgency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:labelFor="@id/exchangeAgencyValue"
+            android:paddingEnd="@dimen/padding_medium"
+            android:text="@string/ExchangeAgency"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            app:layout_constraintBaseline_toBaselineOf="@id/exchangeAgencyValue"
+            app:layout_constraintStart_toEndOf="@id/vertical_var"
+            tools:ignore="RtlSymmetry" />
+
+        <EditText
+            android:id="@+id/exchangeAgencyValue"
+            style="@style/ValueEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_medium"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrierBills"
+            app:layout_constraintTop_toBottomOf="@id/withBlueValue" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierBills"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="right"
+            app:constraint_referenced_ids="pesosBill,ivCreditCard,ivDolarBlue,textViewAgency" />
+
+        <!--        <ImageView
+                    android:id="@+id/imagePayPal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:gravity="start"
+                    android:src="@drawable/paypal"
+                    tools:layout_conversion_absoluteHeight="0dp"
+                    tools:layout_conversion_absoluteWidth="0dp"
+                    tools:layout_editor_absoluteX="366dp"
+                    tools:layout_editor_absoluteY="0dp" />
+
+
+                <EditText
+                    android:id="@+id/payPalValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/AmmountTip"
+                    android:inputType="none"
+                    android:longClickable="false"
+                    tools:layout_conversion_absoluteHeight="0dp"
+                    tools:layout_conversion_absoluteWidth="0dp"
+                    tools:layout_editor_absoluteX="366dp"
+                    tools:layout_editor_absoluteY="0dp" />-->
+
+        <TextView
+            android:id="@+id/textLastUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:text="@string/LastUpdate"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            app:layout_constraintBottom_toBottomOf="@id/textLastUpdateValue"
+            app:layout_constraintEnd_toStartOf="@id/textLastUpdateValue" />
+
+        <TextView
+            android:id="@+id/textLastUpdateValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier"
+            app:layout_constraintVertical_bias="1"
+            tools:text="@string/LastUpdateNever" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

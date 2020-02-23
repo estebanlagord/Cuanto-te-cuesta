@@ -52,11 +52,11 @@ public class AmountTextWatcher implements TextWatcher {
 			taxesValue          = mainActivity.findViewById(R.id.taxesEditText);
 			totalValue          = mainActivity.findViewById(R.id.totalEditText);
 			pesosValue          = mainActivity.findViewById(R.id.inPesosValue);
-            savingsValue        = mainActivity.findViewById(R.id.withSavingsValue);
+//            savingsValue        = mainActivity.findViewById(R.id.withSavingsValue);
             blueValue           = mainActivity.findViewById(R.id.withBlueValue);
 			creditCardValue     = mainActivity.findViewById(R.id.withCreditCardValue);
 			exchangeAgencyValue = mainActivity.findViewById(R.id.exchangeAgencyValue);
-			payPalValue         = mainActivity.findViewById(R.id.payPalValue);
+//			payPalValue         = mainActivity.findViewById(R.id.payPalValue);
 
 			preferencesChanged();
 		}

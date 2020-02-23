@@ -285,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
         creditCardText.setOnClickListener(new OnClickListenerShowCalc(creditCardText, getResources().getString(R.string.WithCreditCard), EditorType.CREDIT_CARD));
         creditCardText.setOnLongClickListener(onLongClickShowCopyPaste(creditCardText, EditorType.CREDIT_CARD));
 
-        savingsText = findViewById(R.id.withSavingsValue);
+//        savingsText = findViewById(R.id.withSavingsValue);
         savingsText.setOnClickListener(new OnClickListenerShowCalc(savingsText, getResources().getString(R.string.WithSavings), EditorType.SAVINGS));
         savingsText.setOnLongClickListener(onLongClickShowCopyPaste(savingsText, EditorType.SAVINGS));
 
@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
         agencyText.setOnClickListener(new OnClickListenerShowCalc(agencyText, getResources().getString(R.string.ExchangeAgency), EditorType.EXCHANGE_AGENCY));
         agencyText.setOnLongClickListener(onLongClickShowCopyPaste(agencyText, EditorType.EXCHANGE_AGENCY));
         
-        payPalText = findViewById(R.id.payPalValue);
+//        payPalText = findViewById(R.id.payPalValue);
         payPalText.setOnClickListener(new OnClickListenerShowCalc(payPalText, getResources().getString(R.string.Paypal), EditorType.PAYPAL));
         payPalText.setOnLongClickListener(onLongClickShowCopyPaste(payPalText, EditorType.PAYPAL));
         
@@ -955,7 +955,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 		((TextView)findViewById(R.id.whatItCostsYou)).setTypeface(TYPEFACE_ROBOTO_BLACK);
 		((TextView)findViewById(R.id.textViewInPesos)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
 		((TextView)findViewById(R.id.textViewWithCard)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
-        ((TextView)findViewById(R.id.textViewSavings)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
+//        ((TextView)findViewById(R.id.textViewSavings)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
         ((TextView)findViewById(R.id.textViewBlue)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
 		((TextView)findViewById(R.id.textViewAgency)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
 	}

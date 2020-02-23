@@ -45,4 +45,13 @@
         <item name="boxBackgroundColor">@color/background_color</item>
     </style>
 
+    <style name="ValueEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:cursorVisible">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:inputType">none</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:longClickable">false</item>
+    </style>
+
 </resources>

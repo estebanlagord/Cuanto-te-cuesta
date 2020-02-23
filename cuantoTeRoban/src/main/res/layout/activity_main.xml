@@ -4,7 +4,6 @@
     android:id="@+id/scrollView1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="1"
     android:fadingEdge="vertical"
     android:fillViewport="true"
     android:scrollbarStyle="outsideOverlay"
@@ -61,6 +60,7 @@
             android:id="@+id/amountTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:labelFor="@id/amountEditText"
             android:text="@string/Ammount"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             app:layout_constraintBaseline_toBaselineOf="@id/amountEditText"
@@ -68,14 +68,11 @@
 
         <EditText
             android:id="@+id/amountEditText"
+            style="@style/ValueEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_large"
-            android:ems="10"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="@string/AmmountTip"
-            android:inputType="none"
+            android:importantForAutofill="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/amountTextView"
             app:layout_constraintTop_toBottomOf="@id/countryFlagBarrier" />
@@ -95,13 +92,10 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/discountEditText"
+                style="@style/ValueEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:inputType="none"
-                android:longClickable="false" />
+                android:cursorVisible="false" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -110,6 +104,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_large"
+            android:layout_marginEnd="@dimen/padding_micro"
             android:hint="Recargo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/discountTIL"
@@ -118,19 +113,16 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/taxesEditText"
+                style="@style/ValueEditText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:inputType="none"
-                android:longClickable="false" />
+                android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/totalTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:labelFor="@id/totalEditText"
             android:text="@string/Total"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             app:layout_constraintBaseline_toBaselineOf="@id/totalEditText"
@@ -138,15 +130,11 @@
 
         <EditText
             android:id="@+id/totalEditText"
+            style="@style/ValueEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_medium"
-            android:ems="10"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="@string/AmmountTip"
-            android:inputType="none"
-            android:longClickable="false"
+            android:importantForAutofill="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/amountEditText"
             app:layout_constraintTop_toBottomOf="@id/discountTIL" />
@@ -191,6 +179,7 @@
             android:id="@+id/textViewInPesos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:labelFor="@id/inPesosValue"
             android:text="@string/InPesos"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             app:layout_constraintBaseline_toBaselineOf="@id/inPesosValue"
@@ -205,20 +194,15 @@
             android:src="@drawable/cien_pesos"
             app:layout_constraintBottom_toBottomOf="@id/inPesosValue"
             app:layout_constraintEnd_toStartOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/pesosCurrencyName"
             app:layout_constraintTop_toTopOf="@id/inPesosValue" />
 
         <EditText
             android:id="@+id/inPesosValue"
+            style="@style/ValueEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_micro"
-            android:ems="10"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="@string/AmmountTip"
-            android:inputType="none"
-            android:longClickable="false"
+            android:importantForAutofill="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/guideline"
@@ -265,11 +249,13 @@
             android:id="@+id/textViewWithCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:labelFor="@id/withCreditCardValue"
             android:paddingEnd="@dimen/padding_medium"
             android:text="@string/WithCreditCard"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             app:layout_constraintBaseline_toBaselineOf="@id/withCreditCardValue"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="RtlSymmetry" />
 
         <ImageView
             android:id="@+id/ivCreditCard"
@@ -285,16 +271,12 @@
 
         <EditText
             android:id="@+id/withCreditCardValue"
+            style="@style/ValueEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_micro"
             android:layout_marginTop="@dimen/padding_medium"
-            android:ems="10"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="@string/AmmountTip"
-            android:inputType="none"
-            android:longClickable="false"
+            android:importantForAutofill="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/inPesosValue" />
@@ -303,11 +285,13 @@
             android:id="@+id/textViewBlue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:labelFor="@id/withBlueValue"
             android:paddingEnd="@dimen/padding_medium"
             android:text="@string/WithBlue"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             app:layout_constraintBaseline_toBaselineOf="@id/withBlueValue"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="RtlSymmetry" />
 
         <ImageView
             android:id="@+id/ivDolarBlue"
@@ -322,16 +306,12 @@
 
         <EditText
             android:id="@+id/withBlueValue"
+            style="@style/ValueEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_micro"
             android:layout_marginTop="@dimen/padding_medium"
-            android:ems="10"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="@string/AmmountTip"
-            android:inputType="none"
-            android:longClickable="false"
+            android:importantForAutofill="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/withCreditCardValue" />
@@ -368,6 +348,7 @@
             android:id="@+id/textViewAgency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:labelFor="@id/exchangeAgencyValue"
             android:text="@string/ExchangeAgency"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             app:layout_constraintBaseline_toBaselineOf="@id/exchangeAgencyValue"
@@ -375,16 +356,12 @@
 
         <EditText
             android:id="@+id/exchangeAgencyValue"
+            style="@style/ValueEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_micro"
             android:layout_marginTop="@dimen/padding_medium"
-            android:ems="10"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="@string/AmmountTip"
-            android:inputType="none"
-            android:longClickable="false"
+            android:importantForAutofill="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/withBlueValue" />
