@@ -28,17 +28,19 @@ public class ChosenCurrencyLongClickListener implements OnItemLongClickListener 
 		this.listener = (DeleteCurrencyDialogListener) parent;
 	}
 
+	public boolean onItemLongClick(Currency curr) {
+		DialogFragment dialogFragment = DeleteCurrencyDialogFragment.newInstance(curr.getCode(), listener);
+		dialogFragment.show(parent.getChildFragmentManager(), "deleteCurrency");
+		return true;
+	}
+
 	@Override
 	public boolean onItemLongClick(AdapterView<?> listView, View view, int position, long id) {
 		//@SuppressWarnings("unchecked")
 		//HashMap<String, Object> map = (HashMap<String, Object>) listView.getItemAtPosition(position);
 		//String currCode = (String) map.get(COLUMN_NAMES.CODE.name());
 		Currency curr = (Currency) listView.getItemAtPosition(position);
-
-		DialogFragment dialogFragment = DeleteCurrencyDialogFragment.newInstance(curr.getCode(), listener);
-		dialogFragment.show(parent.getChildFragmentManager(), "deleteCurrency");
-
-		return true;
+		return onItemLongClick(curr);
 	}
 
 

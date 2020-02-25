@@ -71,6 +71,7 @@
     <string name="show_blue">Mostrar \"Blue\"</string>
     <string name="show_exchange_agency">Mostrar \"Casa de Cambio\"</string>
     <string name="show_paypal">Mostrar \"PayPal\"</string>
+    <string name="nav_drawer_footer_text">Mantené presionada una\n moneda para borrarla</string>
 
     <string name="LastUpdate">"Ultima actualización: "</string>
     <string name="updating">"Actualizando&#8230;"</string>

@@ -9,10 +9,8 @@ import android.view.*
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
 import android.view.animation.AnimationUtils
-import android.widget.AdapterView.OnItemClickListener
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.ListView
 import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.appcompat.app.ActionBar
@@ -26,11 +24,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.transition.TransitionManager
 import com.smartpocket.cuantoteroban.MainActivity.FRACTION_DIGITS
 import com.smartpocket.cuantoteroban.MainActivity.RequestCode
 import com.smartpocket.cuantoteroban.calc.CalculatorFragment
+import com.smartpocket.cuantoteroban.chosencurrencies.ChosenCurrenciesListener
+import com.smartpocket.cuantoteroban.chosencurrencies.ChosenCurrenciesRecyclerAdapter
 import com.smartpocket.cuantoteroban.editortype.EditorType
 import com.smartpocket.cuantoteroban.editortype.EditorTypeHelper
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
@@ -41,7 +42,7 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainFragment : Fragment(), DeleteCurrencyDialogListener {
+class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesListener {
 
     private lateinit var refreshItem: MenuItem
     private lateinit var rotatingRefreshButtonView: ImageView
@@ -49,7 +50,8 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
     private lateinit var mDrawerLayout: DrawerLayout
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
-    private lateinit var mDrawerList: ListView
+    private lateinit var mDrawerList: RecyclerView
+    private val chosenCurrencyLongClickListener = ChosenCurrencyLongClickListener(this)
     private lateinit var viewModel: MainFragmentVM
     private lateinit var singleActivityVM: SingleActivityVM
     private lateinit var totalViews: List<View>
@@ -300,7 +302,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
             RequestCode.CHOOSE_CURRENCY.ordinal,
             RequestCode.SETTINGS.ordinal -> viewModel.onSettingsChanged()
 
-            RequestCode.ADD_CURRENCY.ordinal -> (mDrawerList.adapter as ChosenCurrenciesAdapter).updateCurrenciesList()
+            RequestCode.ADD_CURRENCY.ordinal -> (mDrawerList.adapter as ChosenCurrenciesRecyclerAdapter).updateCurrenciesList()
         }
     }
 
@@ -337,9 +339,8 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
         actionBar.setHomeButtonEnabled(true)
         mDrawerList = left_drawer
         // Set the adapter for the list view
-        mDrawerList.adapter = ChosenCurrenciesAdapter(requireContext())
-        mDrawerList.onItemLongClickListener = ChosenCurrencyLongClickListener(this)
-        mDrawerList.onItemClickListener = OnItemClickListener { _, _, position, _ -> selectItemFromNavDrawer(position) }
+        mDrawerList.setHasFixedSize(true)
+        mDrawerList.adapter = ChosenCurrenciesRecyclerAdapter(this)
         mDrawerToggle.syncState()
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
@@ -352,11 +353,20 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
         }
     }
 
-    private fun selectItemFromNavDrawer(position: Int) { // Highlight the selected item
-        mDrawerList.setItemChecked(position, true)
-        val adapter = mDrawerList.adapter as ChosenCurrenciesAdapter
-        val newCurr = mDrawerList.adapter.getItem(position) as Currency
-        adapter.selectedItem = newCurr
+    override fun onChosenCurrencyClick(currency: Currency) {
+        selectItemFromNavDrawer(currency)
+    }
+
+    override fun onChosenCurrencyLongClick(currency: Currency) {
+        chosenCurrencyLongClickListener.onItemLongClick(currency)
+    }
+
+
+    private fun selectItemFromNavDrawer(newCurr: Currency) { // Highlight the selected item
+//        mDrawerList.setItemChecked(position, true)
+        val adapter = mDrawerList.adapter as ChosenCurrenciesRecyclerAdapter
+//        val newCurr = adapter.getItem(position) as Currency
+//        adapter.selectedItem = newCurr
         preferences.currentCurrency = newCurr
         onActivityResult(RequestCode.CHOOSE_CURRENCY.ordinal, Activity.RESULT_OK, null)
         mDrawerLayout.closeDrawer(mDrawerList)
@@ -480,7 +490,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener {
      * Used to refresh NavDrawer list after a currency is deleted
      */
     override fun onDialogPositiveClick(dialog: DialogFragment) {
-        val adapter = mDrawerList.adapter as ChosenCurrenciesAdapter
+        val adapter = mDrawerList.adapter as ChosenCurrenciesRecyclerAdapter
         adapter.updateCurrenciesList()
     }
 
