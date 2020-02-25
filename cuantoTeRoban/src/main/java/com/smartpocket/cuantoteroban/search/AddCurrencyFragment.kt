@@ -8,11 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.smartpocket.cuantoteroban.Currency
 import com.smartpocket.cuantoteroban.CurrencyManager
 import com.smartpocket.cuantoteroban.R
+import com.smartpocket.cuantoteroban.SingleActivityVM
 import kotlinx.android.synthetic.main.activity_add_currency.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import java.util.*
@@ -21,6 +23,7 @@ class AddCurrencyFragment : Fragment(), OnCurrencyItemClickListener {
     private lateinit var unusedCurrencies: Set<Currency>
     private lateinit var recyclerView: RecyclerView
     private lateinit var mAdapter: CurrencyListAdapter
+    private lateinit var singleActivityVM: SingleActivityVM
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.activity_add_currency, container, false)
@@ -41,6 +44,7 @@ class AddCurrencyFragment : Fragment(), OnCurrencyItemClickListener {
         //        listView.setFastScrollEnabled(true);
         setHasOptionsMenu(true)
         updateCurrenciesList(null)
+        singleActivityVM = ViewModelProvider(requireActivity())[SingleActivityVM::class.java]
     }
 
     override fun onStart() {
@@ -89,6 +93,7 @@ class AddCurrencyFragment : Fragment(), OnCurrencyItemClickListener {
     override fun onItemClick(currency: Currency) {
         closeKeyboard()
         CurrencyManager.getInstance().addToUserCurrencies(currency)
+        singleActivityVM.addedCurrencyLD.postValue(currency)
         findNavController().navigateUp()
     }
 }

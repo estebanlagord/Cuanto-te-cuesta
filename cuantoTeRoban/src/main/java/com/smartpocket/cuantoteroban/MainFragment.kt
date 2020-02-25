@@ -96,9 +96,12 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
         mSwipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark)
         mSwipeRefreshLayout.setOnRefreshListener { viewModel.refreshRates(true) }
 
-        setupViewModel()
-        setupClickListeners()
+        viewModel = ViewModelProvider(this)[MainFragmentVM::class.java]
+        singleActivityVM = ViewModelProvider(requireActivity())[SingleActivityVM::class.java]
+
         setupNavDrawer()
+        setupClickListeners()
+        setupViewModelObservers()
     }
 
     override fun onStart() {
@@ -116,62 +119,62 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
         updateBlueVisibility(currentCurr)
     }
 
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(this)[MainFragmentVM::class.java]
-        singleActivityVM = ViewModelProvider(requireActivity())[SingleActivityVM::class.java]
-
+    private fun setupViewModelObservers() {
         with(viewModel) {
-            isLoadingLiveData.observe(this@MainFragment, Observer {
+            isLoadingLiveData.observe(viewLifecycleOwner, Observer {
                 setLoadingState(it)
             })
-            currencyLiveData.observe(this@MainFragment, Observer {
+            currencyLiveData.observe(viewLifecycleOwner, Observer {
                 if (currentCurr != it) {
                     updateFlag(it, true)
                     updateBlueVisibility(it)
                     currentCurr = it
                 }
             })
-            amountLiveData.observe(this@MainFragment, Observer {
+            amountLiveData.observe(viewLifecycleOwner, Observer {
                 showValue(it, amountEditText)
             })
-            discountLiveData.observe(this@MainFragment, Observer {
+            discountLiveData.observe(viewLifecycleOwner, Observer {
                 showPercentage(it, discountEditText)
                 updateTotalVisibility(it, taxesLiveData.value)
                 discountTIL.isEndIconVisible = it != 0.0
             })
-            taxesLiveData.observe(this@MainFragment, Observer {
+            taxesLiveData.observe(viewLifecycleOwner, Observer {
                 showPercentage(it, taxesEditText)
                 updateTotalVisibility(discountLiveData.value, it)
                 taxesTIL.isEndIconVisible = it != 0.0
             })
-            totalLiveData.observe(this@MainFragment, Observer {
+            totalLiveData.observe(viewLifecycleOwner, Observer {
                 showValue(it, totalEditText)
             })
-            pesosLiveData.observe(this@MainFragment, Observer {
+            pesosLiveData.observe(viewLifecycleOwner, Observer {
                 showValue(it, inPesosValue)
             })
-            creditCardLiveData.observe(this@MainFragment, Observer {
+            creditCardLiveData.observe(viewLifecycleOwner, Observer {
                 showValue(it, withCreditCardValue)
             })
-            blueLiveData.observe(this@MainFragment, Observer {
+            blueLiveData.observe(viewLifecycleOwner, Observer {
                 showValue(it, withBlueValue)
             })
-            exchangeAgencyLiveData.observe(this@MainFragment, Observer {
+            exchangeAgencyLiveData.observe(viewLifecycleOwner, Observer {
                 showValue(it, exchangeAgencyValue)
             })
-            currencyEditorTypeLiveData.observe(this@MainFragment, Observer {
+            currencyEditorTypeLiveData.observe(viewLifecycleOwner, Observer {
                 showCurrentEditor(it)
             })
-            lastUpdateLiveData.observe(this@MainFragment, Observer {
+            lastUpdateLiveData.observe(viewLifecycleOwner, Observer {
                 showLastUpdate(it)
             })
-            errorLiveData.observe(this@MainFragment, Observer {
+            errorLiveData.observe(viewLifecycleOwner, Observer {
                 showErrorMsg(it)
             })
         }
 
-        singleActivityVM.calculatorResultLD.observe(this, Observer {
+        singleActivityVM.calculatorResultLD.observe(viewLifecycleOwner, Observer {
             viewModel.onCalculatorValueChanged(it.editorType, Utilities.round(it.amount, FRACTION_DIGITS))
+        })
+        singleActivityVM.addedCurrencyLD.observe(viewLifecycleOwner, Observer {
+            viewModel.chosenCurrenciesAdapter?.updateCurrenciesList()
         })
     }
 
@@ -301,8 +304,6 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
             }
             RequestCode.CHOOSE_CURRENCY.ordinal,
             RequestCode.SETTINGS.ordinal -> viewModel.onSettingsChanged()
-
-            RequestCode.ADD_CURRENCY.ordinal -> (mDrawerList.adapter as ChosenCurrenciesRecyclerAdapter).updateCurrenciesList()
         }
     }
 
@@ -340,7 +341,13 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
         mDrawerList = left_drawer
         // Set the adapter for the list view
         mDrawerList.setHasFixedSize(true)
-        mDrawerList.adapter = ChosenCurrenciesRecyclerAdapter(this)
+
+        if (viewModel.chosenCurrenciesAdapter == null) {
+            viewModel.chosenCurrenciesAdapter = ChosenCurrenciesRecyclerAdapter(this)
+        } else {
+            viewModel.chosenCurrenciesAdapter?.updateListener(this)
+        }
+        mDrawerList.adapter = viewModel.chosenCurrenciesAdapter
         mDrawerToggle.syncState()
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
@@ -363,10 +370,8 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
 
 
     private fun selectItemFromNavDrawer(newCurr: Currency) { // Highlight the selected item
-//        mDrawerList.setItemChecked(position, true)
         val adapter = mDrawerList.adapter as ChosenCurrenciesRecyclerAdapter
-//        val newCurr = adapter.getItem(position) as Currency
-//        adapter.selectedItem = newCurr
+        adapter.selectedItem = newCurr
         preferences.currentCurrency = newCurr
         onActivityResult(RequestCode.CHOOSE_CURRENCY.ordinal, Activity.RESULT_OK, null)
         mDrawerLayout.closeDrawer(mDrawerList)

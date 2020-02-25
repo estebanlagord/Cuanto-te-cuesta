@@ -7,14 +7,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.smartpocket.cuantoteroban.Currency
 import com.smartpocket.cuantoteroban.CurrencyManager
 import com.smartpocket.cuantoteroban.R
+import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 
 
 private const val TypeHeader = 1
 private const val TypeNormal = 2
 private const val TypeFooter = 3
 
-class ChosenCurrenciesRecyclerAdapter(val listener: ChosenCurrenciesListener) : RecyclerView.Adapter<ChosenCurrenciesVH>() {
+class ChosenCurrenciesRecyclerAdapter(var listener: ChosenCurrenciesListener) : RecyclerView.Adapter<ChosenCurrenciesVH>() {
     private var items = mutableListOf<ChosenCurrenciesItem>()
+    var selectedItem: Currency = PreferencesManager.getInstance().currentCurrency
+        set(value) {
+            field = value
+            highlightSelectedItem()
+        }
 
     init {
         updateCurrenciesList()
@@ -49,12 +55,13 @@ class ChosenCurrenciesRecyclerAdapter(val listener: ChosenCurrenciesListener) : 
         val item = items[position]
 
         if (item is ChosenCurrenciesItem.CurrencyItem) {
-            holder.bindTo(item.curr, listener)
+            val isSelected = item.curr == selectedItem
+            holder.bindTo(item.curr, listener, isSelected)
         }
     }
 
     /**
-     * Used to refresh the list of courses in the adapter
+     * Used to refresh the list of items in the adapter
      */
     fun updateCurrenciesList() {
         val prevList = items.toList()
@@ -88,6 +95,14 @@ class ChosenCurrenciesRecyclerAdapter(val listener: ChosenCurrenciesListener) : 
                 notifyDataSetChanged()
             }
         }
+    }
+
+    fun updateListener(listener: ChosenCurrenciesListener) {
+        this.listener = listener
+    }
+
+    private fun highlightSelectedItem() {
+        notifyDataSetChanged()
     }
 
 

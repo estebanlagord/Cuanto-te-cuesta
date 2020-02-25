@@ -6,6 +6,7 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.smartpocket.cuantoteroban.chosencurrencies.ChosenCurrenciesRecyclerAdapter
 import com.smartpocket.cuantoteroban.editortype.EditorType
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import com.smartpocket.cuantoteroban.repository.CurrencyRepository
@@ -47,6 +48,7 @@ class MainFragmentVM : ViewModel() {
     val isLoadingLiveData = MutableLiveData<Boolean>(false)
     val lastUpdateLiveData = MutableLiveData<Date>(Date(0))
     val errorLiveData = SingleLiveEvent<ErrorState>()
+    var chosenCurrenciesAdapter : ChosenCurrenciesRecyclerAdapter? = null
 
     enum class ErrorState { NO_INTERNET, DOWNLOAD_ERROR }
 
