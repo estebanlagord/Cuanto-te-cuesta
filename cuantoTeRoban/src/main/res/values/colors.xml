@@ -14,6 +14,7 @@
     <color name="lightBlue">#E6FFFF</color>
     <color name="black">#000000</color>
     <color name="navDrawerSelected">#e0e0e0</color>
+    <color name="navDrawerLogoBackground">#80E0E0E0</color>
     <color name="background_color">#fffafafa</color>
     <color name="divider_color">#25000000</color>
 
