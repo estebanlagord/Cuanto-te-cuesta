@@ -13,40 +13,43 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.smartpocket.cuantoteroban.databinding.AboutBinding;
+
 public class About extends Fragment {
+    private AboutBinding binding;
 
-	@Nullable
-	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.about, container, false);
-		Toolbar toolbar = view.findViewById(R.id.my_awesome_toolbar);
-		((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-		((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		return view;
-	}
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = AboutBinding.inflate(inflater);
+        Toolbar toolbar = binding.getRoot().findViewById(R.id.my_awesome_toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        return binding.getRoot();
+    }
 
-	@Override
-	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-		TextView appName = view.findViewById(R.id.appNameView);
-		TextView versionTitle = view.findViewById(R.id.versionTitle);
-		TextView versionNumber = view.findViewById(R.id.versionNumber);
-		TextView thanksTitle = view.findViewById(R.id.thanksTitle);
-		TextView thanksContent = view.findViewById(R.id.thanksContent);
-		TextView notThanksTitle = view.findViewById(R.id.notThanksTitle);
-		TextView notThanksContent = view.findViewById(R.id.notThanksContent);
-		
-		try {
-			versionNumber.setText(requireContext().getPackageManager().getPackageInfo(requireContext().getPackageName(), 0).versionName);
-		} catch (NameNotFoundException e) {
-			versionNumber.setText("?");
-		}
-		
-		for (TextView tv : new TextView[]{appName, thanksTitle, notThanksTitle}){
-			tv.setTypeface(MainActivity.TYPEFACE_ROBOTO_BLACK);
-		}
-		
-		for (TextView tv : new TextView[]{versionTitle, versionNumber, thanksContent, notThanksContent}){
-			tv.setTypeface(MainActivity.TYPEFACE_ROBOTO_CONDENSED_ITALIC);
-		}
-	}
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        TextView appName = binding.appNameView;
+        TextView versionTitle = binding.versionTitle;
+        TextView versionNumber = binding.versionNumber;
+        TextView thanksTitle = binding.thanksTitle;
+        TextView thanksContent = binding.thanksContent;
+        TextView notThanksTitle = binding.notThanksTitle;
+        TextView notThanksContent = binding.notThanksContent;
+
+        try {
+            versionNumber.setText(requireContext().getPackageManager().getPackageInfo(requireContext().getPackageName(), 0).versionName);
+        } catch (NameNotFoundException e) {
+            versionNumber.setText("?");
+        }
+
+        for (TextView tv : new TextView[]{appName, thanksTitle, notThanksTitle}) {
+            tv.setTypeface(MainActivity.TYPEFACE_ROBOTO_BLACK);
+        }
+
+        for (TextView tv : new TextView[]{versionTitle, versionNumber, thanksContent, notThanksContent}) {
+            tv.setTypeface(MainActivity.TYPEFACE_ROBOTO_CONDENSED_ITALIC);
+        }
+    }
 }

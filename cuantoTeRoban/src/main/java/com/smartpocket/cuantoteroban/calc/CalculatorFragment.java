@@ -35,6 +35,7 @@ import com.smartpocket.cuantoteroban.MainActivity;
 import com.smartpocket.cuantoteroban.R;
 import com.smartpocket.cuantoteroban.SingleActivityVM;
 import com.smartpocket.cuantoteroban.Utilities;
+import com.smartpocket.cuantoteroban.databinding.CalculatorBinding;
 import com.smartpocket.cuantoteroban.editortype.EditorType;
 
 import java.text.DecimalFormat;
@@ -50,6 +51,7 @@ public class CalculatorFragment extends Fragment {
     public static final String INVALID_DISCOUNT100 = "El descuento no puede ser del 100% porque el valor quedaría en $0";
     private static final String INFINITE_OR_NAN = "El resultado de la operación no es un número válido.\n¿Dividiste por 0?";
     private static final int DELETE_FREQUENCY = 200;
+    private CalculatorBinding binding;
     private String resultTextNameStr;
     private DecimalFormat localNumberFormat = (DecimalFormat) DecimalFormat.getInstance();
     private char decimalSeparator;
@@ -74,10 +76,16 @@ public class CalculatorFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.calculator, container, false);
-        Toolbar toolbar = view.findViewById(R.id.my_awesome_toolbar);
+        binding = CalculatorBinding.inflate(inflater);
+        Toolbar toolbar = binding.getRoot().findViewById(R.id.my_awesome_toolbar);
         ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-        return view;
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     @Override
@@ -97,31 +105,31 @@ public class CalculatorFragment extends Fragment {
         //localNumberFormat.setRoundingMode(RoundingMode.HALF_UP);
         localNumberFormat.setGroupingUsed(false);
 
-        til = view.findViewById(R.id.calc_dialog_display);
+        til = binding.calcDialogDisplay;
         til.setHint(resultTextNameStr);
 
-        previous = view.findViewById(R.id.previous);
-        etCalculator = view.findViewById(R.id.etCalculator);
-        enterTotal = view.findViewById(R.id.enter_total);
-        clear = view.findViewById(R.id.clear);
-        seven = view.findViewById(R.id.seven);
-        eight = view.findViewById(R.id.eight);
-        nine = view.findViewById(R.id.nine);
-        division = view.findViewById(R.id.division);
-        four = view.findViewById(R.id.four);
-        five = view.findViewById(R.id.five);
-        six = view.findViewById(R.id.six);
-        multiply = view.findViewById(R.id.multiply);
-        one = view.findViewById(R.id.one);
-        two = view.findViewById(R.id.two);
-        three = view.findViewById(R.id.three);
-        subtract = view.findViewById(R.id.substract);
-        decimal = view.findViewById(R.id.decimal);
-        zero = view.findViewById(R.id.zero);
-        equals = view.findViewById(R.id.equals);
-        addition = view.findViewById(R.id.addition);
-        left = view.findViewById(R.id.left);
-        right = view.findViewById(R.id.right);
+        previous = binding.previous;
+        etCalculator = binding.etCalculator;
+        enterTotal = binding.enterTotal;
+        clear = binding.clear;
+        seven = binding.seven;
+        eight = binding.eight;
+        nine = binding.nine;
+        division = binding.division;
+        four = binding.four;
+        five = binding.five;
+        six = binding.six;
+        multiply = binding.multiply;
+        one = binding.one;
+        two = binding.two;
+        three = binding.three;
+        subtract = binding.substract;
+        decimal = binding.decimal;
+        zero = binding.zero;
+        equals = binding.equals;
+        addition = binding.addition;
+        left = binding.left;
+        right = binding.right;
 
         //etCalculator.setKeyListener(DigitsKeyListener.getInstance(true,true));
 

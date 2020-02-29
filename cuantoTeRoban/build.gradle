@@ -22,6 +22,10 @@ android {
         targetSdkVersion 29
     }
 
+    viewBinding {
+        enabled = true
+    }
+
     buildTypes {
         release {
             // Enables code shrinking, obfuscation, and optimization for only
