@@ -21,7 +21,6 @@ class MainFragmentVM : ViewModel() {
     private val logger = Logger.getLogger(javaClass.simpleName)
     private val repository by lazy { CurrencyRepository() }
     val preferences by lazy { PreferencesManager.getInstance() }
-//    val currencyManager = CurrencyManager.getInstance()
 
     private var bankExchangeRate = 0.0
     private var invertBankExchangeRate = false
@@ -48,7 +47,7 @@ class MainFragmentVM : ViewModel() {
     val isLoadingLiveData = MutableLiveData<Boolean>(false)
     val lastUpdateLiveData = MutableLiveData<Date>(Date(0))
     val errorLiveData = SingleLiveEvent<ErrorState>()
-    var chosenCurrenciesAdapter : ChosenCurrenciesRecyclerAdapter? = null
+    var chosenCurrenciesAdapter: ChosenCurrenciesRecyclerAdapter? = null
 
     enum class ErrorState { NO_INTERNET, DOWNLOAD_ERROR }
 
@@ -68,14 +67,6 @@ class MainFragmentVM : ViewModel() {
 
     private fun updateAmount(total: Double) {
         amountLiveData.postValue(totalToAmount(total))
-    }
-
-    private fun updateDiscount() {
-        discountLiveData.postValue(discount)
-    }
-
-    private fun updateTaxes() {
-        taxesLiveData.postValue(taxes)
     }
 
     private fun updateTotal(total: Double) {
@@ -99,25 +90,25 @@ class MainFragmentVM : ViewModel() {
     }
 
     fun onCalculatorValueChanged(editorType: EditorType, newValue: Double) {
-            when (editorType) {
-                EditorType.AMOUNT -> onAmountValueChanged(newValue)
-                EditorType.PESOS -> onPesosValueChanged(newValue)
-                EditorType.CREDIT_CARD -> onCreditCardValueChanged(newValue)
-                EditorType.EXCHANGE_AGENCY -> onAgencyValueChanged(newValue)
-                EditorType.PAYPAL -> {
-                }
-                EditorType.DISCOUNT -> onDiscountValueChanged(newValue)
-                EditorType.TAXES -> onTaxesValueChanged(newValue)
-                EditorType.TOTAL -> onTotalValueChanged(newValue)
-                EditorType.SAVINGS -> {
-                }
-                EditorType.BLUE -> onBlueValueChanged(newValue)
+        when (editorType) {
+            EditorType.AMOUNT -> onAmountValueChanged(newValue)
+            EditorType.PESOS -> onPesosValueChanged(newValue)
+            EditorType.CREDIT_CARD -> onCreditCardValueChanged(newValue)
+            EditorType.EXCHANGE_AGENCY -> onAgencyValueChanged(newValue)
+            EditorType.PAYPAL -> {
             }
-            if (editorType != EditorType.TAXES && editorType != EditorType.DISCOUNT) {
-                preferences.lastConversionType = editorType
-                preferences.lastConversionValue = newValue
+            EditorType.DISCOUNT -> onDiscountValueChanged(newValue)
+            EditorType.TAXES -> onTaxesValueChanged(newValue)
+            EditorType.TOTAL -> onTotalValueChanged(newValue)
+            EditorType.SAVINGS -> {
             }
-            currencyEditorTypeLiveData.postValue(editorType)
+            EditorType.BLUE -> onBlueValueChanged(newValue)
+        }
+        if (editorType != EditorType.TAXES && editorType != EditorType.DISCOUNT) {
+            preferences.lastConversionType = editorType
+            preferences.lastConversionValue = newValue
+        }
+        currencyEditorTypeLiveData.postValue(editorType)
     }
 
     private fun onBlueValueChanged(newValue: Double) {
@@ -142,14 +133,14 @@ class MainFragmentVM : ViewModel() {
     private fun onTaxesValueChanged(newValue: Double) {
         this.taxes = newValue
         preferences.taxes = newValue
-        taxesLiveData.postValue(newValue)
+        taxesLiveData.value = newValue
         onAmountValueChanged(amountLiveData.value ?: 0.0)
     }
 
     private fun onDiscountValueChanged(newValue: Double) {
         this.discount = newValue
         preferences.discount = newValue
-        discountLiveData.postValue(newValue)
+        discountLiveData.value = newValue
         onAmountValueChanged(amountLiveData.value ?: 0.0)
     }
 
@@ -275,8 +266,8 @@ class MainFragmentVM : ViewModel() {
         val currentCurrency = preferences.currentCurrency
         currencyLiveData.postValue(currentCurrency)
         lastUpdateLiveData.postValue(preferences.getLastUpdateDate(currentCurrency))
-        discountLiveData.postValue(discount)
-        taxesLiveData.postValue(taxes)
+        discountLiveData.value = discount
+        taxesLiveData.value = taxes
 
         val lastConversionType = preferences.lastConversionType
         if (lastConversionType != null) {
@@ -302,15 +293,11 @@ class MainFragmentVM : ViewModel() {
     }
 
     fun onDeleteDiscount() {
-        coroutineScope.launch {
-            onDiscountValueChanged(0.0)
-        }
+        onDiscountValueChanged(0.0)
     }
 
     fun onDeleteTaxes() {
-        coroutineScope.launch {
-            onTaxesValueChanged(0.0)
-        }
+        onTaxesValueChanged(0.0)
     }
 
     override fun onCleared() {
