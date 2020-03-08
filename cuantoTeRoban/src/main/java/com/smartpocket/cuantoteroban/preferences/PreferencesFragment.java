@@ -1,5 +1,7 @@
 package com.smartpocket.cuantoteroban.preferences;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,6 +95,27 @@ public class PreferencesFragment extends Fragment {
                 showAdsPreference.setVisible(false);
                 showAdsPreference.setEnabled(false);
             }
+
+            Preference writeReview = findPreference("send_review");
+            writeReview.setOnPreferenceClickListener(preference -> {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(getString(R.string.google_play_app_url)));
+                intent.setPackage("com.android.vending");
+                startActivity(intent);
+                return true;
+            });
+
+            Preference sendEmail = findPreference("email_developer");
+            sendEmail.setOnPreferenceClickListener(preference -> {
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"estebanlagord+Cuanto.Te.Cuesta.developer@gmail.com"});
+                intent.putExtra(Intent.EXTRA_SUBJECT, "App ¿Cuanto Te Cuesta?");
+                if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+                return true;
+            });
 
             for (String prefKey : PreferencesManager.getInstance().getAllPreferenceKeys()) {
                 Preference preference = findPreference(prefKey);

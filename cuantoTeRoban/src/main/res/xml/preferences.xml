@@ -4,33 +4,50 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <ListPreference
-        android:key="source_currency"
-        android:title="@string/source_currency" >
-    </ListPreference>
-
-    <Preference
-        android:key="currency_preference"
-        android:summary="Preferencias para la moneda seleccionada."
-        android:title="Preferencias para la moneda" >
-    </Preference>
-
-    <PreferenceCategory android:title="Publicidad">
+    <PreferenceCategory>
         <Preference
+            android:icon="@drawable/ic_shopping_cart"
             android:key="remove_ads"
-            app:title="@string/option_remove_ads"
             android:summary="@string/summary_remove_ads"
-            android:icon="@drawable/ic_shopping_cart"/>
+            app:title="@string/option_remove_ads" />
 
         <Preference
             android:key="consume_remove_ads"
-            app:title="Mostrar publicidad de nuevo"/>
+            app:title="Mostrar publicidad de nuevo" />
+
+        <Preference
+            android:icon="@drawable/ic_rate_review"
+            android:key="send_review"
+            android:summary="@string/preference_send_review_summary"
+            app:title="@string/preference_title_send_review" />
+
+        <Preference
+            android:icon="@drawable/ic_email"
+            android:key="email_developer"
+            android:summary="Manda un e-mail al desarrollador para pedir ayuda o hacer pedidos/sugerencias."
+            app:title="@string/preference_email_developer_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/global_preferences" >
+    <PreferenceCategory android:title="Preferencias de moneda">
+
+        <ListPreference
+            android:icon="@drawable/ic_attach_money"
+            android:key="source_currency"
+            android:title="@string/source_currency" />
+
+        <Preference
+            android:icon="@drawable/ic_settings"
+            android:key="currency_preference"
+            android:summary="Preferencias para la moneda seleccionada."
+            android:title="Preferencias para la moneda" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/global_preferences">
         <CheckBoxPreference
             android:defaultValue="true"
+            android:icon="@drawable/ic_refresh"
             android:key="update_bank_exchange_rates"
             android:summaryOff="@string/update_bank_exchange_rates_explained_off"
             android:summaryOn="@string/update_bank_exchange_rates_explained_on"
@@ -40,6 +57,7 @@
             android:defaultValue="4"
             android:dependency="update_bank_exchange_rates"
             android:dialogTitle="@string/update_frequency"
+            android:icon="@drawable/ic_update"
             android:inputType="number"
             android:key="update_frequency"
             android:summary="@string/update_frequency_explained"
@@ -47,26 +65,28 @@
         <EditTextPreference
             android:defaultValue="30"
             android:dialogTitle="@string/afip_percentage"
+            android:icon="@drawable/ic_percentage"
             android:inputType="numberDecimal"
             android:key="afip_percentage"
             android:summary="@string/afip_percentage_explained"
             android:title="@string/afip_percentage" />
-<!--        <EditTextPreference
-            android:defaultValue="20"
-            android:dialogTitle="@string/savings_percentage"
-            android:inputType="numberDecimal"
-            android:key="savings_percentage"
-            android:summary="@string/savings_percentage_explained"
-            android:title="@string/savings_percentage" />-->
+        <!--        <EditTextPreference
+                    android:defaultValue="20"
+                    android:dialogTitle="@string/savings_percentage"
+                    android:inputType="numberDecimal"
+                    android:key="savings_percentage"
+                    android:summary="@string/savings_percentage_explained"
+                    android:title="@string/savings_percentage" />-->
 
         <CheckBoxPreference
             android:defaultValue="true"
+            android:icon="@drawable/ic_history"
             android:key="remember_last_conversion"
             android:summary="@string/remember_last_conversion_explained"
             android:title="@string/remember_last_conversion" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/show_conversions_category" >
+    <PreferenceCategory android:title="@string/show_conversions_category">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="show_discount"
@@ -77,10 +97,10 @@
             android:defaultValue="true"
             android:key="show_pesos"
             android:title="@string/show_pesos" />
-<!--        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="show_savings"
-            android:title="@string/show_savings" />-->
+        <!--        <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="show_savings"
+                    android:title="@string/show_savings" />-->
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="show_credit_card"
@@ -93,10 +113,10 @@
             android:defaultValue="true"
             android:key="show_exchange_agency"
             android:title="@string/show_exchange_agency" />
-<!--        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="show_paypal"
-            android:title="@string/show_paypal" />-->
+        <!--        <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="show_paypal"
+                    android:title="@string/show_paypal" />-->
     </PreferenceCategory>
 
 </PreferenceScreen>

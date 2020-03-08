@@ -164,5 +164,9 @@
     <string name="billing_status_error">Hubo un error procesando la compra</string>
     <string name="billing_status_pending">Compra con pago pendiente</string>
     <string name="billing_status_connection_error">Error de conexion con Google Play Services. Proba de nuevo más tarde.</string>
+    <string name="preference_title_send_review">Escribir una opinión en Google Play</string>
+    <string name="preference_email_developer_title">Mandar un e-mail</string>
+    <string name="preference_send_review_summary">Tu opinion ayuda a dar a conocer y mejorar esta app.</string>
+    <string name="google_play_app_url">https://play.google.com/store/apps/details?id=com.smartpocket.cuantoteroban</string>
 
 </resources>
