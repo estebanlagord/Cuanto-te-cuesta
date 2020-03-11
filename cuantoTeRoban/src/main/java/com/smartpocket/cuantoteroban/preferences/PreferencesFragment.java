@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -29,7 +30,14 @@ import com.smartpocket.cuantoteroban.SingleActivityVM;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.smartpocket.cuantoteroban.preferences.PreferencesManager.THEME_CLEAR;
+import static com.smartpocket.cuantoteroban.preferences.PreferencesManager.THEME_DARK;
+import static com.smartpocket.cuantoteroban.preferences.PreferencesManager.THEME_SYSTEM_DEFAULT;
+
 public class PreferencesFragment extends Fragment {
+
+    private static final String[] themeOptions = {"Claro", "Oscuro", "Usar configuración de Android"};
+    private static final String[] themeOptionsValues = {THEME_CLEAR, THEME_DARK, THEME_SYSTEM_DEFAULT};
 
     @Nullable
     @Override
@@ -44,8 +52,10 @@ public class PreferencesFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        getChildFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, new MyPreferenceFragment()).commit();
+        if (savedInstanceState == null) {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.content_frame, new MyPreferenceFragment()).commit();
+        }
     }
 
     public static class MyPreferenceFragment extends PreferenceFragmentCompat {
@@ -117,10 +127,27 @@ public class PreferencesFragment extends Fragment {
                 return true;
             });
 
+            Preference chooseTheme = findPreference("choose_theme");
+            chooseTheme.setOnPreferenceChangeListener((preference, newValue) -> {
+                String value = (String) newValue;
+                int nightMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+                switch (value) {
+                    case THEME_CLEAR:
+                        nightMode = AppCompatDelegate.MODE_NIGHT_NO;
+                        break;
+                    case THEME_DARK:
+                        nightMode = AppCompatDelegate.MODE_NIGHT_YES;
+                        break;
+                }
+                AppCompatDelegate.setDefaultNightMode(nightMode);
+                return true;
+            });
+
             for (String prefKey : PreferencesManager.getInstance().getAllPreferenceKeys()) {
                 Preference preference = findPreference(prefKey);
                 if (preference != null) {
                     initializeChosenCurrencyListPreference(preference);
+                    initializeChooseThemeListPreference(preference);
                     updateSummaryForPreference(preference, null);
 
                     if (preference instanceof EditTextPreference) {
@@ -133,10 +160,12 @@ public class PreferencesFragment extends Fragment {
                         });
                     }
 
-                    preference.setOnPreferenceChangeListener((preference1, newValue) -> {
-                        updateSummaryForPreference(preference1, newValue);
-                        return true;
-                    });
+                    if (preference.getOnPreferenceChangeListener() == null) {
+                        preference.setOnPreferenceChangeListener((preference1, newValue) -> {
+                            updateSummaryForPreference(preference1, newValue);
+                            return true;
+                        });
+                    }
                 }
             }
         }
@@ -148,7 +177,7 @@ public class PreferencesFragment extends Fragment {
 
 
         private void initializeChosenCurrencyListPreference(Preference preference) {
-            if (preference instanceof ListPreference) {
+            if (preference instanceof ListPreference && preference.getKey().equals("source_currency")) {
                 List<String> entries = new ArrayList<>();
                 List<String> entryValues = new ArrayList<>();
                 List<Currency> chosenCurrencies = PreferencesManager.getInstance().getChosenCurrencies();
@@ -161,6 +190,14 @@ public class PreferencesFragment extends Fragment {
                 ListPreference listPref = (ListPreference) preference;
                 listPref.setEntries(entries.toArray(new String[0]));
                 listPref.setEntryValues(entryValues.toArray(new String[0]));
+            }
+        }
+
+        private void initializeChooseThemeListPreference(Preference preference) {
+            if (preference instanceof ListPreference && preference.getKey().equals("choose_theme")) {
+                ListPreference listPref = (ListPreference) preference;
+                listPref.setEntries(themeOptions);
+                listPref.setEntryValues(themeOptionsValues);
             }
         }
 
@@ -179,7 +216,7 @@ public class PreferencesFragment extends Fragment {
 
                 summary += "\n" + CURRENT_VALUE + newValue;
                 pref.setSummary(summary);
-            } else if (pref instanceof ListPreference) {
+            } else if (pref.getKey().equals("source_currency")) {
                 // update current value for "Moneda a convertir"
                 ListPreference listPref = (ListPreference) pref;
                 if (newValue == null)

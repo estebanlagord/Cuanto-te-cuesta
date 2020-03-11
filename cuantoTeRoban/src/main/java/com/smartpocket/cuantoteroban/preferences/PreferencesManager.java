@@ -46,6 +46,7 @@ public class PreferencesManager {
     public static final String USE_INTERNET_BANK_EXCHANGE_RATE = "use_internet_bank_exchange_rate";
     public static final String CURRENT_CURRENCY = "source_currency";
     public static final String CHOSEN_CURRENCIES = "chosen_currencies";
+    public static final String CHOSEN_THEME = "choose_theme";
     public static final String CURRENCIES_SEPARATOR = ",";
     public static final String BLUE_DOLLAR_ARS = "blue_dollar_ars";
 
@@ -74,6 +75,10 @@ public class PreferencesManager {
     private static final String DEFAULT_CURRENCY = CurrencyManager.USD;
     private static final String IS_NAV_DRAWER_NEW = "is_nav_drawer_new";
     private static final String IS_REMOVE_ADS_PURCHASED = "is_remove_ads_purchased";
+
+    public static final String THEME_CLEAR = "Clear";
+    public static final String THEME_DARK = "Dark";
+    public static final String THEME_SYSTEM_DEFAULT = "System Default";
 
     private Map<Currency, SharedPreferences> preferencesByCurrency = new HashMap<Currency, SharedPreferences>();
     private SharedPreferences preferencesByApp;
@@ -157,6 +162,7 @@ public class PreferencesManager {
         result.add(UPDATE_FREQUENCY);
         result.add(USE_INTERNET_BANK_EXCHANGE_RATE);
         result.add(CURRENT_CURRENCY);
+        result.add(CHOSEN_THEME);
         return result;
     }
 
@@ -560,6 +566,10 @@ public class PreferencesManager {
         Editor editor = getPreferencesByApp().edit();
         editor.putBoolean(IS_REMOVE_ADS_PURCHASED, isAdsRemoved);
         editor.apply();
+    }
+
+    public String getChosenTheme() {
+        return getPreferencesByApp().getString(CHOSEN_THEME, THEME_SYSTEM_DEFAULT);
     }
 
     /**

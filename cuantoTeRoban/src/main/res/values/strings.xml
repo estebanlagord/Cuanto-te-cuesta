@@ -168,5 +168,7 @@
     <string name="preference_email_developer_title">Mandar un e-mail</string>
     <string name="preference_send_review_summary">Tu opinion ayuda a dar a conocer y mejorar esta app.</string>
     <string name="google_play_app_url">https://play.google.com/store/apps/details?id=com.smartpocket.cuantoteroban</string>
+    <string name="preference_choose_theme_title">Cambiar tema</string>
+    <string name="preference_choose_theme_summary">Elegir entre un tema claro o escuro</string>
 
 </resources>
