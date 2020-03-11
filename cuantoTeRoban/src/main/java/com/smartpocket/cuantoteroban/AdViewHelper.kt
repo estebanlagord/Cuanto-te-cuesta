@@ -4,10 +4,7 @@ import android.app.Activity
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.*
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -75,12 +72,18 @@ class AdViewHelper(private val adViewContainer: ViewGroup, private val activity:
         val adSize: AdSize = adSize
         localAdView.adSize = adSize
 
-        val adRequest = AdRequest.Builder()
-                .addTestDevice("97EB45A0B9C0380783B9EC4628B453EB") // Galaxy S8+
-                .addTestDevice("3CCDD6B7DFE0C26EB206729F862B8B39")  // LG G3
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .build()
+        val testDevices = listOf(
+                "97EB45A0B9C0380783B9EC4628B453EB", // Galaxy S8+
+                "3CCDD6B7DFE0C26EB206729F862B8B39", // LG G3
+                AdRequest.DEVICE_ID_EMULATOR
+        )
 
+        val requestConfiguration = RequestConfiguration.Builder()
+                .setTestDeviceIds(testDevices)
+                .build()
+        MobileAds.setRequestConfiguration(requestConfiguration)
+
+        val adRequest = AdRequest.Builder().build()
         // Start loading the ad in the background.
         localAdView.loadAd(adRequest)
     }
