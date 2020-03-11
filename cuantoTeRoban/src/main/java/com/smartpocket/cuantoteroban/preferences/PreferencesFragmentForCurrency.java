@@ -39,8 +39,9 @@ public class PreferencesFragmentForCurrency extends Fragment {
 		ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
 		actionBar.setTitle(getString(R.string.application_preferences) + " para " + currentCurrency.getCode());
 
-        FragmentManager fragmentManager = getChildFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, new MyPreferenceForCurrencyFragment()).commit();
+		if (savedInstanceState == null) {
+			getParentFragmentManager().beginTransaction().replace(R.id.content_frame, new MyPreferenceForCurrencyFragment()).commit();
+		}
     }
 
     public static class MyPreferenceForCurrencyFragment extends PreferenceFragmentCompat

@@ -30,7 +30,7 @@ public class ChosenCurrencyLongClickListener implements OnItemLongClickListener 
 
 	public boolean onItemLongClick(Currency curr) {
 		DialogFragment dialogFragment = DeleteCurrencyDialogFragment.newInstance(curr.getCode(), listener);
-		dialogFragment.show(parent.getChildFragmentManager(), "deleteCurrency");
+		dialogFragment.show(parent.getParentFragmentManager(), "deleteCurrency");
 		return true;
 	}
 

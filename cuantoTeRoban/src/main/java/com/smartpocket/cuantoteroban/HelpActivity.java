@@ -42,7 +42,7 @@ public class HelpActivity extends Fragment {
         final ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         actionBar.setTitle("Ayuda");
 
-        MyAdapter myAdapter = new MyAdapter(getChildFragmentManager(), requireContext());
+        MyAdapter myAdapter = new MyAdapter(getParentFragmentManager(), requireContext());
         binding.pager.setAdapter(myAdapter);
     }
 
