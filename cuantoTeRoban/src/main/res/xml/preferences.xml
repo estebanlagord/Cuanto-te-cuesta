@@ -6,6 +6,7 @@
 
     <PreferenceCategory>
         <ListPreference
+            android:icon="@drawable/ic_brightness_medium"
             android:key="choose_theme"
             android:summary="@string/preference_choose_theme_summary"
             app:title="@string/preference_choose_theme_title" />

@@ -11,23 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--        <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <ProgressBar
-                        android:id="@+id/progressBar1"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="-7dp"
-                        android:layout_marginTop="-7dp"
-                        android:indeterminate="true" />
-
-                    <include layout="@layout/activity_main" />
-                </LinearLayout>-->
-
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/activity_main_swipe_refresh_layout"
             android:layout_width="match_parent"
@@ -41,7 +24,7 @@
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="@color/background_material_light"
+            android:background="@color/color_nav_drawer"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
     </androidx.drawerlayout.widget.DrawerLayout>
 

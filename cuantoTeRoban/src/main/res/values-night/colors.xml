@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    <color name="color_primary">#313131</color>
+    <color name="color_primary_dark">#000000</color>-->
+    <color name="color_primary">#C5E1A5</color>
+    <color name="color_primary_dark">#9CCC65</color>
+    <color name="color_secondary">#B2EBF2</color>
+    <color name="color_status_bar">#000000</color>
+
+    <color name="color_toolbar">#313131</color>
+    <color name="color_nav_drawer">#313131</color>
+    <color name="navDrawerSelected">#BF121212</color>
+    <color name="navDrawerLogoBackground">#BF121212</color>
+
+    <color name="background_color">#121212</color>
+</resources>

@@ -9,6 +9,7 @@
         <!-- Set AppCompat’s color theming attrs -->
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="android:statusBarColor">@color/color_status_bar</item>
         <item name="colorSecondary">@color/color_secondary</item>
         <item name="android:windowNoTitle">true</item>
         <item name="backgroundColor">?android:attr/colorBackground</item>
