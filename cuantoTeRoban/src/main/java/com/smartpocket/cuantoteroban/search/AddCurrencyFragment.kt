@@ -19,6 +19,7 @@ import com.smartpocket.cuantoteroban.R
 import com.smartpocket.cuantoteroban.SingleActivityVM
 import kotlinx.android.synthetic.main.activity_add_currency.*
 import kotlinx.android.synthetic.main.toolbar.view.*
+import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import java.util.*
 
 
@@ -45,7 +46,7 @@ class AddCurrencyFragment : Fragment(), OnCurrencyItemClickListener {
         recyclerView = unused_currencies_list
         recyclerView.adapter = mAdapter
         recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, LinearLayout.VERTICAL))
-        //        listView.setFastScrollEnabled(true);
+        FastScrollerBuilder(recyclerView).useMd2Style().build();
         setHasOptionsMenu(true)
         updateCurrenciesList(null)
         singleActivityVM = ViewModelProvider(requireActivity())[SingleActivityVM::class.java]
