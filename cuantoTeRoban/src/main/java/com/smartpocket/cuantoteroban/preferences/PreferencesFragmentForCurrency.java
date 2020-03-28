@@ -40,7 +40,7 @@ public class PreferencesFragmentForCurrency extends Fragment {
 		actionBar.setTitle(getString(R.string.application_preferences) + " para " + currentCurrency.getCode());
 
 		if (savedInstanceState == null) {
-			getParentFragmentManager().beginTransaction().replace(R.id.content_frame, new MyPreferenceForCurrencyFragment()).commit();
+			getChildFragmentManager().beginTransaction().replace(R.id.content_frame, new MyPreferenceForCurrencyFragment()).commit();
 		}
     }
 

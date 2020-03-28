@@ -53,7 +53,7 @@ public class PreferencesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            getParentFragmentManager().beginTransaction()
+            getChildFragmentManager().beginTransaction()
                     .replace(R.id.content_frame, new MyPreferenceFragment()).commit();
         }
     }
