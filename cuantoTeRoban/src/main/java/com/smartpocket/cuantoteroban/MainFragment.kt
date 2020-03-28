@@ -233,6 +233,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
             EditorType.TOTAL -> highlightOnly(totalEditText)
 //            EditorType.SAVINGS -> highlightOnly(withSavingsValue)
             EditorType.BLUE -> highlightOnly(withBlueValue)
+            else -> throw UnsupportedOperationException("Unsupported editor type $editorType")
         }
     }
 

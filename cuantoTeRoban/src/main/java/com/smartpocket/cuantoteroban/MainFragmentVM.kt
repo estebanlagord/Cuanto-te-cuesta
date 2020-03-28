@@ -12,15 +12,15 @@ import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import com.smartpocket.cuantoteroban.repository.CurrencyRepository
 import kotlinx.coroutines.*
 import java.util.*
-import java.util.logging.Logger
 
 class MainFragmentVM : ViewModel() {
 
     private val parentJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
-    private val logger = Logger.getLogger(javaClass.simpleName)
+
+    //    private val logger = Logger.getLogger(javaClass.simpleName)
     private val repository by lazy { CurrencyRepository() }
-    val preferences by lazy { PreferencesManager.getInstance() }
+    val preferences: PreferencesManager by lazy { PreferencesManager.getInstance() }
 
     private var bankExchangeRate = 0.0
     private var invertBankExchangeRate = false
@@ -33,19 +33,19 @@ class MainFragmentVM : ViewModel() {
     private var discount = 0.0
     private var taxes = 0.0
 
-    val amountLiveData = MutableLiveData<Double>(0.0)
-    val discountLiveData = MutableLiveData<Double>(0.0)
-    val taxesLiveData = MutableLiveData<Double>(0.0)
-    val totalLiveData = MutableLiveData<Double>(0.0)
-    val pesosLiveData = MutableLiveData<Double>(0.0)
-    val creditCardLiveData = MutableLiveData<Double>(0.0)
-    val blueLiveData = MutableLiveData<Double>(0.0)
-    val exchangeAgencyLiveData = MutableLiveData<Double>(0.0)
+    val amountLiveData = MutableLiveData(0.0)
+    val discountLiveData = MutableLiveData(0.0)
+    val taxesLiveData = MutableLiveData(0.0)
+    val totalLiveData = MutableLiveData(0.0)
+    val pesosLiveData = MutableLiveData(0.0)
+    val creditCardLiveData = MutableLiveData(0.0)
+    val blueLiveData = MutableLiveData(0.0)
+    val exchangeAgencyLiveData = MutableLiveData(0.0)
 
-    val currencyLiveData = MutableLiveData<Currency>(preferences.currentCurrency)
+    val currencyLiveData = MutableLiveData(preferences.currentCurrency)
     val currencyEditorTypeLiveData = MutableLiveData<EditorType>()
-    val isLoadingLiveData = MutableLiveData<Boolean>(false)
-    val lastUpdateLiveData = MutableLiveData<Date>(Date(0))
+    val isLoadingLiveData = MutableLiveData(false)
+    val lastUpdateLiveData = MutableLiveData(Date(0))
     val errorLiveData = SingleLiveEvent<ErrorState>()
     var chosenCurrenciesAdapter: ChosenCurrenciesRecyclerAdapter? = null
 
@@ -55,7 +55,7 @@ class MainFragmentVM : ViewModel() {
         onSettingsChanged()
     }
 
-    fun onAmountValueChanged(amount: Double) {
+    private fun onAmountValueChanged(amount: Double) {
         val total = amountToTotal(amount)
         amountLiveData.postValue(amount)
         updateTotal(total)
@@ -305,6 +305,7 @@ class MainFragmentVM : ViewModel() {
         coroutineScope.cancel("ViewModel onCleared()")
     }
 
+    @Suppress("DEPRECATION")
     private fun isInternetAvailable(): Boolean {
         var result = false
         val connectivityManager =
@@ -329,7 +330,6 @@ class MainFragmentVM : ViewModel() {
                         ConnectivityManager.TYPE_ETHERNET -> true
                         else -> false
                     }
-
                 }
             }
         }
