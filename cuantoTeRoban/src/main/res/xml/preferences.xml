@@ -8,6 +8,7 @@
         <ListPreference
             android:icon="@drawable/ic_brightness_medium"
             android:key="choose_theme"
+            android:defaultValue="System Default"
             android:summary="@string/preference_choose_theme_summary"
             app:title="@string/preference_choose_theme_title" />
 
@@ -40,6 +41,7 @@
         <ListPreference
             android:icon="@drawable/ic_attach_money"
             android:key="source_currency"
+            android:defaultValue="USD"
             android:title="@string/source_currency" />
 
         <Preference
