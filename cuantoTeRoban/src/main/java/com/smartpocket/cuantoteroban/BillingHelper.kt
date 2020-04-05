@@ -10,7 +10,7 @@ import java.util.logging.Logger
 
 const val PURCHASE_STATE_PENDING = -1
 
-class BillingHelper(private val activity: FragmentActivity) : PurchasesUpdatedListener {
+class BillingHelper(activity: FragmentActivity) : PurchasesUpdatedListener {
 
     private val logger = Logger.getLogger(javaClass.simpleName)
     private lateinit var billingClient: BillingClient
@@ -59,7 +59,7 @@ class BillingHelper(private val activity: FragmentActivity) : PurchasesUpdatedLi
 
     private fun setupBillingClient() {
         logger.log(Level.INFO, "Setting up BillingHelper")
-        billingClient = newBuilder(activity.applicationContext)
+        billingClient = newBuilder(MyApplication.applicationContext())
                 .enablePendingPurchases()
                 .setListener(this)
                 .build()

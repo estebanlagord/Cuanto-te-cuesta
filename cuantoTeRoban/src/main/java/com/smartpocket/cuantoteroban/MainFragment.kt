@@ -10,7 +10,6 @@ import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
 import android.view.animation.AnimationUtils
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.appcompat.app.ActionBar
@@ -18,14 +17,11 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.transition.TransitionManager
 import com.smartpocket.cuantoteroban.MainActivity.FRACTION_DIGITS
 import com.smartpocket.cuantoteroban.MainActivity.RequestCode
@@ -38,27 +34,25 @@ import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.container_main.*
+import java.lang.ref.WeakReference
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesListener {
 
-    private lateinit var refreshItem: MenuItem
-    private lateinit var rotatingRefreshButtonView: ImageView
-    private lateinit var refreshButtonRotation: Animation
-    private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var mDrawerLayout: DrawerLayout
-    private lateinit var mDrawerToggle: ActionBarDrawerToggle
-    private lateinit var mDrawerList: RecyclerView
+//    private lateinit var refreshItem: MenuItem
+//    private lateinit var rotatingRefreshButtonView: ImageView
+//    private lateinit var refreshButtonRotation: Animation
+    private lateinit var mDrawerToggle: WeakReference<ActionBarDrawerToggle>
     private val chosenCurrencyLongClickListener = ChosenCurrencyLongClickListener(this)
     private lateinit var viewModel: MainFragmentVM
     private lateinit var singleActivityVM: SingleActivityVM
-    private lateinit var totalViews: List<View>
-    private lateinit var pesosViews: List<View>
-    private lateinit var withCardViews: List<View>
-    private lateinit var blueViews: List<View>
-    private lateinit var exchangeAgencyViews: List<View>
+    private lateinit var totalViews: MutableList<View>
+    private lateinit var pesosViews: MutableList<View>
+    private lateinit var withCardViews: MutableList<View>
+    private lateinit var blueViews: MutableList<View>
+    private lateinit var exchangeAgencyViews: MutableList<View>
     private var currentCurr: Currency? = null
     private val preferences by lazy { PreferencesManager.getInstance() }
     private val displayDateFormat = SimpleDateFormat("dd/MMM HH:mm", Locale("es", "AR"))
@@ -79,11 +73,11 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
 
-        totalViews = listOf(view.totalTextView, view.totalEditText)
-        pesosViews = listOf(view.textViewInPesos, view.pesosBill, view.inPesosValue)
-        withCardViews = listOf(view.textViewWithCard, view.ivCreditCard, view.withCreditCardValue)
-        blueViews = listOf(view.textViewBlue, view.ivDolarBlue, view.withBlueValue)
-        exchangeAgencyViews = listOf(view.textViewAgency, view.exchangeAgencyValue)
+        totalViews = mutableListOf(view.totalTextView, view.totalEditText)
+        pesosViews = mutableListOf(view.textViewInPesos, view.pesosBill, view.inPesosValue)
+        withCardViews = mutableListOf(view.textViewWithCard, view.ivCreditCard, view.withCreditCardValue)
+        blueViews = mutableListOf(view.textViewBlue, view.ivDolarBlue, view.withBlueValue)
+        exchangeAgencyViews = mutableListOf(view.textViewAgency, view.exchangeAgencyValue)
 
         return view
     }
@@ -92,9 +86,10 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
         super.onActivityCreated(savedInstanceState)
 
         currentCurr = null
-        mSwipeRefreshLayout = activity_main_swipe_refresh_layout
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.color_primary_dark)
-        mSwipeRefreshLayout.setOnRefreshListener { viewModel.refreshRates(true) }
+        with(activity_main_swipe_refresh_layout) {
+            setColorSchemeResources(R.color.color_primary_dark)
+            setOnRefreshListener { viewModel.refreshRates(true) }
+        }
 
         viewModel = ViewModelProvider(this)[MainFragmentVM::class.java]
         singleActivityVM = ViewModelProvider(requireActivity())[SingleActivityVM::class.java]
@@ -209,7 +204,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
     private fun shouldShowBlue(curr: Currency?) = preferences.isShowBlue && (curr?.code == CurrencyManager.USD)
 
     private fun setLoadingState(isLoading: Boolean) {
-        mSwipeRefreshLayout.isRefreshing = isLoading
+        activity_main_swipe_refresh_layout.isRefreshing = isLoading
 /*        if (isLoading) {
             rotatingRefreshButtonView.startAnimation(refreshButtonRotation)
             refreshItem.setActionView(rotatingRefreshButtonView)
@@ -266,7 +261,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
 //        withSavingsValue.setOnClickListener(OnClickListenerShowCalc(withSavingsValue, resources.getString(R.string.WithSavings), EditorType.SAVINGS))
         withBlueValue.setOnClickListener(OnClickListenerShowCalc(withBlueValue, resources.getString(R.string.WithBlue), EditorType.BLUE))
         exchangeAgencyValue.setOnClickListener(OnClickListenerShowCalc(exchangeAgencyValue, resources.getString(R.string.ExchangeAgency), EditorType.EXCHANGE_AGENCY))
-        countryFlag.setOnClickListener { mDrawerLayout.openDrawer(GravityCompat.START) }
+        countryFlag.setOnClickListener { drawer_layout.openDrawer(GravityCompat.START) }
 
         discountTIL.setEndIconOnClickListener {
             viewModel.onDeleteDiscount()
@@ -310,10 +305,9 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
 
     private fun setupNavDrawer() {
         val actionBar = (activity as AppCompatActivity).supportActionBar as ActionBar
-        mDrawerLayout = drawer_layout
-        mDrawerToggle = object : ActionBarDrawerToggle(
+        mDrawerToggle = WeakReference(object : ActionBarDrawerToggle(
                 requireActivity(),  /* host Activity */
-                mDrawerLayout,  /* DrawerLayout object */
+                drawer_layout,  /* DrawerLayout object */
                 R.string.menu_change,  /* "open drawer" description */
                 R.string.menu_change /* "close drawer" description */
         ) {
@@ -334,26 +328,26 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
                 requireActivity().invalidateOptionsMenu() // creates call to onPrepareOptionsMenu()
 //                if (mActionMode != null) mActionMode.finish()
             }
-        }
+        })
+
         // Set the drawer toggle as the DrawerListener
-        mDrawerLayout.addDrawerListener(mDrawerToggle)
+        drawer_layout.addDrawerListener(mDrawerToggle.get()!!)
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
-        mDrawerList = left_drawer
         // Set the adapter for the list view
-        mDrawerList.setHasFixedSize(true)
+        left_drawer.setHasFixedSize(true)
 
         if (viewModel.chosenCurrenciesAdapter == null) {
             viewModel.chosenCurrenciesAdapter = ChosenCurrenciesRecyclerAdapter(this)
         } else {
             viewModel.chosenCurrenciesAdapter?.updateListener(this)
         }
-        mDrawerList.adapter = viewModel.chosenCurrenciesAdapter
-        mDrawerToggle.syncState()
+        left_drawer.adapter = viewModel.chosenCurrenciesAdapter
+        mDrawerToggle.get()!!.syncState()
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-                mDrawerLayout.closeDrawer(GravityCompat.START)
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout.closeDrawer(GravityCompat.START)
             } else {
                 isEnabled = false
                 activity?.onBackPressed()
@@ -371,16 +365,16 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
 
 
     private fun selectItemFromNavDrawer(newCurr: Currency) { // Highlight the selected item
-        val adapter = mDrawerList.adapter as ChosenCurrenciesRecyclerAdapter
+        val adapter = left_drawer.adapter as ChosenCurrenciesRecyclerAdapter
         adapter.selectedItem = newCurr
         preferences.currentCurrency = newCurr
         onActivityResult(RequestCode.CHOOSE_CURRENCY.ordinal, Activity.RESULT_OK, null)
-        mDrawerLayout.closeDrawer(mDrawerList)
+        drawer_layout.closeDrawer(left_drawer)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        mDrawerToggle.onConfigurationChanged(newConfig)
+        mDrawerToggle.get()!!.onConfigurationChanged(newConfig)
     }
 
 /*    override fun onBackPressed() {
@@ -460,7 +454,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
 
     override fun onPrepareOptionsMenu(menu: Menu) { // show/hide buttons depending on whether the nav drawer is open
         val disabledWhenNavDrawerIsOpen = intArrayOf(R.id.menu_share, R.id.menu_about, R.id.menu_help, R.id.menu_settings, R.id.menu_share, R.id.menu_update)
-        val drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList)
+        val drawerOpen = drawer_layout.isDrawerOpen(left_drawer)
         if (drawerOpen) {
             menu.findItem(R.id.menu_add_currency).isVisible = true
             for (i in disabledWhenNavDrawerIsOpen) menu.findItem(i).isVisible = false
@@ -474,10 +468,11 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // If the user pressed the app icon, and if the drawer is closed, change the preference
         // to avoid opening automatically the nav drawer on next launch
-        if (item.itemId == android.R.id.home && !mDrawerLayout.isDrawerOpen(mDrawerList)) preferences.setIsNavDrawerNew(false)
+        if (item.itemId == android.R.id.home && !drawer_layout.isDrawerOpen(left_drawer))
+            preferences.setIsNavDrawerNew(false)
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        if (mDrawerToggle.get()!!.onOptionsItemSelected(item)) {
             return true
         }
         when (item.itemId) {
@@ -496,8 +491,19 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
      * Used to refresh NavDrawer list after a currency is deleted
      */
     override fun onDialogPositiveClick(dialog: DialogFragment) {
-        val adapter = mDrawerList.adapter as ChosenCurrenciesRecyclerAdapter
+        val adapter = left_drawer.adapter as ChosenCurrenciesRecyclerAdapter
         adapter.updateCurrenciesList()
+    }
+
+    override fun onDestroyView() {
+        drawer_layout.removeDrawerListener(mDrawerToggle.get()!!)
+        viewModel.chosenCurrenciesAdapter = null
+        totalViews.clear()
+        pesosViews.clear()
+        withCardViews.clear()
+        blueViews.clear()
+        exchangeAgencyViews.clear()
+        super.onDestroyView()
     }
 
 }

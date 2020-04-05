@@ -71,4 +71,6 @@ dependencies {
     // Third party libs
     implementation 'org.jsoup:jsoup:1.13.1'
     implementation 'me.zhanghai.android.fastscroll:library:1.1.1'
+    // debugImplementation because LeakCanary should only run in debug builds.
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 }
