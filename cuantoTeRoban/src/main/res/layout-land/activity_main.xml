@@ -33,16 +33,23 @@
 
         <TextView
             android:id="@+id/currencyName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_medium"
+            app:layout_constraintEnd_toStartOf="@id/chartIcon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/whatTheyChargeYou"
-            tools:layout_conversion_absoluteHeight="19dp"
-            tools:layout_conversion_absoluteWidth="157dp"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="40dp"
             tools:text="@string/in_us_dollar" />
 
+        <ImageView
+            android:id="@+id/chartIcon"
+            android:layout_width="@dimen/main_chart_icon_size"
+            android:layout_height="@dimen/main_chart_icon_size"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:src="@drawable/ic_chart"
+            app:layout_constraintBottom_toBottomOf="@id/countryFlag"
+            app:layout_constraintEnd_toStartOf="@id/countryFlag"
+            app:layout_constraintTop_toTopOf="@id/countryFlag" />
 
         <ImageView
             android:id="@+id/countryFlag"

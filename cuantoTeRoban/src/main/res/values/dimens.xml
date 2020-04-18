@@ -20,5 +20,7 @@
     <dimen name="calculator_button_padding">8dp</dimen>
 
     <dimen name="chart_line_width">1dp</dimen>
+    <dimen name="chart_entry_value_text_size">3dp</dimen>
+    <dimen name="chart_marker_vertical_offset">5dp</dimen>
     
 </resources>

@@ -18,24 +18,26 @@
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/padding_medium"
-        app:layout_constraintBottom_toTopOf="@id/toggleGroup"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/toggleGroup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/my_awesome_toolbar" />
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/toggleGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="@dimen/padding_medium"
         android:layout_marginEnd="@dimen/padding_medium"
+        android:orientation="vertical"
         app:checkedButton="@id/button1A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/chart"
+        app:layout_constraintTop_toBottomOf="@id/my_awesome_toolbar"
         app:selectionRequired="true"
         app:singleSelection="true">
 

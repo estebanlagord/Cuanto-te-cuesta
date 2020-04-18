@@ -5,6 +5,7 @@ import androidx.annotation.LayoutRes
 import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
+import com.smartpocket.cuantoteroban.R
 import com.smartpocket.cuantoteroban.Utilities
 import com.smartpocket.cuantoteroban.repository.graph.PastCurrency
 import kotlinx.android.synthetic.main.chart_marker_view.view.*
@@ -12,10 +13,11 @@ import kotlinx.android.synthetic.main.chart_marker_view.view.*
 class CustomMarkerView(context: Context, @LayoutRes layoutResource: Int) : MarkerView(context, layoutResource) {
     private val currencyFormatter = Utilities.getCurrencyFormat()
     private val dateFormatter = Utilities.getDateFormat()
+    private val vOffset = context.resources.getDimension(R.dimen.chart_marker_vertical_offset)
 
     init {
         val xOffset = -width / 2f
-        val yOffset = -height.toFloat()
+        val yOffset = -height.toFloat() - vOffset
         setOffset(xOffset, yOffset)
     }
 

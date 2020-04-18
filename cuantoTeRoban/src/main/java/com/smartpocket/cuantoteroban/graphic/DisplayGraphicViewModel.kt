@@ -16,8 +16,8 @@ import java.util.*
 class DisplayGraphicViewModel : ViewModel() {
     private val parentJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.IO + parentJob)
-    private val preferences: PreferencesManager by lazy { PreferencesManager.getInstance() }
     private val graphDataProvider by lazy { GraphDataProvider() }
+    val preferences: PreferencesManager by lazy { PreferencesManager.getInstance() }
     val entriesLD = MutableLiveData<List<Entry>>()
 
     enum class DateRangeOption {
@@ -29,7 +29,7 @@ class DisplayGraphicViewModel : ViewModel() {
     }
 
     init {
-        updateGraph(DateRangeOption.MAX)
+        updateGraph(DateRangeOption.YEARS_1)
     }
 
     private fun updateGraph(dateRange: DateRangeOption) {

@@ -21,6 +21,8 @@ import com.smartpocket.cuantoteroban.Utilities
 import com.smartpocket.cuantoteroban.databinding.DisplayGraphicFragmentBinding
 import kotlinx.android.synthetic.main.display_graphic_fragment.*
 
+private const val ANIMATION_DURATION_MS = 400
+
 class DisplayGraphicFragment : Fragment() {
 
     private lateinit var binding: DisplayGraphicFragmentBinding
@@ -57,13 +59,17 @@ class DisplayGraphicFragment : Fragment() {
     }
 
     private fun updateEntries(it: List<Entry>?) {
-        val dataSet = LineDataSet(it, "Valor de $1 USD en Pesos argentinos").apply {
+        val curr = viewModel.preferences.currentCurrency.code
+        val dataSet = LineDataSet(it, "Valor de $1 $curr en Pesos argentinos").apply {
             mode = LineDataSet.Mode.HORIZONTAL_BEZIER
             lineWidth = resources.getDimension(R.dimen.chart_line_width)
             color = ContextCompat.getColor(requireContext(), R.color.color_primary)
+            setDrawHighlightIndicators(false)
             setCircleColor(color)
+            setDrawCircles(false)
         }
         val lineData = LineData(dataSet).apply {
+            setValueTextSize(resources.getDimension(R.dimen.chart_entry_value_text_size))
             setValueFormatter(object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
                     return currencyFormatter.format(value)
@@ -71,7 +77,10 @@ class DisplayGraphicFragment : Fragment() {
             })
         }
         chart.data = lineData
-        chart.invalidate()
+        chart.highlightValues(null)
+//        chart.invalidate()
+        chart.fitScreen()
+        chart.animateX(ANIMATION_DURATION_MS)
     }
 
     private fun configGraph() {
@@ -82,9 +91,10 @@ class DisplayGraphicFragment : Fragment() {
 //            axisRight.isEnabled = false
             marker = CustomMarkerView(requireContext(), R.layout.chart_marker_view)
             xAxis.valueFormatter = DateValueFormatter()
-            xAxis.labelRotationAngle = 45f
+            xAxis.labelRotationAngle = resources.getInteger(R.integer.graph_label_rotation_angle).toFloat()
             xAxis.isGranularityEnabled = true
-            val desc = Description().apply { text = "Descipcion del grafico USD" }
+            val currName = viewModel.preferences.currentCurrency.name
+            val desc = Description().apply { text = "Datos históricos para $currName" }
             description = desc
 //            xAxis.granularity = TimeUnit.DAYS.toMillis(1).toFloat()
 //            axisRight.granularity = 1f

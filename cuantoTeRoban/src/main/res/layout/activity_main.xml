@@ -34,8 +34,10 @@
 
         <TextView
             android:id="@+id/currencyName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_medium"
+            app:layout_constraintEnd_toStartOf="@id/chartIcon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/whatTheyChargeYou"
             tools:text="@string/in_us_dollar" />
