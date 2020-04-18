@@ -11,11 +11,14 @@
 	<dimen name="calculator_text_size">35sp</dimen>
 	<dimen name="main_activity_text_size_medium">18sp</dimen>
     <dimen name="main_flag_size">90dp</dimen>
+    <dimen name="main_chart_icon_size">50dp</dimen>
 
     <dimen name="calculator_button_margin">5dp</dimen>
     <dimen name="calculator_margin">8dp</dimen>
     <dimen name="calculator_margin_bottom">4dp</dimen>
     <dimen name="calculator_button_icon_size">36dp</dimen>
     <dimen name="calculator_button_padding">8dp</dimen>
+
+    <dimen name="chart_line_width">1dp</dimen>
     
 </resources>

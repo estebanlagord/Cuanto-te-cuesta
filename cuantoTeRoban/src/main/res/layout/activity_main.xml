@@ -41,6 +41,16 @@
             tools:text="@string/in_us_dollar" />
 
         <ImageView
+            android:id="@+id/chartIcon"
+            android:layout_width="@dimen/main_chart_icon_size"
+            android:layout_height="@dimen/main_chart_icon_size"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:src="@drawable/ic_chart"
+            app:layout_constraintBottom_toBottomOf="@id/countryFlag"
+            app:layout_constraintEnd_toStartOf="@id/countryFlag"
+            app:layout_constraintTop_toTopOf="@id/countryFlag" />
+
+        <ImageView
             android:id="@+id/countryFlag"
             android:layout_width="@dimen/main_flag_size"
             android:layout_height="@dimen/main_flag_size"

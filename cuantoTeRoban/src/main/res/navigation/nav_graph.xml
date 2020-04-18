@@ -45,6 +45,13 @@
             app:exitAnim="@anim/none"
             app:popEnterAnim="@anim/none"
             app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_mainFragment_to_displayGraphicFragment"
+            app:destination="@id/displayGraphicFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/none"
+            app:popEnterAnim="@anim/none"
+            app:popExitAnim="@anim/exit_to_right" />
     </fragment>
     <fragment
         android:id="@+id/calculator"
@@ -93,4 +100,9 @@
         android:name="com.smartpocket.cuantoteroban.search.AddCurrencyFragment"
         android:label="activity_add_currency"
         tools:layout="@layout/activity_add_currency" />
+    <fragment
+        android:id="@+id/displayGraphicFragment"
+        android:name="com.smartpocket.cuantoteroban.graphic.DisplayGraphicFragment"
+        android:label="display_graphic_fragment"
+        tools:layout="@layout/display_graphic_fragment" />
 </navigation>

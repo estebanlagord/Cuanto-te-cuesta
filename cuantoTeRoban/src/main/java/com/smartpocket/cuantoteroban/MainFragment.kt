@@ -41,7 +41,7 @@ import java.util.*
 
 class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesListener {
 
-//    private lateinit var refreshItem: MenuItem
+    //    private lateinit var refreshItem: MenuItem
 //    private lateinit var rotatingRefreshButtonView: ImageView
 //    private lateinit var refreshButtonRotation: Animation
     private lateinit var mDrawerToggle: WeakReference<ActionBarDrawerToggle>
@@ -56,11 +56,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
     private var currentCurr: Currency? = null
     private val preferences by lazy { PreferencesManager.getInstance() }
     private val displayDateFormat = SimpleDateFormat("dd/MMM HH:mm", Locale("es", "AR"))
-    private val shortNumberFormat = (DecimalFormat.getInstance() as DecimalFormat).apply {
-        minimumFractionDigits = FRACTION_DIGITS
-        maximumFractionDigits = FRACTION_DIGITS
-        positivePrefix = "$ "
-    }
+    private val shortNumberFormat = Utilities.getCurrencyFormat()
     private val percentageNumberFormat = (DecimalFormat.getInstance() as DecimalFormat).apply {
         minimumFractionDigits = 0
         maximumFractionDigits = FRACTION_DIGITS
@@ -262,6 +258,9 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
         withBlueValue.setOnClickListener(OnClickListenerShowCalc(withBlueValue, resources.getString(R.string.WithBlue), EditorType.BLUE))
         exchangeAgencyValue.setOnClickListener(OnClickListenerShowCalc(exchangeAgencyValue, resources.getString(R.string.ExchangeAgency), EditorType.EXCHANGE_AGENCY))
         countryFlag.setOnClickListener { drawer_layout.openDrawer(GravityCompat.START) }
+        chartIcon.setOnClickListener {
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToDisplayGraphicFragment())
+        }
 
         discountTIL.setEndIconOnClickListener {
             viewModel.onDeleteDiscount()
