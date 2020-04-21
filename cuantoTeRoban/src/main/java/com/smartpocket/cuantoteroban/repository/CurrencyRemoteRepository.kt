@@ -11,6 +11,7 @@ class CurrencyRemoteRepository {
 
     private val logger = Logger.getLogger(javaClass.simpleName)
     private val googleDownloader by lazy { CurrencyDownloaderGoogle() }
+    private val xeDownloader by lazy { CurrencyDownloaderXE() }
     private val brlDownloader by lazy { CurrencyDownloaderDolarHoyBRL() }
     private val eurDownloader by lazy { CurrencyDownloaderDolarHoyEUR() }
     private val usdDownloader by lazy { CurrencyDownloaderDolarHoyUSD() }
@@ -28,6 +29,7 @@ class CurrencyRemoteRepository {
             CurrencyManager.USD -> usdDownloader
             CurrencyManager.UYU -> uyuDownloader
             else -> googleDownloader
+//            else -> xeDownloader
         }
         val result = downloader.getExchangeRateFor1(currencyFrom.code, currencyTo)
 

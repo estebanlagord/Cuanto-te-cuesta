@@ -4,6 +4,7 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.awaitUnit
 import com.smartpocket.cuantoteroban.Currency
 import java.io.File
+import java.lang.Exception
 import java.util.*
 
 class GraphRemoteRepository {
@@ -19,15 +20,22 @@ class GraphRemoteRepository {
         val interval = "interval" to "1d"
         val params = listOf(period1, period2, interval)
 
-        Fuel.download(
-                "https://query1.finance.yahoo.com/v7/finance/download/$currStr", parameters = params)
+        try {
+            Fuel.download(
+                    "https://query1.finance.yahoo.com/v7/finance/download/$currStr", parameters = params)
 
-                .fileDestination { _, _ -> file }
+                    .fileDestination { _, _ -> file }
 /*                .progress { readBytes, totalBytes ->
                     val progress = readBytes.toFloat() / totalBytes.toFloat() * 100
                     println("Bytes downloaded $readBytes / $totalBytes ($progress %)")
                 }*/
-                .awaitUnit()
-        println("Download completed")
+                    .awaitUnit()
+            println("Download completed")
+        } catch (e: Exception) {
+            println("Download error: $e")
+            // delete the file which was downloaded with an error message
+            file.delete()
+            throw e
+        }
     }
 }

@@ -16,6 +16,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_awesome_toolbar" />
+
+    <TextView
+        android:id="@+id/tvErrorMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/padding_large"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/toggleGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/my_awesome_toolbar"
+        tools:text="@string/error_no_internet"
+        tools:visibility="visible" />
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
         android:layout_width="0dp"
@@ -36,7 +62,6 @@
         app:checkedButton="@id/button1A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/chart"
         app:layout_constraintTop_toBottomOf="@id/my_awesome_toolbar"
         app:selectionRequired="true"
         app:singleSelection="true">
@@ -47,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="7D" />
+            android:text="@string/period_1_week" />
 
         <Button
             android:id="@+id/button1M"
@@ -55,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="1M" />
+            android:text="@string/period_1_month" />
 
         <Button
             android:id="@+id/button1A"
@@ -63,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="1A" />
+            android:text="@string/period_1_year" />
 
         <Button
             android:id="@+id/button5A"
@@ -71,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="5A" />
+            android:text="@string/period_5_years" />
 
         <Button
             android:id="@+id/buttonMax"
@@ -79,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="MÁX" />
+            android:text="@string/period_max" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 

@@ -155,6 +155,9 @@
 
     <string name="error_no_internet">No hay conexión a Internet</string>
     <string name="error_downloading">No se pudieron actualizar las cotizaciones desde Internet</string>
+    <string name="error_chart_no_data_found">No encontré datos históricos para\n%1$s</string>
+    <string name="error_chart_generic_error">Error cargando datos históricos para\n%1$s</string>
+    <string name="error_chart_no_data_for_period">No hay datos para %1$s,\nproba eligiendo un intervalo\nde tiempo más grande.</string>
 
     <string name="summary_remove_ads">Podes contribuir al desarrollo de la app comprando por única vez la opción para no mostrar publicidad.</string>
     <string name="option_remove_ads">Quitar publicidad</string>
@@ -170,5 +173,11 @@
     <string name="google_play_app_url">https://play.google.com/store/apps/details?id=com.smartpocket.cuantoteroban</string>
     <string name="preference_choose_theme_title">Cambiar tema</string>
     <string name="preference_choose_theme_summary">Elegir entre un tema claro o escuro</string>
+
+    <string name="period_1_week">7D</string>
+    <string name="period_1_month">1M</string>
+    <string name="period_1_year">1A</string>
+    <string name="period_5_years">5A</string>
+    <string name="period_max">MÁX</string>
 
 </resources>

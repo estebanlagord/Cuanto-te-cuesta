@@ -1,9 +1,13 @@
 package com.smartpocket.cuantoteroban.graphic
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.github.kittinunf.fuel.core.FuelError
 import com.github.mikephil.charting.data.Entry
 import com.smartpocket.cuantoteroban.CurrencyManager
+import com.smartpocket.cuantoteroban.MyApplication
+import com.smartpocket.cuantoteroban.R
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import com.smartpocket.cuantoteroban.repository.graph.GraphDataProvider
 import com.smartpocket.cuantoteroban.repository.graph.PastCurrency
@@ -11,14 +15,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 import java.util.*
 
-class DisplayGraphicViewModel : ViewModel() {
+class DisplayGraphicViewModel(application: Application) : AndroidViewModel(application) {
     private val parentJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.IO + parentJob)
     private val graphDataProvider by lazy { GraphDataProvider() }
     val preferences: PreferencesManager by lazy { PreferencesManager.getInstance() }
     val entriesLD = MutableLiveData<List<Entry>>()
+    val statusLD = MutableLiveData<GraphicStatus>(GraphicStatus.Loading())
 
     enum class DateRangeOption {
         DAYS_7,
@@ -34,9 +40,27 @@ class DisplayGraphicViewModel : ViewModel() {
 
     private fun updateGraph(dateRange: DateRangeOption) {
         coroutineScope.launch {
-            val data = graphDataProvider.getGraphData(preferences.currentCurrency, CurrencyManager.ARS, getDateRange(dateRange))
-            val entries = convertValuesToEntries(data)
-            entriesLD.postValue(entries)
+            try {
+                val data = graphDataProvider.getGraphData(preferences.currentCurrency, CurrencyManager.ARS, getDateRange(dateRange))
+                val entries = convertValuesToEntries(data)
+                if (entries.isEmpty()) {
+                    statusLD.postValue(
+                            GraphicStatus.Error(getApplication<MyApplication>().getString(R.string.error_chart_no_data_for_period, preferences.currentCurrency.name),
+                                    true))
+                } else {
+                    statusLD.postValue(GraphicStatus.ShowingData())
+                    entriesLD.postValue(entries)
+                }
+            } catch (e: Exception) {
+                var msg = getApplication<MyApplication>().getString(R.string.error_chart_generic_error, preferences.currentCurrency.name)
+                if (e is FuelError) {
+                    if (e.exception is UnknownHostException)
+                        msg = getApplication<MyApplication>().getString(R.string.error_no_internet)
+                    else if (e.response.statusCode == 404)
+                        msg = getApplication<MyApplication>().getString(R.string.error_chart_no_data_found, preferences.currentCurrency.name)
+                }
+                statusLD.postValue(GraphicStatus.Error(msg))
+            }
         }
     }
 
