@@ -20,6 +20,8 @@ class GraphLocalRepository : GraphRepository {
 
     fun fileExists(file: File) = file.exists()
 
+    fun fileTimestamp(file: File) = Date(file.lastModified())
+
     private fun parseFile(file: File): List<PastCurrency> {
         val listOfValues = mutableListOf<PastCurrency>()
         file.forEachLine { line ->
