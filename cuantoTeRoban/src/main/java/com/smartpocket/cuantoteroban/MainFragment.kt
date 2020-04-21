@@ -402,7 +402,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
         } else { // change the flag without showing the fade animation
             countryFlagView.setImageResource(newFlagIdentifier)
         }
-        currencyName.text = getString(R.string.what_they_charge_you_in, currency.name)
+        currencyName.text = getString(R.string.what_they_charge_you_in, currency.name, currency.country)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
