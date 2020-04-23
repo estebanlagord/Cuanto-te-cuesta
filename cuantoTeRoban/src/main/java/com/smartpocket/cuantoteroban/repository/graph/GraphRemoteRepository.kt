@@ -32,7 +32,7 @@ class GraphRemoteRepository {
                     .awaitUnit()
             println("Download completed")
         } catch (e: Exception) {
-            println("Download error: $e")
+            println("Download error: ${e.message}")
             // delete the file which was downloaded with an error message
             file.delete()
             throw e
