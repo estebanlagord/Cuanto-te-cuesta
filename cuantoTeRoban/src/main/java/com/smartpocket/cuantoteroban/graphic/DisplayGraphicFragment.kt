@@ -27,6 +27,7 @@ import com.smartpocket.cuantoteroban.databinding.DisplayGraphicFragmentBinding
 import kotlinx.android.synthetic.main.display_graphic_fragment.*
 
 private const val ANIMATION_DURATION_MS = 400
+private const val CHOSEN_PERIOD_KEY = "Chosen Period Key"
 
 class DisplayGraphicFragment : Fragment() {
 
@@ -50,6 +51,9 @@ class DisplayGraphicFragment : Fragment() {
         val actionBar = (requireActivity() as AppCompatActivity).supportActionBar as ActionBar
         actionBar.title = "Gráfico histórico"
         actionBar.setDisplayHomeAsUpEnabled(true)
+        if (savedInstanceState != null) {
+            toggleGroup.check(savedInstanceState.getInt(CHOSEN_PERIOD_KEY))
+        }
 
         viewModel = ViewModelProvider(this)[DisplayGraphicViewModel::class.java]
         configGraph()
@@ -65,6 +69,10 @@ class DisplayGraphicFragment : Fragment() {
         button1A.setOnClickListener { viewModel.on1YearClicked() }
         button5A.setOnClickListener { viewModel.on5YearsClicked() }
         buttonMax.setOnClickListener { viewModel.onMaxDaysClicked() }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(CHOSEN_PERIOD_KEY, toggleGroup.checkedButtonId)
     }
 
     private fun updateStatus(it: GraphicStatus) {
