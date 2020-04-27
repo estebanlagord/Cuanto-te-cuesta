@@ -17,6 +17,7 @@ class MainFragmentVM : ViewModel() {
 
     private val parentJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
+    private var refreshJob: Job? = null
 
     //    private val logger = Logger.getLogger(javaClass.simpleName)
     private val repository by lazy { CurrencyRepository() }
@@ -276,7 +277,8 @@ class MainFragmentVM : ViewModel() {
     }
 
     fun refreshRates(isForced: Boolean) {
-        coroutineScope.launch {
+        refreshJob?.cancel("Cancelling refresh to start another")
+        refreshJob = coroutineScope.launch {
             isLoadingLiveData.postValue(true)
             val currency = preferences.currentCurrency
             try {
