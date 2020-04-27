@@ -16,8 +16,8 @@ public class CurrencyManager {
 	public static final String ARS = "ARS";
 
 	private static CurrencyManager instance;
-	Set<Currency> allCurrencies  = new TreeSet<Currency>();
-	Set<Currency> userCurrencies = new TreeSet<Currency>();
+	private Set<Currency> allCurrencies  = new TreeSet<>();
+	private Set<Currency> userCurrencies = new TreeSet<>();
 
 	private CurrencyManager(){
 		buildAllCurrencies();
@@ -32,7 +32,7 @@ public class CurrencyManager {
 
 
 	public Set<Currency> getAllUnusedCurrencies() {
-		Set<Currency> result = new TreeSet<Currency>(allCurrencies);
+		Set<Currency> result = new TreeSet<>(allCurrencies);
 		result.removeAll(getUserCurrencies());
 		return result;
 	}
@@ -50,12 +50,12 @@ public class CurrencyManager {
 
 	public void addToUserCurrencies(Currency curr) {
 		if (getUserCurrencies().add(curr))
-			PreferencesManager.getInstance().setChosenCurrencies(new ArrayList<Currency>(userCurrencies));
+			PreferencesManager.getInstance().setChosenCurrencies(new ArrayList<>(userCurrencies));
 	}
 
 	public void removeFromUserCurrencies(Currency curr) {
 		if (getUserCurrencies().remove(curr))
-			PreferencesManager.getInstance().setChosenCurrencies(new ArrayList<Currency>(userCurrencies));
+			PreferencesManager.getInstance().setChosenCurrencies(new ArrayList<>(userCurrencies));
 	}
 
 	public Currency findCurrency(String code) {
@@ -210,7 +210,7 @@ public class CurrencyManager {
 				new Currency("SCR", "Rupia de Seychelles", "Seychelles", R.drawable.scr),
 				new Currency("LKR", "Rupia de Sri Lanka", "Sri Lanka", R.drawable.lkr),
 				new Currency(UYU, "Peso uruguayo", "Uruguay", R.drawable.uyu),
-				new Currency("ECS", "Sucre ecuatoriano", "Ecuador", R.drawable.ecs),
+//				new Currency("ECS", "Sucre ecuatoriano", "Ecuador", R.drawable.ecs),
 				new Currency("ILS", "Shéquel israelí", "Israel", R.drawable.ils),
 				new Currency("BDT", "Taka bangladeshí", "Bangladesh", R.drawable.bdt),
 				new Currency("MRO", "Uquiya de Mauritania", "Mauritania", R.drawable.mro),
