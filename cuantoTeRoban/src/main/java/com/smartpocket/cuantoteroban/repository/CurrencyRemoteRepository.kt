@@ -18,22 +18,41 @@ class CurrencyRemoteRepository {
     private val uyuDownloader by lazy { CurrencyDownloaderDolarHoyUYU() }
     val preferences: PreferencesManager by lazy { PreferencesManager.getInstance() }
 
+    private val xeCurrencyList = listOf("VES", "STD", "LVL", "SHP", "GIP", "FKP", "SYP", "LTL", "YER", "WST", "MNT", "KPW")
+    /*
+    List of currencies not supported by Google:
+    Bolívar - Venezuela
+	Dobra de Santo Tomé - Santo Tomé
+	Lats letón - Letonia
+	Libra de Santa Helena -  Santa Elena /  Ascensión / Tristán de Acuña
+	Libra gibraltareña - Gibraltar
+	Libra malvinense - Islas Malvinas
+	Libra siria - Siria
+	Litas lituana - Lituania
+	Riyal de Yemen - Yemen
+	Tala de Samoa - Samoa
+	Tugrik mongol - Mongolia
+	Won norcoreano - Corea del Norte
+    */
+
     suspend fun getCurrencyExchange(
             currencyFrom: Currency,
             currencyTo: String,
             amount: Double
     ): CurrencyResult {
-        val downloader = when (currencyFrom.code.toUpperCase(Locale.ROOT)) {
-            CurrencyManager.BRL -> brlDownloader
-            CurrencyManager.EUR -> eurDownloader
-            CurrencyManager.USD -> usdDownloader
-            CurrencyManager.UYU -> uyuDownloader
+        val from = currencyFrom.code.toUpperCase(Locale.ROOT)
+        val downloader = when {
+            from == CurrencyManager.BRL -> brlDownloader
+            from == CurrencyManager.EUR -> eurDownloader
+            from == CurrencyManager.USD -> usdDownloader
+            from == CurrencyManager.UYU -> uyuDownloader
+            xeCurrencyList.contains(from) -> xeDownloader
             else -> googleDownloader
 //            else -> xeDownloader
         }
         val result = downloader.getExchangeRateFor1(currencyFrom.code, currencyTo)
 
-        logger.log(Level.INFO, "$amount $currencyFrom = $result $currencyTo")
+        logger.log(Level.INFO, "$amount ${currencyFrom.code} = $result $currencyTo")
         saveUpdatedRates(currencyFrom, result)
         return result
     }
