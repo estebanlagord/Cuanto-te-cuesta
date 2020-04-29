@@ -82,7 +82,6 @@ dependencies {
     implementation 'com.github.kittinunf.fuel:fuel:2.2.2'
     // debugImplementation because LeakCanary should only run in debug builds.
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
-//    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     testImplementation 'junit:junit:4.13'
     testImplementation 'org.robolectric:robolectric:4.3.1'

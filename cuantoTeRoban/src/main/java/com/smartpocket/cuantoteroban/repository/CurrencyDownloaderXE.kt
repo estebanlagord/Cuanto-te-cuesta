@@ -1,9 +1,9 @@
 package com.smartpocket.cuantoteroban.repository
 
 import android.annotation.SuppressLint
-import android.os.Build
-import android.webkit.*
-import androidx.annotation.RequiresApi
+import android.webkit.JavascriptInterface
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.smartpocket.cuantoteroban.MyApplication
 import kotlinx.coroutines.*
 import java.util.*
@@ -48,7 +48,7 @@ class CurrencyDownloaderXE : CurrencyDownloader() {
                     super.onReceivedError(view, request, error)
                     logger.log(Level.INFO, "on received error")
                     logger.severe(request?.url.toString())
-                    logger.severe("Eror was: ${error?.errorCode} - ${error?.description}")
+                    logger.severe("Error was: ${error?.errorCode} - ${error?.description}")
                     isFinishedLoading.set(true)
                     isFinishedParsing.set(true)
                 }*/
