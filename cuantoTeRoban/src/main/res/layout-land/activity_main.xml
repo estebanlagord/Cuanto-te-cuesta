@@ -16,14 +16,15 @@
         android:orientation="vertical"
         android:padding="@dimen/padding_medium">
 
-
         <TextView
             android:id="@+id/whatTheyChargeYou"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_medium"
             android:gravity="center_vertical"
             android:text="@string/what_they_charge_you"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+            app:layout_constraintEnd_toStartOf="@id/chartIcon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_conversion_absoluteHeight="32dp"
@@ -199,10 +200,11 @@
 
         <TextView
             android:id="@+id/whatItCostsYou"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_medium"
             android:gravity="center_vertical"
+            app:layout_constraintEnd_toStartOf="@id/imageArgentina"
             android:text="@string/WhatItCostsYou"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
             app:layout_constraintStart_toEndOf="@id/vertical_var"
