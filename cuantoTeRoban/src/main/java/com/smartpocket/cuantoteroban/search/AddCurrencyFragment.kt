@@ -46,7 +46,7 @@ class AddCurrencyFragment : Fragment(), OnCurrencyItemClickListener {
         recyclerView = unused_currencies_list
         recyclerView.adapter = mAdapter
         recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, LinearLayout.VERTICAL))
-        FastScrollerBuilder(recyclerView).useMd2Style().build();
+        FastScrollerBuilder(recyclerView).useMd2Style().build()
         setHasOptionsMenu(true)
         updateCurrenciesList(null)
         singleActivityVM = ViewModelProvider(requireActivity())[SingleActivityVM::class.java]
