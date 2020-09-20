@@ -51,7 +51,7 @@ public class PreferencesManager {
     public static final String BLUE_DOLLAR_ARS = "blue_dollar_ars";
 
     public static final double DEFAULT_PAYPAL_PERCENTAGE = 7.5;
-    public static final double DEFAULT_AFIP_PERCENTAGE = 30;
+    public static final double DEFAULT_AFIP_PERCENTAGE = 65;
     public static final double DEFAULT_SAVINGS_PERCENTAGE = 20;
     public static final double DEFAULT_AGENCY_EXCHANGE_RATE = 0;
     public static final double DEFAULT_BANK_EXCHANGE_RATE = 0;
@@ -91,6 +91,7 @@ public class PreferencesManager {
         updatePreferencesToVersion14();
         updatePreferencesToVersion27();
         updatePreferencesToVersion30();
+        updatePreferencesToVersion37();
 
         updateCurrentPreferencesVersion();
 
@@ -781,5 +782,18 @@ public class PreferencesManager {
             }
         } catch (Exception ignored) {
         }
+    }
+
+    /**
+     * Updates the % for AFIP to 65% (as of September 2020)
+     */
+    private void updatePreferencesToVersion37() {
+        try {
+            if (getCurrentPreferencesVersion() < 37) {
+                Editor editor = getPreferencesByApp().edit();
+                editor.putString(AFIP_PERCENTAGE, String.valueOf(DEFAULT_AFIP_PERCENTAGE));
+                editor.apply();
+            }
+        } catch (Exception ignored) { }
     }
 }

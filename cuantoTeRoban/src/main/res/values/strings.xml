@@ -40,7 +40,7 @@
     <string name="exchange_rate_inverted_explained_off">X ARS = 1 ZZZ</string>
     <string name="exchange_rate_inverted_explained_on">1 ARS = X ZZZ</string>
     <string name="afip_percentage">Porcentaje de recargo turista</string>
-    <string name="afip_percentage_explained">¿Que porcentaje te saca el gobierno comprando en el exterior?</string>
+    <string name="afip_percentage_explained">¿Que porcentaje te saca el gobierno comprando en el exterior? (PAIS + Impuesto a las Ganancias)</string>
     <string name="savings_percentage">Porcentaje AFIP para ahorro</string>
     <string name="savings_percentage_explained">¿Que porcentaje te roba la AFIP al comprar para ahorro?</string>
     <string name="paypal_percentage">Porcentaje para PayPal</string>
@@ -107,7 +107,7 @@
     </string>
     <string name="creditCardHelp">
 		La conversión de la moneda que figura como <b>“Turista”</b> se calcula tomando como base el valor que se muestra para “Oficial”, y sumándole el porcentaje que se queda el gobierno al comprar con tarjeta de débito/crédito en el exterior.\n\n
-		Cuando escribí esta ayuda, ese porcentaje era 30%, pero como lo cambian cuando quieren de un día para el otro, ese valor lo podes actualizar en la opción <b>“Porcentaje de recargo turista”</b>.</string>
+		Cuando escribí esta ayuda, ese porcentaje era 65% (30% de impuesto PAIS + 35% a cuenta del Impuesto a las Ganancias), pero como lo cambian cuando quieren de un día para el otro, ese valor lo podes actualizar en la opción <b>“Porcentaje de recargo turista”</b>.</string>
     <string name="blueHelp">
         La conversión de la moneda que figura como <b>“Blue”</b> se calcula usando la cotización informal del <b>Dólar Blue</b> (estadounidense). Esta cotización se actualiza automáticamente junto con las oficiales.\n
         Tené en cuenta que esta cotización varía bastante dependiendo de cual sea la ciudad donde compres, y otros factores.\n\n
