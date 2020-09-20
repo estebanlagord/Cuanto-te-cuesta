@@ -27,11 +27,13 @@ class BillingHelper(activity: FragmentActivity) : PurchasesUpdatedListener {
     fun launchBillingFlow(activity: FragmentActivity) {
         if (isErrorState) setupBillingClient() //TODO ?
 
-        val billingFlowParams = BillingFlowParams
-                .newBuilder()
-                .setSkuDetails(skuDetails)
-                .build()
-        billingClient.launchBillingFlow(activity, billingFlowParams)
+        skuDetails?.let {
+            val billingFlowParams = BillingFlowParams
+                    .newBuilder()
+                    .setSkuDetails(it)
+                    .build()
+            billingClient.launchBillingFlow(activity, billingFlowParams)
+        }
     }
 
     fun isRemoveAdsPurchased(): Boolean {
@@ -51,10 +53,7 @@ class BillingHelper(activity: FragmentActivity) : PurchasesUpdatedListener {
     }
 
     fun consumeRemoveAdsPurchase() {
-        val purchaseList = billingClient.queryPurchases(SkuType.INAPP).purchasesList
-        for (purchase in purchaseList) {
-            consumePurchase(purchase)
-        }
+        billingClient.queryPurchases(SkuType.INAPP).purchasesList?.forEach(::consumePurchase)
     }
 
     private fun setupBillingClient() {
