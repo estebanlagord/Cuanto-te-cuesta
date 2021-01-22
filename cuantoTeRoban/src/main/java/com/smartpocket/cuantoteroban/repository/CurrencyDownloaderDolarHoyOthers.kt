@@ -19,8 +19,9 @@ abstract class CurrencyDownloaderDolarHoyOthers : CurrencyDownloader() {
 
                 logger.log(Level.INFO, "Parsing result...")
                 val rateStr = doc
-                        .getElementsByClass("col-md-6 venta")[0]
-                        .getElementsByClass("pull-right")
+                        .getElementsByClass("tile cotizacion_value")[0]
+                        .getElementsByClass("tile is-parent is-8")[0]
+                        .getElementsByIndexEquals(1)[3]
                         .text().trim()
                         .replace("$", "")
                         .replace(',', '.')

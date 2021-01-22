@@ -21,9 +21,9 @@ class CurrencyDownloaderDolarHoyUSD : CurrencyDownloader() {
 
                 for (link in allLinks) {
                     if (official == 0.0)
-                        official = findPrice(link, "dólar oficial")
+                        official = findPriceFromLink(link, "/cotizaciondolaroficial")
                     if (blue == 0.0)
-                        blue = findPrice(link, "dólar blue")
+                        blue = findPriceFromLink(link, "/cotizaciondolarblue")
                 }
 
                 DolarResult(official, blue)
@@ -31,6 +31,26 @@ class CurrencyDownloaderDolarHoyUSD : CurrencyDownloader() {
 //                throw Resources.NotFoundException("Conversion rate not found")
             }
 
+    private fun findPriceFromLink(link: Element, targetLink: String): Double {
+        if (link.attr("href") == targetLink) {
+            val valueStr = (link.parentNode() as Element)
+                    .getElementsByClass("values")[0]
+                    .getElementsByClass("venta")[0]
+                    .getElementsByClass("val")
+                    .text()
+                    .replace("$", "")
+                    .replace(',', '.')
+
+            if (valueStr.isNotBlank()) {
+                val value = valueStr.toDouble()
+                logger.log(Level.INFO, "Found result: $value")
+                return value
+            }
+        }
+        return 0.0
+    }
+
+    @Deprecated("old version, no longer working")
     fun findPrice(link: Element, currencyName: String): Double {
         if (link.text().contains(currencyName, true)) {
             (link.parentNode().parentNode() as Element).getElementsContainingText("VENTA")
