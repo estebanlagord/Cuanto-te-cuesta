@@ -18,7 +18,8 @@ class CurrencyRemoteRepository {
     private val uyuDownloader by lazy { CurrencyDownloaderDolarHoyUYU() }
     val preferences: PreferencesManager by lazy { PreferencesManager.getInstance() }
 
-    private val xeCurrencyList = listOf("VES", "STD", "LVL", "SHP", "GIP", "FKP", "SYP", "LTL", "YER", "WST", "MNT", "KPW")
+    private val xeCurrencyList = listOf("VES", "STD", "LVL", "SHP", "GIP", "FKP", "SYP", "LTL",
+            "YER", "WST", "MNT", "KPW", "ZMK")
     /*
     List of currencies not supported by Google:
     Bolívar - Venezuela

@@ -3,7 +3,9 @@ package com.smartpocket.cuantoteroban.repository
 import com.smartpocket.cuantoteroban.Currency
 import com.smartpocket.cuantoteroban.CurrencyManager
 import com.smartpocket.cuantoteroban.MyApplication
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeout
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -31,14 +33,20 @@ class CurrencyRemoteRepositoryTest {
         currencyManager.allCurrencies.forEach {
             try {
                 println("Testing ${it.name}")
-                val result = repository.getCurrencyExchange(it, CurrencyManager.ARS, 1.0)
+                val result = withTimeout(1000L) {
+                    repository.getCurrencyExchange(it, CurrencyManager.ARS, 1.0)
+                }
                 assertTrue("Rate for ${it.code} cannot be $0", result.official > 0)
                 if (result is DolarResult) {
                     assertTrue("Blue rate for USD cannot be $0", result.blue > 0)
                 }
                 listOK.add(it.code)
+
             } catch (e: Exception) {
-                println("Error getting currency for ${it.code}")
+                if (e is TimeoutCancellationException)
+                    println("Timeout getting currency for ${it.code}")
+                else
+                    println("Error getting currency for ${it.code}")
                 e.printStackTrace()
                 listError.add(it)
             }
