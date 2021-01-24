@@ -10,7 +10,6 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -24,23 +23,26 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.smartpocket.cuantoteroban.R
 import com.smartpocket.cuantoteroban.Utilities
 import com.smartpocket.cuantoteroban.databinding.DisplayGraphicFragmentBinding
-import kotlinx.android.synthetic.main.display_graphic_fragment.*
 
 private const val ANIMATION_DURATION_MS = 400
 private const val CHOSEN_PERIOD_KEY = "Chosen Period Key"
 
 class DisplayGraphicFragment : Fragment() {
 
-    private lateinit var binding: DisplayGraphicFragmentBinding
+    private var _binding: DisplayGraphicFragmentBinding? = null
+
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
     private lateinit var viewModel: DisplayGraphicViewModel
     private val currencyFormatter = Utilities.getCurrencyFormat()
     private var textColorDayNight: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        binding = DisplayGraphicFragmentBinding.inflate(inflater)
-        val toolbar: Toolbar = binding.root.findViewById(R.id.my_awesome_toolbar)
-        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+        _binding = DisplayGraphicFragmentBinding.inflate(inflater)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.myAwesomeToolbar.myAwesomeToolbar)
         (requireActivity() as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         textColorDayNight = requireContext().getColorResCompat(android.R.attr.textColorPrimary)
         return binding.root
@@ -52,7 +54,7 @@ class DisplayGraphicFragment : Fragment() {
         actionBar.title = "Gráfico histórico"
         actionBar.setDisplayHomeAsUpEnabled(true)
         if (savedInstanceState != null) {
-            toggleGroup.check(savedInstanceState.getInt(CHOSEN_PERIOD_KEY))
+            binding.toggleGroup.check(savedInstanceState.getInt(CHOSEN_PERIOD_KEY))
         }
 
         viewModel = ViewModelProvider(this)[DisplayGraphicViewModel::class.java]
@@ -64,38 +66,40 @@ class DisplayGraphicFragment : Fragment() {
             updateStatus(it)
         })
 
-        button7D.setOnClickListener { viewModel.on7DaysClicked() }
-        button1M.setOnClickListener { viewModel.on1MonthClicked() }
-        button1A.setOnClickListener { viewModel.on1YearClicked() }
-        button5A.setOnClickListener { viewModel.on5YearsClicked() }
-        buttonMax.setOnClickListener { viewModel.onMaxDaysClicked() }
+        with(binding) {
+            button7D.setOnClickListener { viewModel.on7DaysClicked() }
+            button1M.setOnClickListener { viewModel.on1MonthClicked() }
+            button1A.setOnClickListener { viewModel.on1YearClicked() }
+            button5A.setOnClickListener { viewModel.on5YearsClicked() }
+            buttonMax.setOnClickListener { viewModel.onMaxDaysClicked() }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(CHOSEN_PERIOD_KEY, toggleGroup.checkedButtonId)
+        outState.putInt(CHOSEN_PERIOD_KEY, binding.toggleGroup.checkedButtonId)
     }
 
     private fun updateStatus(it: GraphicStatus) {
         TransitionManager.beginDelayedTransition(binding.root as ViewGroup)
         return when (it) {
             is GraphicStatus.Loading -> {
-                showViews(progressBar)
-                hideViews(tvErrorMsg, chart, toggleGroup)
+                showViews(binding.progressBar)
+                hideViews(binding.tvErrorMsg, binding.chart, binding.toggleGroup)
             }
             is GraphicStatus.Error -> {
-                val viewsToShow = mutableListOf<View>(tvErrorMsg)
-                val viewsToHide = mutableListOf<View>(progressBar, chart)
+                val viewsToShow = mutableListOf<View>(binding.tvErrorMsg)
+                val viewsToHide = mutableListOf<View>(binding.progressBar, binding.chart)
 
-                if (it.showPeriodButtons) viewsToShow.add(toggleGroup)
-                else viewsToHide.add(toggleGroup)
+                if (it.showPeriodButtons) viewsToShow.add(binding.toggleGroup)
+                else viewsToHide.add(binding.toggleGroup)
 
                 showViews(*viewsToShow.toTypedArray())
                 hideViews(*viewsToHide.toTypedArray())
-                tvErrorMsg.text = it.errorMsg
+                binding.tvErrorMsg.text = it.errorMsg
             }
             is GraphicStatus.ShowingData -> {
-                showViews(chart, toggleGroup)
-                hideViews(progressBar, tvErrorMsg)
+                showViews(binding.chart, binding.toggleGroup)
+                hideViews(binding.progressBar, binding.tvErrorMsg)
             }
         }
     }
@@ -123,7 +127,7 @@ class DisplayGraphicFragment : Fragment() {
                 }
             })
         }
-        with(chart) {
+        with(binding.chart) {
             data = lineData
             highlightValues(null)
             fitScreen()
@@ -132,7 +136,7 @@ class DisplayGraphicFragment : Fragment() {
     }
 
     private fun configGraph() {
-        with(chart) {
+        with(binding.chart) {
             isAutoScaleMinMaxEnabled = true
             xAxis.setDrawGridLines(false)
             marker = CustomMarkerView(requireContext(), R.layout.chart_marker_view)
@@ -159,5 +163,10 @@ class DisplayGraphicFragment : Fragment() {
         val resolvedAttr = TypedValue()
         theme.resolveAttribute(id, resolvedAttr, true)
         return ContextCompat.getColor(requireContext(), resolvedAttr.resourceId)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

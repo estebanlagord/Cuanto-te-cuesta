@@ -3,24 +3,26 @@ package com.smartpocket.cuantoteroban
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.android.billingclient.api.BillingClient
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_single.*
+import com.smartpocket.cuantoteroban.databinding.ActivitySingleBinding
 
 class SingleActivity : AppCompatActivity() {
 
     private lateinit var adViewHelper: AdViewHelper
     private lateinit var singleActivityVM: SingleActivityVM
     private lateinit var billingHelper: BillingHelper
+    private lateinit var binding: ActivitySingleBinding
 //    private lateinit var appBarConfiguration: AppBarConfiguration
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_single)
+        binding = ActivitySingleBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 //        val toolbar = toolbar as Toolbar
 //        setSupportActionBar(toolbar)
 //        val navController = findNavController(R.id.nav_host_fragment)
@@ -28,25 +30,20 @@ class SingleActivity : AppCompatActivity() {
 //        setupActionBarWithNavController(navController, appBarConfiguration)
 //        toolbar.setupWithNavController(navController, appBarConfiguration)
 //        setupActionBarWithNavController(this, navController)
-        adViewHelper = AdViewHelper(adViewContainer, this)
+        adViewHelper = AdViewHelper(binding.adViewContainer, this)
         billingHelper = BillingHelper(this)
 
         singleActivityVM = ViewModelProvider(this)[SingleActivityVM::class.java]
-        singleActivityVM.billingStatusLD.observe(this, Observer {
-            onBillingHelperStatusChanged(it)
-        })
-        singleActivityVM.showAdsLD.observe(this, Observer {
-            adViewHelper.showBanner(it)
-        })
-        singleActivityVM.launchPurchaseLD.observe(this, Observer {
+        singleActivityVM.billingStatusLD.observe(this, this::onBillingHelperStatusChanged)
+        singleActivityVM.showAdsLD.observe(this, adViewHelper::showBanner)
+        singleActivityVM.launchPurchaseLD.observe(this, {
             billingHelper.launchBillingFlow(this)
         })
-        singleActivityVM.launchRestoreAdsLD.observe(this, Observer {
+        singleActivityVM.launchRestoreAdsLD.observe(this, {
             billingHelper.consumeRemoveAdsPurchase()
         })
-        singleActivityVM.snackbarLD.observe(this, Observer { str ->
-            val view = nav_host_fragment.view
-            view?.let { Snackbar.make(it, str, Snackbar.LENGTH_LONG).show() }
+        singleActivityVM.snackbarLD.observe(this, { str ->
+            Snackbar.make(view, str, Snackbar.LENGTH_LONG).show()
         })
     }
 

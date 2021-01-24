@@ -8,18 +8,20 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.smartpocket.cuantoteroban.Currency
 import com.smartpocket.cuantoteroban.R
-import kotlinx.android.synthetic.main.choose_currency_row.view.*
+import com.smartpocket.cuantoteroban.databinding.ChooseCurrencyRowBinding
 
-class ChosenCurrenciesVH(val view: View, val isItem: Boolean) : RecyclerView.ViewHolder(view) {
+class ChosenCurrenciesVH(val view: View, private val isItem: Boolean) : RecyclerView.ViewHolder(view) {
 
-    lateinit var flag: ImageView
+    private lateinit var flag: ImageView
     lateinit var name: TextView
-    lateinit var originalBackground: Drawable
+    private lateinit var originalBackground: Drawable
+    private lateinit var binding: ChooseCurrencyRowBinding
 
     init {
         if (isItem) {
-            flag = view.chooseCurrencyFlag
-            name = view.chooseCurrencyName
+            binding = ChooseCurrencyRowBinding.bind(view)
+            flag = binding.chooseCurrencyFlag
+            name = binding.chooseCurrencyName
             originalBackground = view.background
         }
     }

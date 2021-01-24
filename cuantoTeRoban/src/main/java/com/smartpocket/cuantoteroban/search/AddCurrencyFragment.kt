@@ -17,33 +17,39 @@ import com.smartpocket.cuantoteroban.Currency
 import com.smartpocket.cuantoteroban.CurrencyManager
 import com.smartpocket.cuantoteroban.R
 import com.smartpocket.cuantoteroban.SingleActivityVM
-import kotlinx.android.synthetic.main.activity_add_currency.*
-import kotlinx.android.synthetic.main.toolbar.view.*
+import com.smartpocket.cuantoteroban.databinding.ActivityAddCurrencyBinding
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import java.util.*
 
 
 class AddCurrencyFragment : Fragment(), OnCurrencyItemClickListener {
+
+    private var _binding: ActivityAddCurrencyBinding? = null
+
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
     private lateinit var unusedCurrencies: Set<Currency>
     private lateinit var recyclerView: RecyclerView
     private lateinit var mAdapter: CurrencyListAdapter
     private lateinit var singleActivityVM: SingleActivityVM
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.activity_add_currency, container, false)
-        val toolbar: Toolbar = view.my_awesome_toolbar
+        _binding = ActivityAddCurrencyBinding.inflate(inflater, container, false)
+        val toolbar: Toolbar = binding.toolbar.myAwesomeToolbar
         with(requireActivity() as AppCompatActivity) {
             toolbar.title = getString(R.string.title_activity_add_currency)
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         unusedCurrencies = CurrencyManager.getInstance().allUnusedCurrencies
         mAdapter = CurrencyListAdapter(this)
-        recyclerView = unused_currencies_list
+        recyclerView = binding.unusedCurrenciesList
         recyclerView.adapter = mAdapter
         recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, LinearLayout.VERTICAL))
         FastScrollerBuilder(recyclerView).useMd2Style().build()
@@ -100,5 +106,10 @@ class AddCurrencyFragment : Fragment(), OnCurrencyItemClickListener {
         CurrencyManager.getInstance().addToUserCurrencies(currency)
         singleActivityVM.addedCurrencyLD.postValue(currency)
         findNavController().navigateUp()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

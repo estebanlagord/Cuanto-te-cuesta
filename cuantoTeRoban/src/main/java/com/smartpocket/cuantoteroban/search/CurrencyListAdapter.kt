@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.smartpocket.cuantoteroban.Currency
 import com.smartpocket.cuantoteroban.R
-import kotlinx.android.synthetic.main.add_currency_row.view.*
+import com.smartpocket.cuantoteroban.databinding.AddCurrencyRowBinding
 import me.zhanghai.android.fastscroll.PopupTextProvider
 
 
@@ -18,9 +18,10 @@ class CurrencyListAdapter(private val listener: OnCurrencyItemClickListener)
     private var myDataset = mutableListOf<Currency>()
 
     class MyViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
-        private val flag: ImageView = view.addCurrencyFlag
-        val name: TextView = view.addCurrencyName
-        val code: TextView = view.addCurrencyCode
+        private val binding = AddCurrencyRowBinding.bind(view)
+        private val flag: ImageView = binding.addCurrencyFlag
+        val name: TextView = binding.addCurrencyName
+        val code: TextView = binding.addCurrencyCode
 
         fun bind(item: Currency, listener: OnCurrencyItemClickListener) {
             flag.setImageResource(item.flagIdentifier)
@@ -46,7 +47,7 @@ class CurrencyListAdapter(private val listener: OnCurrencyItemClickListener)
         holder.bind(currency, listener)
     }
 
-    fun updateList(newItems : List<Currency>) {
+    fun updateList(newItems: List<Currency>) {
         myDataset.clear()
         myDataset.addAll(newItems)
         notifyDataSetChanged()

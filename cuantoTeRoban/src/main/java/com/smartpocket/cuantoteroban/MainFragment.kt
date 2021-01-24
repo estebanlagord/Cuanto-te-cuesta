@@ -15,11 +15,9 @@ import androidx.activity.addCallback
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionManager
@@ -28,18 +26,38 @@ import com.smartpocket.cuantoteroban.MainActivity.RequestCode
 import com.smartpocket.cuantoteroban.calc.CalculatorFragment
 import com.smartpocket.cuantoteroban.chosencurrencies.ChosenCurrenciesListener
 import com.smartpocket.cuantoteroban.chosencurrencies.ChosenCurrenciesRecyclerAdapter
+import com.smartpocket.cuantoteroban.databinding.ContainerMainBinding
 import com.smartpocket.cuantoteroban.editortype.EditorType
 import com.smartpocket.cuantoteroban.editortype.EditorTypeHelper
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
-import kotlinx.android.synthetic.main.container_main.*
 import java.lang.ref.WeakReference
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesListener {
+
+    private var _binding: ContainerMainBinding? = null
+
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+    private val amountEditText get() = binding.containerMain.amountEditText
+    private val discountEditText get() = binding.containerMain.discountEditText
+    private val discountTIL get() = binding.containerMain.discountTIL
+    private val taxesEditText get() = binding.containerMain.taxesEditText
+    private val taxesTIL get() = binding.containerMain.taxesTIL
+    private val totalEditText get() = binding.containerMain.totalEditText
+    private val inPesosValue get() = binding.containerMain.inPesosValue
+    private val withCreditCardValue get() = binding.containerMain.withCreditCardValue
+    private val withBlueValue get() = binding.containerMain.withBlueValue
+    private val exchangeAgencyValue get() = binding.containerMain.exchangeAgencyValue
+    private val textLastUpdateValue get() = binding.containerMain.textLastUpdateValue
+    private val countryFlag get() = binding.containerMain.countryFlag
+    private val chartIcon get() = binding.containerMain.chartIcon
+    private val scrollView1 get() = binding.containerMain.scrollView1
+    private val currencyName get() = binding.containerMain.currencyName
+
 
     //    private lateinit var refreshItem: MenuItem
 //    private lateinit var rotatingRefreshButtonView: ImageView
@@ -63,18 +81,20 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
         positiveSuffix = " %"
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.container_main, container, false)
-        val toolbar = view.findViewById(R.id.my_awesome_toolbar) as Toolbar
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = ContainerMainBinding.inflate(inflater, container, false)
+
+        val view = binding.root
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar.myAwesomeToolbar)
         setHasOptionsMenu(true)
 
-        totalViews = mutableListOf(view.totalTextView, view.totalEditText)
-        pesosViews = mutableListOf(view.textViewInPesos, view.pesosBill, view.inPesosValue)
-        withCardViews = mutableListOf(view.textViewWithCard, view.ivCreditCard, view.withCreditCardValue)
-        blueViews = mutableListOf(view.textViewBlue, view.ivDolarBlue, view.withBlueValue)
-        exchangeAgencyViews = mutableListOf(view.textViewAgency, view.exchangeAgencyValue)
-
+        binding.containerMain.also {
+            totalViews = mutableListOf(it.totalTextView, it.totalEditText)
+            pesosViews = mutableListOf(it.textViewInPesos, it.pesosBill, it.inPesosValue)
+            withCardViews = mutableListOf(it.textViewWithCard, it.ivCreditCard, it.withCreditCardValue)
+            blueViews = mutableListOf(it.textViewBlue, it.ivDolarBlue, it.withBlueValue)
+            exchangeAgencyViews = mutableListOf(it.textViewAgency, it.exchangeAgencyValue)
+        }
         return view
     }
 
@@ -82,7 +102,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
         super.onActivityCreated(savedInstanceState)
 
         currentCurr = null
-        with(activity_main_swipe_refresh_layout) {
+        with(binding.activityMainSwipeRefreshLayout) {
             setColorSchemeResources(R.color.color_primary_dark)
             setOnRefreshListener { viewModel.refreshRates(true) }
         }
@@ -98,7 +118,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
     override fun onStart() {
         super.onStart()
         viewModel.onStart()
-        discountTIL.visibility = if (preferences.isShowDiscount) View.VISIBLE else View.GONE
+        binding.containerMain.discountTIL.visibility = if (preferences.isShowDiscount) View.VISIBLE else View.GONE
         val pesosVisibility = if (preferences.isShowPesos) View.VISIBLE else View.GONE
         pesosViews.forEach { it.visibility = pesosVisibility }
 
@@ -112,59 +132,51 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
 
     private fun setupViewModelObservers() {
         with(viewModel) {
-            isLoadingLiveData.observe(viewLifecycleOwner, Observer {
-                setLoadingState(it)
-            })
-            currencyLiveData.observe(viewLifecycleOwner, Observer {
+            isLoadingLiveData.observe(viewLifecycleOwner, this@MainFragment::setLoadingState)
+            currencyLiveData.observe(viewLifecycleOwner, {
                 if (currentCurr != it) {
                     updateFlag(it, true)
                     updateBlueVisibility(it)
                     currentCurr = it
                 }
             })
-            amountLiveData.observe(viewLifecycleOwner, Observer {
+            amountLiveData.observe(viewLifecycleOwner, {
                 showValue(it, amountEditText)
             })
-            discountLiveData.observe(viewLifecycleOwner, Observer {
+            discountLiveData.observe(viewLifecycleOwner, {
                 showPercentage(it, discountEditText)
                 updateTotalVisibility(it, taxesLiveData.value)
                 discountTIL.isEndIconVisible = it != 0.0
             })
-            taxesLiveData.observe(viewLifecycleOwner, Observer {
+            taxesLiveData.observe(viewLifecycleOwner, {
                 showPercentage(it, taxesEditText)
                 updateTotalVisibility(discountLiveData.value, it)
                 taxesTIL.isEndIconVisible = it != 0.0
             })
-            totalLiveData.observe(viewLifecycleOwner, Observer {
+            totalLiveData.observe(viewLifecycleOwner, {
                 showValue(it, totalEditText)
             })
-            pesosLiveData.observe(viewLifecycleOwner, Observer {
+            pesosLiveData.observe(viewLifecycleOwner, {
                 showValue(it, inPesosValue)
             })
-            creditCardLiveData.observe(viewLifecycleOwner, Observer {
+            creditCardLiveData.observe(viewLifecycleOwner, {
                 showValue(it, withCreditCardValue)
             })
-            blueLiveData.observe(viewLifecycleOwner, Observer {
+            blueLiveData.observe(viewLifecycleOwner, {
                 showValue(it, withBlueValue)
             })
-            exchangeAgencyLiveData.observe(viewLifecycleOwner, Observer {
+            exchangeAgencyLiveData.observe(viewLifecycleOwner, {
                 showValue(it, exchangeAgencyValue)
             })
-            currencyEditorTypeLiveData.observe(viewLifecycleOwner, Observer {
-                showCurrentEditor(it)
-            })
-            lastUpdateLiveData.observe(viewLifecycleOwner, Observer {
-                showLastUpdate(it)
-            })
-            errorLiveData.observe(viewLifecycleOwner, Observer {
-                showErrorMsg(it)
-            })
+            currencyEditorTypeLiveData.observe(viewLifecycleOwner, this@MainFragment::showCurrentEditor)
+            lastUpdateLiveData.observe(viewLifecycleOwner, this@MainFragment::showLastUpdate)
+            errorLiveData.observe(viewLifecycleOwner, this@MainFragment::showErrorMsg)
         }
 
-        singleActivityVM.calculatorResultLD.observe(viewLifecycleOwner, Observer {
+        singleActivityVM.calculatorResultLD.observe(viewLifecycleOwner, {
             viewModel.onCalculatorValueChanged(it.editorType, Utilities.round(it.amount, FRACTION_DIGITS))
         })
-        singleActivityVM.addedCurrencyLD.observe(viewLifecycleOwner, Observer {
+        singleActivityVM.addedCurrencyLD.observe(viewLifecycleOwner, {
             viewModel.chosenCurrenciesAdapter?.updateCurrenciesList()
         })
     }
@@ -200,7 +212,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
     private fun shouldShowBlue(curr: Currency?) = preferences.isShowBlue && (curr?.code == CurrencyManager.USD)
 
     private fun setLoadingState(isLoading: Boolean) {
-        activity_main_swipe_refresh_layout.isRefreshing = isLoading
+        binding.activityMainSwipeRefreshLayout.isRefreshing = isLoading
 /*        if (isLoading) {
             rotatingRefreshButtonView.startAnimation(refreshButtonRotation)
             refreshItem.setActionView(rotatingRefreshButtonView)
@@ -257,7 +269,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
 //        withSavingsValue.setOnClickListener(OnClickListenerShowCalc(withSavingsValue, resources.getString(R.string.WithSavings), EditorType.SAVINGS))
         withBlueValue.setOnClickListener(OnClickListenerShowCalc(withBlueValue, resources.getString(R.string.WithBlue), EditorType.BLUE))
         exchangeAgencyValue.setOnClickListener(OnClickListenerShowCalc(exchangeAgencyValue, resources.getString(R.string.ExchangeAgency), EditorType.EXCHANGE_AGENCY))
-        countryFlag.setOnClickListener { drawer_layout.openDrawer(GravityCompat.START) }
+        countryFlag.setOnClickListener { binding.drawerLayout.openDrawer(GravityCompat.START) }
         chartIcon.setOnClickListener {
             findNavController().navigate(MainFragmentDirections.actionMainFragmentToDisplayGraphicFragment())
         }
@@ -306,7 +318,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
         val actionBar = (activity as AppCompatActivity).supportActionBar as ActionBar
         mDrawerToggle = WeakReference(object : ActionBarDrawerToggle(
                 requireActivity(),  /* host Activity */
-                drawer_layout,  /* DrawerLayout object */
+                binding.drawerLayout,  /* DrawerLayout object */
                 R.string.menu_change,  /* "open drawer" description */
                 R.string.menu_change /* "close drawer" description */
         ) {
@@ -330,23 +342,23 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
         })
 
         // Set the drawer toggle as the DrawerListener
-        drawer_layout.addDrawerListener(mDrawerToggle.get()!!)
+        binding.drawerLayout.addDrawerListener(mDrawerToggle.get()!!)
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setHomeButtonEnabled(true)
         // Set the adapter for the list view
-        left_drawer.setHasFixedSize(true)
+        binding.leftDrawer.setHasFixedSize(true)
 
         if (viewModel.chosenCurrenciesAdapter == null) {
             viewModel.chosenCurrenciesAdapter = ChosenCurrenciesRecyclerAdapter(this)
         } else {
             viewModel.chosenCurrenciesAdapter?.updateListener(this)
         }
-        left_drawer.adapter = viewModel.chosenCurrenciesAdapter
+        binding.leftDrawer.adapter = viewModel.chosenCurrenciesAdapter
         mDrawerToggle.get()!!.syncState()
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-                drawer_layout.closeDrawer(GravityCompat.START)
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
             } else {
                 isEnabled = false
                 activity?.onBackPressed()
@@ -364,11 +376,11 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
 
 
     private fun selectItemFromNavDrawer(newCurr: Currency) { // Highlight the selected item
-        val adapter = left_drawer.adapter as ChosenCurrenciesRecyclerAdapter
+        val adapter = binding.leftDrawer.adapter as ChosenCurrenciesRecyclerAdapter
         adapter.selectedItem = newCurr
         preferences.currentCurrency = newCurr
         onActivityResult(RequestCode.CHOOSE_CURRENCY.ordinal, Activity.RESULT_OK, null)
-        drawer_layout.closeDrawer(left_drawer)
+        binding.drawerLayout.closeDrawer(binding.leftDrawer)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -453,7 +465,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
 
     override fun onPrepareOptionsMenu(menu: Menu) { // show/hide buttons depending on whether the nav drawer is open
         val disabledWhenNavDrawerIsOpen = intArrayOf(R.id.menu_share, R.id.menu_about, R.id.menu_help, R.id.menu_settings, R.id.menu_share, R.id.menu_update)
-        val drawerOpen = drawer_layout.isDrawerOpen(left_drawer)
+        val drawerOpen = binding.drawerLayout.isDrawerOpen(binding.leftDrawer)
         if (drawerOpen) {
             menu.findItem(R.id.menu_add_currency).isVisible = true
             for (i in disabledWhenNavDrawerIsOpen) menu.findItem(i).isVisible = false
@@ -467,7 +479,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // If the user pressed the app icon, and if the drawer is closed, change the preference
         // to avoid opening automatically the nav drawer on next launch
-        if (item.itemId == android.R.id.home && !drawer_layout.isDrawerOpen(left_drawer))
+        if (item.itemId == android.R.id.home && !binding.drawerLayout.isDrawerOpen(binding.leftDrawer))
             preferences.setIsNavDrawerNew(false)
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
@@ -490,18 +502,19 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
      * Used to refresh NavDrawer list after a currency is deleted
      */
     override fun onDialogPositiveClick(dialog: DialogFragment) {
-        val adapter = left_drawer.adapter as ChosenCurrenciesRecyclerAdapter
+        val adapter = binding.leftDrawer.adapter as ChosenCurrenciesRecyclerAdapter
         adapter.updateCurrenciesList()
     }
 
     override fun onDestroyView() {
-        drawer_layout.removeDrawerListener(mDrawerToggle.get()!!)
+        binding.drawerLayout.removeDrawerListener(mDrawerToggle.get()!!)
         viewModel.chosenCurrenciesAdapter = null
         totalViews.clear()
         pesosViews.clear()
         withCardViews.clear()
         blueViews.clear()
         exchangeAgencyViews.clear()
+        _binding = null
         super.onDestroyView()
     }
 
