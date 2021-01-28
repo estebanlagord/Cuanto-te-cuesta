@@ -1,6 +1,7 @@
 package com.smartpocket.cuantoteroban
 
 import android.app.Activity
+import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,7 @@ class AdViewHelper(private val adViewContainer: ViewGroup, private val activity:
 
     fun showBanner(doShow: Boolean) {
         if (doShow) {
-            if (isLoaded.not()) {
+            if (isLoaded.not() && isTestLab().not()) {
                 loadBanner()
             }
         } else {
@@ -105,4 +106,9 @@ class AdViewHelper(private val adViewContainer: ViewGroup, private val activity:
             val adWidth = (adWidthPixels / density).toInt()
             return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth)
         }
+
+    private fun isTestLab() : Boolean {
+        val testLabSetting = Settings.System.getString(activity.contentResolver, "firebase.test.lab")
+        return "true" == testLabSetting
+    }
 }
