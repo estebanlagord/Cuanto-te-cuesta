@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.smartpocket.cuantoteroban"
     android:installLocation="auto"
-    android:versionCode="38"
-    android:versionName="7.2">
+    android:versionCode="40"
+    android:versionName="7.2.2">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
