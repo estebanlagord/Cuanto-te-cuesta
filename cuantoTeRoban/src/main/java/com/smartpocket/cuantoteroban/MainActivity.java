@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 	private EditText currentEditTextBeingEdited;
 	
 	private EditorType currentEditorType; //used for copy-paste
-	private DecimalFormat shortNumberFormat = (DecimalFormat)DecimalFormat.getInstance();
+	private final DecimalFormat shortNumberFormat = (DecimalFormat)DecimalFormat.getInstance();
 	public enum RequestCode {SETTINGS, CALCULATOR, CHOOSE_CURRENCY, ADD_CURRENCY}
 	private boolean areTextWatchersEnabled = false;
 	enum DiscountOrTax {DISCOUNT, TAXES}
@@ -960,7 +960,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 		((TextView)findViewById(R.id.textViewAgency)).setTypeface(TYPEFACE_ROBOTO_MEDIUM);
 	}
 	
-	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+	private final ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
 	    // Called when the action mode is created; startActionMode() was called
 	    @Override
@@ -1059,9 +1059,9 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 		
 	public class OnClickListenerShowCalc implements OnClickListener {
 
-		private EditText editText;
-		private String editTextName;
-		private EditorType editorType;
+		private final EditText editText;
+		private final String editTextName;
+		private final EditorType editorType;
 
 		public OnClickListenerShowCalc(EditText editText, String editTextName, EditorType editorType) {
 			this.editText = editText;

@@ -15,15 +15,15 @@ import java.util.regex.Pattern;
 public class Parser
 {
     // allowed number forms
-    private static Pattern   numRegex          = Pattern.compile("([0-9]*[.]?[0-9]+[eE]{1}-?[0-9]+)"
+    private static final Pattern   numRegex          = Pattern.compile("([0-9]*[.]?[0-9]+[eE]{1}-?[0-9]+)"
                                                        + "|([0-9]+[.]?[0-9]*[eE]{1}-?[0-9]+)" + "|([0-9]*[.]?[0-9]+)"
                                                        + "|([0-9]+)");
     // allowed operators
-    private Pattern          operRegex         = Pattern.compile("([\\Q()+--*/^\\E]{1})");
+    private final Pattern          operRegex         = Pattern.compile("([\\Q()+--*/^\\E]{1})");
     // allowed function names
-    private Pattern          funcRegex         = Pattern.compile("[a-zA-Z]+[_1-9a-zA-Z]*");
+    private final Pattern          funcRegex         = Pattern.compile("[a-zA-Z]+[_1-9a-zA-Z]*");
     // order of operations (the higher the index, the higher the precedence. same index = same precedence
-    private String[]         orderOfOperations = { "bl+ bl-", "bl* bl/", "un-", "br^", "unFUNCTION" };
+    private final String[]         orderOfOperations = { "bl+ bl-", "bl* bl/", "un-", "br^", "unFUNCTION" };
     // type constants
     private static final int NONE              = -1;
     private static final int NUMBER            = 0;

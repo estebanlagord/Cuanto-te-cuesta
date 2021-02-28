@@ -16,8 +16,8 @@ public class CurrencyManager {
 	public static final String ARS = "ARS";
 
 	private static CurrencyManager instance;
-	private Set<Currency> allCurrencies  = new TreeSet<>();
-	private Set<Currency> userCurrencies = new TreeSet<>();
+	private final Set<Currency> allCurrencies  = new TreeSet<>();
+	private final Set<Currency> userCurrencies = new TreeSet<>();
 
 	private CurrencyManager(){
 		buildAllCurrencies();

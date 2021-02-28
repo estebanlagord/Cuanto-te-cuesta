@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ChosenCurrencyLongClickListener implements OnItemLongClickListener {
 
-	private Fragment parent;
+	private final Fragment parent;
 	private final DeleteCurrencyDialogListener listener;
 
 	public ChosenCurrencyLongClickListener(Fragment parent) {

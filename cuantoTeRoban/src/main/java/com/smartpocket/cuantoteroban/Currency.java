@@ -4,9 +4,9 @@ import static com.smartpocket.cuantoteroban.Utilities.removeAccentsAndMakeLowerc
 
 public class Currency implements Comparable<Currency>{
 	public static final String CODE = "code";
-	private String code;
-	private String name;
-	private String country;
+	private final String code;
+	private final String name;
+	private final String country;
 	private String searchTerms = "";
 	private int flagIdentifier;
 	

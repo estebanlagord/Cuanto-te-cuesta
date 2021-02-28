@@ -80,7 +80,7 @@ public class PreferencesManager {
     public static final String THEME_DARK = "Dark";
     public static final String THEME_SYSTEM_DEFAULT = "System Default";
 
-    private Map<Currency, SharedPreferences> preferencesByCurrency = new HashMap<Currency, SharedPreferences>();
+    private final Map<Currency, SharedPreferences> preferencesByCurrency = new HashMap<Currency, SharedPreferences>();
     private SharedPreferences preferencesByApp;
     private Currency currentCurrency;
 

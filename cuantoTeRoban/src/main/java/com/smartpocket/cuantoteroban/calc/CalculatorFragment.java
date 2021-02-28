@@ -53,7 +53,7 @@ public class CalculatorFragment extends Fragment {
     private static final int DELETE_FREQUENCY = 200;
     private CalculatorBinding binding;
     private String resultTextNameStr;
-    private DecimalFormat localNumberFormat = (DecimalFormat) DecimalFormat.getInstance();
+    private final DecimalFormat localNumberFormat = (DecimalFormat) DecimalFormat.getInstance();
     private char decimalSeparator;
     private EditorType editorType;
 
@@ -61,11 +61,11 @@ public class CalculatorFragment extends Fragment {
     private EditText etCalculator;
     private TextView previous, enterTotal, seven, eight, nine, division, four, five, six, multiply, one, two, three, subtract, decimal, zero, equals, addition, left, right;
     private Button clear, allClear;
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
     private ActionMode mActionMode;
     private SingleActivityVM singleActivityVM;
 
-    private Runnable mUpdateTask = new Runnable() {
+    private final Runnable mUpdateTask = new Runnable() {
         public void run() {
             deleteOneChar();
 
@@ -271,12 +271,9 @@ public class CalculatorFragment extends Fragment {
         });
 
         etCalculator.setOnLongClickListener(v -> {
-            if (mActionMode != null) {
-                return false;
-            }
+            return mActionMode == null;
 
 //            mActionMode = startSupportActionMode(mActionModeCallback);
-            return true;
         });
     }
 
@@ -308,7 +305,7 @@ public class CalculatorFragment extends Fragment {
     }
 
 
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+    private final ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
         // Called when the action mode is created; startActionMode() was called
         @Override

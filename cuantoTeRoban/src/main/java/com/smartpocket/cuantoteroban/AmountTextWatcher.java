@@ -22,7 +22,7 @@ public class AmountTextWatcher implements TextWatcher {
 	private static final String VALUE_ARG = "value";
 	private static MainActivity mainActivity;
 	private static TextView amountValue, discountValue, taxesValue, totalValue, pesosValue, savingsValue, creditCardValue, blueValue, exchangeAgencyValue, payPalValue;
-	private static NumberFormat nf = NumberFormat.getInstance();
+	private static final NumberFormat nf = NumberFormat.getInstance();
 	private static double bankExchangeRate;
 	private static boolean invertBankExchangeRate;
 	private static double bankExchangeRatePercentage;
@@ -34,7 +34,7 @@ public class AmountTextWatcher implements TextWatcher {
 	private static double discount;
 	private static double taxes;
 
-	private EditorType thisInstanceType;
+	private final EditorType thisInstanceType;
 	private boolean initialized = false;
 	
 	public AmountTextWatcher(MainActivity mainActivity, EditorType editorType) {

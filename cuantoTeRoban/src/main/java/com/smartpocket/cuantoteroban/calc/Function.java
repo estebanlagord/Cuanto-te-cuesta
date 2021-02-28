@@ -2,7 +2,7 @@ package com.smartpocket.cuantoteroban.calc;
 
 public class Function extends Operator
 {
-    private String name;
+    private final String name;
     private int    numArgs;
  
     /**

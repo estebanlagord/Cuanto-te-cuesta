@@ -2,12 +2,12 @@ package com.smartpocket.cuantoteroban.calc;
 
 public class Operator
 {
-    private String  operString;
-    private boolean unary;
-    private boolean binary;
-    private boolean ternary;
-    private boolean rightAssociative;
-    private boolean leftAssociative;
+    private final String  operString;
+    private final boolean unary;
+    private final boolean binary;
+    private final boolean ternary;
+    private final boolean rightAssociative;
+    private final boolean leftAssociative;
  
     // private static String[] orderOfOperations = { "br^", "bl* bl/", "bl+ bl-", "un-" };
  
