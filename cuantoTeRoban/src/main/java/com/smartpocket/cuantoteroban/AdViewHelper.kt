@@ -1,6 +1,7 @@
 package com.smartpocket.cuantoteroban
 
 import android.app.Activity
+import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.View
@@ -93,9 +94,16 @@ class AdViewHelper(private val adViewContainer: ViewGroup, private val activity:
     // If the ad hasn't been laid out, default to the full screen width.
     private val adSize: AdSize
         get() {
-            val display = activity.windowManager.defaultDisplay
             val outMetrics = DisplayMetrics()
-            display.getMetrics(outMetrics)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val display = activity.display
+                display?.getRealMetrics(outMetrics)
+            } else {
+                @Suppress("DEPRECATION")
+                val display = activity.windowManager.defaultDisplay
+                @Suppress("DEPRECATION")
+                display.getMetrics(outMetrics)
+            }
             val density = outMetrics.density
 
             var adWidthPixels = adViewContainer.width.toFloat()
@@ -107,7 +115,7 @@ class AdViewHelper(private val adViewContainer: ViewGroup, private val activity:
             return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth)
         }
 
-    private fun isTestLab() : Boolean {
+    private fun isTestLab(): Boolean {
         val testLabSetting = Settings.System.getString(activity.contentResolver, "firebase.test.lab")
         return "true" == testLabSetting
     }
