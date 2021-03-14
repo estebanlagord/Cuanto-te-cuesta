@@ -11,7 +11,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.preference.CheckBoxPreference;
 import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
@@ -21,7 +20,24 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.smartpocket.cuantoteroban.Currency;
 import com.smartpocket.cuantoteroban.R;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class PreferencesFragmentForCurrency extends Fragment {
+
+	@Inject
+	PreferencesManager preferencesManager;
+
+	@Inject
+	MyFragmentFactory fragmentFactory;
+
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		getChildFragmentManager().setFragmentFactory(fragmentFactory);
+		super.onCreate(savedInstanceState);
+	}
 
 	@Nullable
 	@Override
@@ -35,12 +51,18 @@ public class PreferencesFragmentForCurrency extends Fragment {
 
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Currency currentCurrency = PreferencesManager.getInstance().getCurrentCurrency();
+        Currency currentCurrency = preferencesManager.getCurrentCurrency();
 		ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
 		actionBar.setTitle(getString(R.string.application_preferences) + " para " + currentCurrency.getCode());
 
 		if (savedInstanceState == null) {
-			getChildFragmentManager().beginTransaction().replace(R.id.content_frame, new MyPreferenceForCurrencyFragment()).commit();
+			getChildFragmentManager()
+					.beginTransaction()
+					.replace(R.id.content_frame,
+							fragmentFactory.instantiate(
+									requireContext().getClassLoader(),
+									MyPreferenceForCurrencyFragment.class.getName()))
+					.commit();
 		}
     }
 
@@ -49,13 +71,19 @@ public class PreferencesFragmentForCurrency extends Fragment {
     	private static final String CURRENT_VALUE = "Valor actual: ";
         private static final String CURRENCY_TOKEN = "[ZZZ]";
 
-    	@Override
+        private final PreferencesManager preferences;
+
+		public MyPreferenceForCurrencyFragment(PreferencesManager preferencesManager) {
+			this.preferences = preferencesManager;
+		}
+
+		@Override
         public void onCreate(final Bundle savedInstanceState)
         {
             super.onCreate(savedInstanceState);
 
             // get current currency and change the preferences file name
-            Currency currentCurrency = PreferencesManager.getInstance().getCurrentCurrency();
+            Currency currentCurrency = preferences.getCurrentCurrency();
             String sharedPreferencesFileName = PreferencesManager.PREFS_NAME_CURRENCY + currentCurrency.getCode();
             getPreferenceManager().setSharedPreferencesName(sharedPreferencesFileName);
             addPreferencesFromResource(R.xml.preferences_for_currency);
@@ -77,7 +105,7 @@ public class PreferencesFragmentForCurrency extends Fragment {
             titlePref.setSummary(newSummary);
 
 
-            for(String prefKey : PreferencesManager.getInstance().getAllPreferenceKeys()){
+            for(String prefKey : preferences.getAllPreferenceKeys()){
             	Preference preference = findPreference(prefKey);
             	if (preference != null){
             		updateSummaryForPreference(preference, null);
@@ -130,7 +158,7 @@ public class PreferencesFragmentForCurrency extends Fragment {
     	private void updateSummaryForInverseConvertion() {
     		final String SPACE = " ";
 
-    		String chosenCurrencyCode = PreferencesManager.getInstance().getCurrentCurrency().getCode();
+    		String chosenCurrencyCode = preferences.getCurrentCurrency().getCode();
     		CheckBoxPreference invertAgencyRatePref = findPreference(PreferencesManager.AGENCY_EXCHANGE_RATE_INVERTED);
     		CheckBoxPreference invertBankRatePref = findPreference(PreferencesManager.BANK_EXCHANGE_RATE_INVERTED);
 
@@ -154,7 +182,7 @@ public class PreferencesFragmentForCurrency extends Fragment {
     		if (isUseInternetRateEnabledPref.isChecked()){
 
     			// find the Internet exchange rate for the new currency
-    			String chosenCurrencyValue = Double.toString(PreferencesManager.getInstance().getInternetExchangeRate());
+    			String chosenCurrencyValue = Double.toString(preferences.getInternetExchangeRate());
     			EditTextPreference bankExchangeRatePref = findPreference(PreferencesManager.BANK_EXCHANGE_RATE);
     			bankExchangeRatePref.setText(chosenCurrencyValue);
 

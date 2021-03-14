@@ -7,7 +7,7 @@ import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
 
-class CurrencyRemoteRepository {
+class CurrencyRemoteRepository(private val preferences: PreferencesManager) {
 
     private val logger = Logger.getLogger(javaClass.simpleName)
     private val googleDownloader by lazy { CurrencyDownloaderGoogle() }
@@ -16,7 +16,6 @@ class CurrencyRemoteRepository {
     private val eurDownloader by lazy { CurrencyDownloaderDolarHoyEUR() }
     private val usdDownloader by lazy { CurrencyDownloaderDolarHoyUSD() }
     private val uyuDownloader by lazy { CurrencyDownloaderDolarHoyUYU() }
-    val preferences: PreferencesManager by lazy { PreferencesManager.getInstance() }
 
     private val xeCurrencyList = listOf("VES", "STD", "LVL", "SHP", "GIP", "FKP", "SYP", "LTL",
             "YER", "WST", "MNT", "KPW", "ZMK")

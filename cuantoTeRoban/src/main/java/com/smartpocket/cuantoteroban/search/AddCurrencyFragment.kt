@@ -14,14 +14,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.smartpocket.cuantoteroban.Currency
-import com.smartpocket.cuantoteroban.CurrencyManager
 import com.smartpocket.cuantoteroban.R
 import com.smartpocket.cuantoteroban.SingleActivityVM
 import com.smartpocket.cuantoteroban.databinding.ActivityAddCurrencyBinding
+import com.smartpocket.cuantoteroban.preferences.PreferencesManager
+import dagger.hilt.android.AndroidEntryPoint
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import java.util.*
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class AddCurrencyFragment : Fragment(), OnCurrencyItemClickListener {
 
     private var _binding: ActivityAddCurrencyBinding? = null
@@ -35,6 +37,9 @@ class AddCurrencyFragment : Fragment(), OnCurrencyItemClickListener {
     private lateinit var mAdapter: CurrencyListAdapter
     private lateinit var singleActivityVM: SingleActivityVM
 
+    @Inject
+    lateinit var preferences: PreferencesManager
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = ActivityAddCurrencyBinding.inflate(inflater, container, false)
         val toolbar: Toolbar = binding.toolbar.myAwesomeToolbar
@@ -47,7 +52,7 @@ class AddCurrencyFragment : Fragment(), OnCurrencyItemClickListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        unusedCurrencies = CurrencyManager.getInstance().allUnusedCurrencies
+        unusedCurrencies = preferences.allUnusedCurrencies
         mAdapter = CurrencyListAdapter(this)
         recyclerView = binding.unusedCurrenciesList
         recyclerView.adapter = mAdapter
@@ -60,7 +65,7 @@ class AddCurrencyFragment : Fragment(), OnCurrencyItemClickListener {
 
     override fun onStart() {
         super.onStart()
-        unusedCurrencies = CurrencyManager.getInstance().allUnusedCurrencies
+        unusedCurrencies = preferences.allUnusedCurrencies
     }
 
     private fun updateCurrenciesList(query: String?) {
@@ -103,7 +108,7 @@ class AddCurrencyFragment : Fragment(), OnCurrencyItemClickListener {
 
     override fun onItemClick(currency: Currency) {
         closeKeyboard()
-        CurrencyManager.getInstance().addToUserCurrencies(currency)
+        preferences.addToUserCurrencies(currency)
         singleActivityVM.addedCurrencyLD.postValue(currency)
         findNavController().navigateUp()
     }

@@ -18,7 +18,7 @@ import java.util.*
 class GraphDataProviderTest {
 
     private lateinit var graphDataProvider: GraphDataProvider
-    private val currencyManager = CurrencyManager.getInstance()
+    private val currencyManager = CurrencyManager()
 
     @Before
     fun setUp() {

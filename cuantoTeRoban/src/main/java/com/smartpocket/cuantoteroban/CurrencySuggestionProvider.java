@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 
+import com.smartpocket.cuantoteroban.preferences.PreferencesManager;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -15,8 +17,8 @@ public class CurrencySuggestionProvider extends ContentProvider {
 	Set<Currency> allUnusedCurrencies = null;
 	
 	public Cursor query(@NotNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-		if (allUnusedCurrencies == null)
-			allUnusedCurrencies = CurrencyManager.getInstance().getAllUnusedCurrencies();
+//		if (allUnusedCurrencies == null)
+//			allUnusedCurrencies = PreferencesManager.getInstance().getAllUnusedCurrencies();
 		
 		MatrixCursor matrixCursor = new MatrixCursor(new String[]{"_ID", SearchManager.SUGGEST_COLUMN_TEXT_1, SearchManager.SUGGEST_COLUMN_ICON_1, SearchManager.SUGGEST_COLUMN_TEXT_2});
 		String query = uri.getLastPathSegment();

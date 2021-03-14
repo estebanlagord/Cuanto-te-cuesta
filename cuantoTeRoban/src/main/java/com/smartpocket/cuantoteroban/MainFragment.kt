@@ -18,7 +18,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionManager
 import com.smartpocket.cuantoteroban.MainActivity.FRACTION_DIGITS
@@ -30,11 +31,14 @@ import com.smartpocket.cuantoteroban.databinding.ContainerMainBinding
 import com.smartpocket.cuantoteroban.editortype.EditorType
 import com.smartpocket.cuantoteroban.editortype.EditorTypeHelper
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
+import dagger.hilt.android.AndroidEntryPoint
 import java.lang.ref.WeakReference
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesListener {
 
     private var _binding: ContainerMainBinding? = null
@@ -63,16 +67,25 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
 //    private lateinit var rotatingRefreshButtonView: ImageView
 //    private lateinit var refreshButtonRotation: Animation
     private lateinit var mDrawerToggle: WeakReference<ActionBarDrawerToggle>
-    private val chosenCurrencyLongClickListener = ChosenCurrencyLongClickListener(this)
-    private lateinit var viewModel: MainFragmentVM
-    private lateinit var singleActivityVM: SingleActivityVM
+    private val chosenCurrencyLongClickListener by lazy { ChosenCurrencyLongClickListener(this, preferences, currencyManager) }
+    private val viewModel: MainFragmentVM by viewModels()
+    private val singleActivityVM: SingleActivityVM by activityViewModels()
     private lateinit var totalViews: MutableList<View>
     private lateinit var pesosViews: MutableList<View>
     private lateinit var withCardViews: MutableList<View>
     private lateinit var blueViews: MutableList<View>
     private lateinit var exchangeAgencyViews: MutableList<View>
     private var currentCurr: Currency? = null
-    private val preferences by lazy { PreferencesManager.getInstance() }
+
+    @Inject
+    lateinit var preferences: PreferencesManager
+
+    @Inject
+    lateinit var currencyManager: CurrencyManager
+
+    @Inject
+    lateinit var chosenCurrenciesAdapter: ChosenCurrenciesRecyclerAdapter
+
     private val displayDateFormat = SimpleDateFormat("dd/MMM HH:mm", Locale("es", "AR"))
     private val shortNumberFormat = Utilities.getCurrencyFormat()
     private val percentageNumberFormat = (DecimalFormat.getInstance() as DecimalFormat).apply {
@@ -106,9 +119,6 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
             setColorSchemeResources(R.color.color_primary_dark)
             setOnRefreshListener { viewModel.refreshRates(true) }
         }
-
-        viewModel = ViewModelProvider(this)[MainFragmentVM::class.java]
-        singleActivityVM = ViewModelProvider(requireActivity())[SingleActivityVM::class.java]
 
         setupNavDrawer()
         setupClickListeners()
@@ -177,7 +187,7 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
             viewModel.onCalculatorValueChanged(it.editorType, Utilities.round(it.amount, FRACTION_DIGITS))
         })
         singleActivityVM.addedCurrencyLD.observe(viewLifecycleOwner, {
-            viewModel.chosenCurrenciesAdapter?.updateCurrenciesList()
+            chosenCurrenciesAdapter.updateCurrenciesList()
         })
     }
 
@@ -348,12 +358,8 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
         // Set the adapter for the list view
         binding.leftDrawer.setHasFixedSize(true)
 
-        if (viewModel.chosenCurrenciesAdapter == null) {
-            viewModel.chosenCurrenciesAdapter = ChosenCurrenciesRecyclerAdapter(this)
-        } else {
-            viewModel.chosenCurrenciesAdapter?.updateListener(this)
-        }
-        binding.leftDrawer.adapter = viewModel.chosenCurrenciesAdapter
+        chosenCurrenciesAdapter.updateListener(this)
+        binding.leftDrawer.adapter = chosenCurrenciesAdapter
         mDrawerToggle.get()!!.syncState()
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
@@ -508,7 +514,6 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
 
     override fun onDestroyView() {
         binding.drawerLayout.removeDrawerListener(mDrawerToggle.get()!!)
-        viewModel.chosenCurrenciesAdapter = null
         totalViews.clear()
         pesosViews.clear()
         withCardViews.clear()

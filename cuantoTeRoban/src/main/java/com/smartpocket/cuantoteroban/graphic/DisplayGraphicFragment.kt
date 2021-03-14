@@ -12,8 +12,8 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.transition.TransitionManager
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.data.Entry
@@ -23,10 +23,12 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.smartpocket.cuantoteroban.R
 import com.smartpocket.cuantoteroban.Utilities
 import com.smartpocket.cuantoteroban.databinding.DisplayGraphicFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 private const val ANIMATION_DURATION_MS = 400
 private const val CHOSEN_PERIOD_KEY = "Chosen Period Key"
 
+@AndroidEntryPoint
 class DisplayGraphicFragment : Fragment() {
 
     private var _binding: DisplayGraphicFragmentBinding? = null
@@ -35,7 +37,7 @@ class DisplayGraphicFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: DisplayGraphicViewModel
+    private val viewModel: DisplayGraphicViewModel by viewModels()
     private val currencyFormatter = Utilities.getCurrencyFormat()
     private var textColorDayNight: Int = 0
 
@@ -57,7 +59,6 @@ class DisplayGraphicFragment : Fragment() {
             binding.toggleGroup.check(savedInstanceState.getInt(CHOSEN_PERIOD_KEY))
         }
 
-        viewModel = ViewModelProvider(this)[DisplayGraphicViewModel::class.java]
         configGraph()
         viewModel.entriesLD.observe(viewLifecycleOwner, Observer {
             updateEntries(it)

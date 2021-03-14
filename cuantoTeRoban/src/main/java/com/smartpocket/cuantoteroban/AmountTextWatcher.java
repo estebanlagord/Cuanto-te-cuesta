@@ -63,16 +63,16 @@ public class AmountTextWatcher implements TextWatcher {
 	}
 
 	public static synchronized void preferencesChanged() {
-		bankExchangeRate           = PreferencesManager.getInstance().getBankExchangeRate();
-		bankExchangeRatePercentage = PreferencesManager.getInstance().getBankCorrectionPercentage();
-		agencyExchangeRate         = PreferencesManager.getInstance().getAgencyExchangeRate();
-		afipPercentage             = PreferencesManager.getInstance().getAfipPercentage();
-		payPalPercentage           = PreferencesManager.getInstance().getPayPalPercentage();
-		invertBankExchangeRate     = PreferencesManager.getInstance().isBankExchangeRateInverted();
-		invertAgencyExchangeRate   = PreferencesManager.getInstance().isAgencyExchangeRateInverted();
-		discount                   = PreferencesManager.getInstance().getDiscount();
-		taxes                      = PreferencesManager.getInstance().getTaxes();
-        savingsPercentage          = PreferencesManager.getInstance().getSavingsPercentage();
+//		bankExchangeRate           = PreferencesManager.getInstance().getBankExchangeRate();
+//		bankExchangeRatePercentage = PreferencesManager.getInstance().getBankCorrectionPercentage();
+//		agencyExchangeRate         = PreferencesManager.getInstance().getAgencyExchangeRate();
+//		afipPercentage             = PreferencesManager.getInstance().getAfipPercentage();
+//		payPalPercentage           = PreferencesManager.getInstance().getPayPalPercentage();
+//		invertBankExchangeRate     = PreferencesManager.getInstance().isBankExchangeRateInverted();
+//		invertAgencyExchangeRate   = PreferencesManager.getInstance().isAgencyExchangeRateInverted();
+//		discount                   = PreferencesManager.getInstance().getDiscount();
+//		taxes                      = PreferencesManager.getInstance().getTaxes();
+//        savingsPercentage          = PreferencesManager.getInstance().getSavingsPercentage();
 
 		if (invertBankExchangeRate){
 			if (bankExchangeRate != 0)
@@ -225,7 +225,7 @@ public class AmountTextWatcher implements TextWatcher {
 	
 	private void updateValuesFromDiscount(double discount) {
 		if (AmountTextWatcher.discount != discount) {
-			PreferencesManager.getInstance().setDiscount(discount);
+//			PreferencesManager.getInstance().setDiscount(discount);
 			AmountTextWatcher.discount = discount;
 	
 			if (lastOneChanged != null){
@@ -238,7 +238,7 @@ public class AmountTextWatcher implements TextWatcher {
 	
 	private void updateValuesFromTaxes(double taxes) {
 		if (AmountTextWatcher.taxes != taxes){
-			PreferencesManager.getInstance().setTaxes(taxes);
+//			PreferencesManager.getInstance().setTaxes(taxes);
 			AmountTextWatcher.taxes = taxes;
 	
 			if (lastOneChanged != null){
@@ -447,17 +447,19 @@ public class AmountTextWatcher implements TextWatcher {
     }
 
     private double totalToBlue(double total){
-        double toDollarRate = PreferencesManager.getInstance().getExchangeRateToDollar();
-        double blueRate = PreferencesManager.getInstance().getBlueDollarToARSRate();
-        double result = total * toDollarRate * blueRate;
-        return result;
+//        double toDollarRate = PreferencesManager.getInstance().getExchangeRateToDollar();
+//        double blueRate = PreferencesManager.getInstance().getBlueDollarToARSRate();
+//        double result = total * toDollarRate * blueRate;
+//        return result;
+		return 0;
     }
 
     private double blueToTotal(double blue){
-        double toDollarRate = PreferencesManager.getInstance().getExchangeRateToDollar();
-        double blueRate = PreferencesManager.getInstance().getBlueDollarToARSRate();
-        double result = blue / blueRate / toDollarRate;
-        return result;
+//        double toDollarRate = PreferencesManager.getInstance().getExchangeRateToDollar();
+//        double blueRate = PreferencesManager.getInstance().getBlueDollarToARSRate();
+//        double result = blue / blueRate / toDollarRate;
+//        return result;
+		return 0;
     }
 	
 	private double totalToAgency(double total) {

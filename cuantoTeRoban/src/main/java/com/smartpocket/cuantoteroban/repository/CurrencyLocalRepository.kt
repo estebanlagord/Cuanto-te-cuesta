@@ -7,12 +7,11 @@ import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
 
-class CurrencyLocalRepository {
+class CurrencyLocalRepository(private val preferences: PreferencesManager) {
 
     private val logger = Logger.getLogger(javaClass.simpleName)
-    val preferences: PreferencesManager by lazy { PreferencesManager.getInstance() }
 
-    suspend fun getCurrencyExchange(
+    fun getCurrencyExchange(
             currencyFrom: Currency,
             currencyTo: String,
             amount: Double

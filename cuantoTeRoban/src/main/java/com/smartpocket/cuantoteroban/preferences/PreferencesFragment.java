@@ -30,14 +30,28 @@ import com.smartpocket.cuantoteroban.SingleActivityVM;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
 import static com.smartpocket.cuantoteroban.preferences.PreferencesManager.THEME_CLEAR;
 import static com.smartpocket.cuantoteroban.preferences.PreferencesManager.THEME_DARK;
 import static com.smartpocket.cuantoteroban.preferences.PreferencesManager.THEME_SYSTEM_DEFAULT;
 
+@AndroidEntryPoint
 public class PreferencesFragment extends Fragment {
 
     private static final String[] themeOptions = {"Claro", "Oscuro", "Usar configuración de Android"};
     private static final String[] themeOptionsValues = {THEME_CLEAR, THEME_DARK, THEME_SYSTEM_DEFAULT};
+
+    @Inject
+    MyFragmentFactory fragmentFactory;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        getChildFragmentManager().setFragmentFactory(fragmentFactory);
+        super.onCreate(savedInstanceState);
+    }
 
     @Nullable
     @Override
@@ -53,15 +67,27 @@ public class PreferencesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            getChildFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame, new MyPreferenceFragment()).commit();
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_frame,
+                            fragmentFactory.instantiate(
+                                    requireContext().getClassLoader(),
+                                    MyPreferenceFragment.class.getName()))
+                    .commit();
         }
     }
 
     public static class MyPreferenceFragment extends PreferenceFragmentCompat {
         private static final String CURRENT_VALUE = "Valor actual: ";
         private SingleActivityVM singleActivityVM;
-        private final PreferencesManager preferences = PreferencesManager.getInstance();
+
+        private final PreferencesManager preferences;
+        private final CurrencyManager currencyManager;
+
+        public MyPreferenceFragment(PreferencesManager preferences, CurrencyManager currencyManager) {
+            this.preferences = preferences;
+            this.currencyManager = currencyManager;
+        }
 
         @Override
         public void onCreate(final Bundle savedInstanceState) {
@@ -143,7 +169,7 @@ public class PreferencesFragment extends Fragment {
                 return true;
             });
 
-            for (String prefKey : PreferencesManager.getInstance().getAllPreferenceKeys()) {
+            for (String prefKey : preferences.getAllPreferenceKeys()) {
                 Preference preference = findPreference(prefKey);
                 if (preference != null) {
                     initializeChosenCurrencyListPreference(preference);
@@ -180,7 +206,7 @@ public class PreferencesFragment extends Fragment {
             if (preference instanceof ListPreference && preference.getKey().equals("source_currency")) {
                 List<String> entries = new ArrayList<>();
                 List<String> entryValues = new ArrayList<>();
-                List<Currency> chosenCurrencies = PreferencesManager.getInstance().getChosenCurrencies();
+                List<Currency> chosenCurrencies = preferences.getChosenCurrencies();
 
                 for (Currency cur : chosenCurrencies) {
                     entries.add(cur.getName());
@@ -220,10 +246,10 @@ public class PreferencesFragment extends Fragment {
                 // update current value for "Moneda a convertir"
                 ListPreference listPref = (ListPreference) pref;
                 if (newValue == null)
-                    newValue = PreferencesManager.getInstance().getCurrentCurrency().getCode();
+                    newValue = preferences.getCurrentCurrency().getCode();
 
-                Currency newCurr = CurrencyManager.getInstance().findCurrency(newValue.toString());
-                PreferencesManager.getInstance().setCurrentCurrency(newCurr);
+                Currency newCurr = currencyManager.findCurrency(newValue.toString());
+                preferences.setCurrentCurrency(newCurr);
 
                 listPref.setSummary(CURRENT_VALUE + newCurr.getName());
             }

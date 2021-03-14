@@ -10,18 +10,24 @@ import com.smartpocket.cuantoteroban.chosencurrencies.ChosenCurrenciesRecyclerAd
 import com.smartpocket.cuantoteroban.editortype.EditorType
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import com.smartpocket.cuantoteroban.repository.CurrencyRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import java.util.*
+import javax.inject.Inject
 
-class MainFragmentVM : ViewModel() {
+@HiltViewModel
+class MainFragmentVM @Inject constructor() : ViewModel() {
 
     private val parentJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
     private var refreshJob: Job? = null
 
     //    private val logger = Logger.getLogger(javaClass.simpleName)
-    private val repository by lazy { CurrencyRepository() }
-    val preferences: PreferencesManager by lazy { PreferencesManager.getInstance() }
+    @Inject
+    lateinit var repository: CurrencyRepository
+
+    @Inject
+    lateinit var preferences: PreferencesManager
 
     private var bankExchangeRate = 0.0
     private var invertBankExchangeRate = false
@@ -43,12 +49,11 @@ class MainFragmentVM : ViewModel() {
     val blueLiveData = MutableLiveData(0.0)
     val exchangeAgencyLiveData = MutableLiveData(0.0)
 
-    val currencyLiveData = MutableLiveData(preferences.currentCurrency)
+    val currencyLiveData by lazy { MutableLiveData(preferences.currentCurrency) }
     val currencyEditorTypeLiveData = MutableLiveData<EditorType>()
     val isLoadingLiveData = MutableLiveData(false)
     val lastUpdateLiveData = MutableLiveData(Date(0))
     val errorLiveData = SingleLiveEvent<ErrorState>()
-    var chosenCurrenciesAdapter: ChosenCurrenciesRecyclerAdapter? = null
 
     enum class ErrorState { NO_INTERNET, DOWNLOAD_ERROR }
 
@@ -212,12 +217,12 @@ class MainFragmentVM : ViewModel() {
     }
 
     private fun totalToBlue(total: Double): Double {
-        val blueRate = PreferencesManager.getInstance().blueDollarToARSRate
+        val blueRate = preferences.blueDollarToARSRate
         return total * blueRate
     }
 
     private fun blueToTotal(blue: Double): Double {
-        val blueRate = PreferencesManager.getInstance().blueDollarToARSRate
+        val blueRate = preferences.blueDollarToARSRate
         return blue / blueRate
     }
 

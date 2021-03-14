@@ -5,18 +5,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.smartpocket.cuantoteroban.Currency
-import com.smartpocket.cuantoteroban.CurrencyManager
 import com.smartpocket.cuantoteroban.R
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
+import dagger.hilt.android.scopes.FragmentScoped
+import javax.inject.Inject
 
 
 private const val TypeHeader = 1
 private const val TypeNormal = 2
 private const val TypeFooter = 3
 
-class ChosenCurrenciesRecyclerAdapter(var listener: ChosenCurrenciesListener) : RecyclerView.Adapter<ChosenCurrenciesVH>() {
+@FragmentScoped
+class ChosenCurrenciesRecyclerAdapter
+@Inject constructor(val preferences: PreferencesManager)
+    : RecyclerView.Adapter<ChosenCurrenciesVH>() {
+
+    private var listener: ChosenCurrenciesListener? = null
     private var items = mutableListOf<ChosenCurrenciesItem>()
-    var selectedItem: Currency = PreferencesManager.getInstance().currentCurrency
+    var selectedItem: Currency = preferences.currentCurrency
         set(value) {
             field = value
             highlightSelectedItem()
@@ -56,7 +62,7 @@ class ChosenCurrenciesRecyclerAdapter(var listener: ChosenCurrenciesListener) : 
 
         if (item is ChosenCurrenciesItem.CurrencyItem) {
             val isSelected = item.curr == selectedItem
-            holder.bindTo(item.curr, listener, isSelected)
+            holder.bindTo(item.curr, listener!!, isSelected)
         }
     }
 
@@ -68,7 +74,7 @@ class ChosenCurrenciesRecyclerAdapter(var listener: ChosenCurrenciesListener) : 
         items.clear()
         items.add(ChosenCurrenciesItem.Header())
 
-        CurrencyManager.getInstance().userCurrencies.forEach {
+        preferences.chosenCurrencies.forEach {
             items.add(ChosenCurrenciesItem.CurrencyItem(it))
         }
 

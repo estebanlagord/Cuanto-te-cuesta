@@ -1,10 +1,5 @@
 package com.smartpocket.cuantoteroban;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.smartpocket.cuantoteroban.preferences.PreferencesManager;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,17 +9,30 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.smartpocket.cuantoteroban.preferences.PreferencesManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.qualifiers.ActivityContext;
+import dagger.hilt.android.scopes.ActivityScoped;
+
+@ActivityScoped
 public class ChosenCurrenciesAdapter extends BaseAdapter {
-	Context context;
+	private final Context context;
+	private final PreferencesManager preferences;
 	List<Currency> currencies;
 	LayoutInflater inflater;
 	/** Selected item position	*/
 	private Currency mSelectedItem;
-	
-	
-	public ChosenCurrenciesAdapter(Context context) {
+
+	@Inject
+	public ChosenCurrenciesAdapter(@ActivityContext Context context, PreferencesManager preferences) {
 		this.context = context;
-		this.currencies = new ArrayList<Currency>(CurrencyManager.getInstance().getUserCurrencies());
+		this.preferences = preferences;
+		this.currencies = new ArrayList<>(preferences.getChosenCurrencies());
 		this.inflater = ((Activity)context).getLayoutInflater();
 		
 		updateSelectedItem();
@@ -40,7 +48,7 @@ public class ChosenCurrenciesAdapter extends BaseAdapter {
 	}
 	
 	public void updateSelectedItem() {
-		Currency currentCurr = PreferencesManager.getInstance().getCurrentCurrency();
+		Currency currentCurr = preferences.getCurrentCurrency();
 		setSelectedItem(currentCurr);
 	}
 	
@@ -86,7 +94,7 @@ public class ChosenCurrenciesAdapter extends BaseAdapter {
 	 * Used to refresh the list of courses in the adapter
 	 */
 	public void updateCurrenciesList(){
-		this.currencies = new ArrayList<Currency>(CurrencyManager.getInstance().getUserCurrencies());
+		this.currencies = new ArrayList<>(preferences.getChosenCurrencies());
 		notifyDataSetChanged();
 	}
 }

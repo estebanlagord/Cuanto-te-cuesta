@@ -11,18 +11,25 @@ import com.smartpocket.cuantoteroban.R
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import com.smartpocket.cuantoteroban.repository.graph.GraphDataProvider
 import com.smartpocket.cuantoteroban.repository.graph.PastCurrency
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 import java.util.*
+import javax.inject.Inject
 
-class DisplayGraphicViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class DisplayGraphicViewModel @Inject constructor(application: Application)
+    : AndroidViewModel(application) {
+
     private val parentJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.IO + parentJob)
     private val graphDataProvider by lazy { GraphDataProvider() }
-    val preferences: PreferencesManager by lazy { PreferencesManager.getInstance() }
+
+    @Inject
+    lateinit var preferences: PreferencesManager
     val entriesLD = MutableLiveData<List<Entry>>()
     val statusLD = MutableLiveData<GraphicStatus>(GraphicStatus.Loading())
 

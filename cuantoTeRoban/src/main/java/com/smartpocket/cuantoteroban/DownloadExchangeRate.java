@@ -59,9 +59,9 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
 
         result = loadExchangeRates();
         boolean wasLoadExchangeRatesSuccessful = Results.valueOf(result) == Results.SUCCESS;
-        boolean isShowingBlueConversion = PreferencesManager.getInstance().isShowBlue();
+//        boolean isShowingBlueConversion = PreferencesManager.getInstance().isShowBlue();
 
-        if (wasLoadExchangeRatesSuccessful && isShowingBlueConversion)
+//        if (wasLoadExchangeRatesSuccessful && isShowingBlueConversion)
             result = loadBlueDollarRate();
 
         return result;
@@ -80,21 +80,21 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
             //for (Currency curr : CurrencyManager.getInstance().getAllCurrencies()) {
-            for (Currency curr : PreferencesManager.getInstance().getChosenCurrencies()) {
+/*            for (Currency curr : PreferencesManager.getInstance().getChosenCurrencies()) {
                 Double newInternetExchangeRate = Double.parseDouble(reader.readLine());
                 PreferencesManager.getInstance().setInternetExchangeRate(curr, newInternetExchangeRate);
-                /*
+                *//*
                 if (newInternetExchangeRate == 0)
                     System.out.println("Moneda con problema: " + curr.getCode() + " " + curr.getName());
                 else
                     System.out.println("Procesando: " + curr.getCode() + " " + curr.getName());
-                */
+                *//*
 
                 // process USDXXX conversions
 
                 Double newExchangeRateToDollar = Double.parseDouble(reader.readLine());
                 PreferencesManager.getInstance().setExchangeRateToDollar(curr, newExchangeRateToDollar);
-            }
+            }*/
 
             result = Results.SUCCESS.name();
 
@@ -138,7 +138,7 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
                         NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
                         double blueRate = nf.parse(numberStr).doubleValue();
                         Log.i("DownloadExchangeRate", "Found blue: " + blueRate);
-                        PreferencesManager.getInstance().setBlueDollarToArsRate(blueRate);
+//                        PreferencesManager.getInstance().setBlueDollarToArsRate(blueRate);
                         break;
                     }
                 }
@@ -201,12 +201,12 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
 	        dateStr = prefDateFormat.format(date);
 	
 	    	// update preference's value
-	        PreferencesManager.getInstance().setLastUpdateDate(date, PreferencesManager.getInstance().getCurrentCurrency());
+//	        PreferencesManager.getInstance().setLastUpdateDate(date, PreferencesManager.getInstance().getCurrentCurrency());
 	    	
 	    	// if the user wants automatic updates, update the preference for "Bank exchange rate"
-	        if (PreferencesManager.getInstance().isAutomaticUpdateEnabled() || this.force){
-	    		PreferencesManager.getInstance().updateAllBankExchangeRatesWhichAreUsingInternetRates();
-	    	}
+//	        if (PreferencesManager.getInstance().isAutomaticUpdateEnabled() || this.force){
+//	    		PreferencesManager.getInstance().updateAllBankExchangeRatesWhichAreUsingInternetRates();
+//	    	}
 	    	break;
 		}
     	
@@ -241,16 +241,16 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
 //				if (lastUpdateStr.equals(mainActivity.getResources().getString(R.string.LastUpdateNever)))
 //					lastUpdateStr = prefDateFormat.format(aVeryLongTimeAgo.getTime());
 
-				Date lastUpdate = PreferencesManager.getInstance().getLastUpdateDate(PreferencesManager.getInstance().getCurrentCurrency());
+//				Date lastUpdate = PreferencesManager.getInstance().getLastUpdateDate(PreferencesManager.getInstance().getCurrentCurrency());
 				Calendar now = Calendar.getInstance();
 				Calendar lastUpdateCal = Calendar.getInstance();
 
 				// get the number of hours for "Update Frequency", as specified by the user
-				int updateFrequency = PreferencesManager.getInstance().getUpdateFrequencyInHours();
+//				int updateFrequency = PreferencesManager.getInstance().getUpdateFrequencyInHours();
 
 				// add hours to the lastUpdate and check if its still before "now"
-				lastUpdateCal.setTime(lastUpdate);
-				lastUpdateCal.add(Calendar.HOUR_OF_DAY, updateFrequency);
+//				lastUpdateCal.setTime(lastUpdate);
+//				lastUpdateCal.add(Calendar.HOUR_OF_DAY, updateFrequency);
 
                 return lastUpdateCal.before(now);
 //			} catch (ParseException e) {
@@ -274,18 +274,18 @@ class DownloadExchangeRate extends	AsyncTask<String, Integer, String> {
 	private String getExchangeRateURL() {
 		StringBuffer result = new StringBuffer(EXCHANGE_RATE_URL_PRE);
 		
-		List<Currency> currencies = PreferencesManager.getInstance().getChosenCurrencies();
+//		List<Currency> currencies = PreferencesManager.getInstance().getChosenCurrencies();
 		//List<Currency> currencies = new ArrayList<Currency>();
 		//currencies.addAll(CurrencyManager.getInstance().getAllCurrencies());
 		//System.out.println("There are " + currencies.size() + " currencies");
 		
-		for (int i = 0; i< currencies.size() ; i++) {
-			Currency curr = currencies.get(i);
-            String code = curr.getCode().toUpperCase(Locale.US);
-            result.append(code + "ARS=x," + code + "USD=x");
-			if (i < currencies.size() - 1)
-				result.append(',');
-		}
+//		for (int i = 0; i< currencies.size() ; i++) {
+//			Currency curr = currencies.get(i);
+//            String code = curr.getCode().toUpperCase(Locale.US);
+//            result.append(code + "ARS=x," + code + "USD=x");
+//			if (i < currencies.size() - 1)
+//				result.append(',');
+//		}
 		
 		result.append(EXCHANGE_RATE_URL_POS);
 		return result.toString();

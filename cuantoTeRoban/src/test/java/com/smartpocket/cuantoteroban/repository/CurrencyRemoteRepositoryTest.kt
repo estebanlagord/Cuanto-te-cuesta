@@ -3,6 +3,7 @@ package com.smartpocket.cuantoteroban.repository
 import com.smartpocket.cuantoteroban.Currency
 import com.smartpocket.cuantoteroban.CurrencyManager
 import com.smartpocket.cuantoteroban.MyApplication
+import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
@@ -19,11 +20,12 @@ import org.robolectric.annotation.Config
 class CurrencyRemoteRepositoryTest {
 
     private lateinit var repository: CurrencyRemoteRepository
-    private val currencyManager = CurrencyManager.getInstance()
+    private val currencyManager = CurrencyManager()
+    private val preferencesManager = PreferencesManager(currencyManager)
 
     @Before
     fun setUp() {
-        repository = CurrencyRemoteRepository()
+        repository = CurrencyRemoteRepository(preferencesManager)
     }
 
     @Test

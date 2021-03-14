@@ -14,15 +14,16 @@ import com.smartpocket.cuantoteroban.editortype.EditorType;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class PreferencesManager {
-    private static final PreferencesManager instance = new PreferencesManager();
     private static final String PREFS_NAME_BASE = "CuantoTeRobanPreferences";
     public static final String PREFS_NAME_SHARED = PREFS_NAME_BASE + "_Shared";
     public static final String PREFS_NAME_CURRENCY = PREFS_NAME_BASE + "_";
@@ -83,9 +84,11 @@ public class PreferencesManager {
     private final Map<Currency, SharedPreferences> preferencesByCurrency = new HashMap<Currency, SharedPreferences>();
     private SharedPreferences preferencesByApp;
     private Currency currentCurrency;
+    private final CurrencyManager currencyManager;
 
-    public PreferencesManager() {
+    public PreferencesManager(CurrencyManager currencyManager) {
         //migratePreferencesFromVersion3();
+        this.currencyManager = currencyManager;
         updatePreferencesToVersion7();
         updatePreferencesToVersion11();
         updatePreferencesToVersion14();
@@ -108,10 +111,6 @@ public class PreferencesManager {
         }
     }
 
-    public static PreferencesManager getInstance() {
-        return instance;
-    }
-
     private Context getAppContext() {
         return MyApplication.Companion.applicationContext();
     }
@@ -129,7 +128,7 @@ public class PreferencesManager {
 
     private Map<Currency, SharedPreferences> getPreferencesByCurrency() {
         if (preferencesByCurrency.isEmpty()) {
-            for (Currency curr : CurrencyManager.getInstance().getAllCurrencies()) {
+            for (Currency curr : currencyManager.getAllCurrencies()) {
                 preferencesByCurrency.put(curr, MyApplication.Companion.applicationContext()
                         .getSharedPreferences(PREFS_NAME_CURRENCY + curr.getCode(), 0));
             }
@@ -169,7 +168,7 @@ public class PreferencesManager {
 
     public void refreshCurrentCurrency() {
         String currCode = getPreferencesByApp().getString(CURRENT_CURRENCY, DEFAULT_CURRENCY);
-        currentCurrency = CurrencyManager.getInstance().findCurrency(currCode);
+        currentCurrency = currencyManager.findCurrency(currCode);
     }
 
     public Currency getCurrentCurrency() {
@@ -193,12 +192,12 @@ public class PreferencesManager {
         String chosenCurrencies = getPreferencesByApp().getString(CHOSEN_CURRENCIES, null);
 
         if (chosenCurrencies == null) {
-            Currency curr = CurrencyManager.getInstance().findCurrency(DEFAULT_CURRENCY);
+            Currency curr = currencyManager.findCurrency(DEFAULT_CURRENCY);
             if (curr != null)
                 result.add(curr);
         } else {
             for (String code : chosenCurrencies.split(CURRENCIES_SEPARATOR)) {
-                Currency curr = CurrencyManager.getInstance().findCurrency(code);
+                Currency curr = currencyManager.findCurrency(code);
                 if (curr != null)
                     result.add(curr);
             }
@@ -206,18 +205,36 @@ public class PreferencesManager {
         return result;
     }
 
-    public void setChosenCurrencies(List<Currency> currencies) {
-        String value = "";
+    public void setChosenCurrencies(Collection<Currency> currencies) {
+        StringBuilder value = new StringBuilder();
         for (Currency curr : currencies) {
             if (value.length() != 0)
-                value += CURRENCIES_SEPARATOR;
+                value.append(CURRENCIES_SEPARATOR);
 
-            value += curr.getCode();
+            value.append(curr.getCode());
         }
 
         Editor editor = getPreferencesByApp().edit();
-        editor.putString(CHOSEN_CURRENCIES, value);
+        editor.putString(CHOSEN_CURRENCIES, value.toString());
         editor.apply();
+    }
+
+    public void addToUserCurrencies(Currency curr) {
+        Set<Currency> userCurrencies = new HashSet<>(getChosenCurrencies());
+        if (userCurrencies.add(curr))
+            setChosenCurrencies(userCurrencies);
+    }
+
+    public void removeFromUserCurrencies(Currency curr) {
+        Set<Currency> userCurrencies = new HashSet<>(getChosenCurrencies());
+        if (userCurrencies.remove(curr))
+            setChosenCurrencies(userCurrencies);
+    }
+
+    public Set<Currency> getAllUnusedCurrencies() {
+        Set<Currency> result = new TreeSet<>(currencyManager.getAllCurrencies());
+        result.removeAll(getChosenCurrencies());
+        return result;
     }
 
 
@@ -618,7 +635,7 @@ public class PreferencesManager {
 
                 if (currencyStr != null) {
                     log("Migrating currency: " + currencyStr);
-                    Currency currency = CurrencyManager.getInstance().findCurrency(currencyStr);
+                    Currency currency = currencyManager.findCurrency(currencyStr);
                     //Currencies currency = Currencies.valueOf(currencyStr);
                     setCurrentCurrency(currency);
                     Editor editorCurr = getPreferencesByCurrency(currency).edit();
@@ -717,7 +734,7 @@ public class PreferencesManager {
                 // update the list of favorite preferences: BRL, USD, EUR, CLP, UYU, MXN, GBP
                 List<Currency> allPreviousCurrencies = new ArrayList<>();
                 for (String str : new String[]{"USD", "EUR", "GBP", "CLP", "MXN", "UYU", "BRL"}) {
-                    Currency curr = CurrencyManager.getInstance().findCurrency(str);
+                    Currency curr = currencyManager.findCurrency(str);
                     if (curr != null)
                         allPreviousCurrencies.add(curr);
                 }

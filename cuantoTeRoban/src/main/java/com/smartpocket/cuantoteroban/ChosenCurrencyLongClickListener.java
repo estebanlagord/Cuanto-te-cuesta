@@ -21,15 +21,19 @@ public class ChosenCurrencyLongClickListener implements OnItemLongClickListener 
 
 	private final Fragment parent;
 	private final DeleteCurrencyDialogListener listener;
+	private final PreferencesManager preferences;
+	private final CurrencyManager currencyManager;
 
-	public ChosenCurrencyLongClickListener(Fragment parent) {
+	public ChosenCurrencyLongClickListener(Fragment parent, PreferencesManager preferences, CurrencyManager currencyManager) {
 		super();
 		this.parent = parent;
+		this.preferences = preferences;
+		this.currencyManager = currencyManager;
 		this.listener = (DeleteCurrencyDialogListener) parent;
 	}
 
 	public boolean onItemLongClick(Currency curr) {
-		DialogFragment dialogFragment = DeleteCurrencyDialogFragment.newInstance(curr.getCode(), listener);
+		DialogFragment dialogFragment = DeleteCurrencyDialogFragment.newInstance(curr.getCode(), listener, preferences, currencyManager);
 		dialogFragment.show(parent.getParentFragmentManager(), "deleteCurrency");
 		return true;
 	}
@@ -48,14 +52,21 @@ public class ChosenCurrencyLongClickListener implements OnItemLongClickListener 
 		static final String CURR_CODE = "currencyCode";
 		Currency currency;
 		DeleteCurrencyDialogListener mListener;
+		PreferencesManager preferences;
+		CurrencyManager currencyManager;
 
-		static DeleteCurrencyDialogFragment newInstance(String currCode, DeleteCurrencyDialogListener listener)
+		static DeleteCurrencyDialogFragment newInstance(String currCode,
+														DeleteCurrencyDialogListener listener,
+														PreferencesManager preferences,
+														CurrencyManager currencyManager)
 		{
 			DeleteCurrencyDialogFragment fragment = new DeleteCurrencyDialogFragment();
 		    Bundle bundle = new Bundle(1);
 		    bundle.putString(CURR_CODE, currCode);
 		    fragment.setArguments(bundle);
 		    fragment.mListener = listener;
+		    fragment.preferences = preferences;
+		    fragment.currencyManager = currencyManager;
 		    return fragment;
 		}
 
@@ -63,7 +74,7 @@ public class ChosenCurrencyLongClickListener implements OnItemLongClickListener 
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			String currCode = getArguments().getString(CURR_CODE);
-			this.currency = CurrencyManager.getInstance().findCurrency(currCode);
+			this.currency = currencyManager.findCurrency(currCode);
 		}
 
 	    @NotNull
@@ -74,7 +85,7 @@ public class ChosenCurrencyLongClickListener implements OnItemLongClickListener 
 	        		.setMessage("¿Queres borrar la moneda " + currency.getName() + " de esta lista?")
 	        		.setNegativeButton("Cancelar", null)
 	        		.setPositiveButton("Borrar", (dialog, id) -> {
-                        Currency currentCurrency = PreferencesManager.getInstance().getCurrentCurrency();
+                        Currency currentCurrency = preferences.getCurrentCurrency();
                         if (currency.equals(currentCurrency)) {
                             MaterialAlertDialogBuilder builder2 = new MaterialAlertDialogBuilder(requireContext());
                             builder2.setMessage("No se puede borrar la moneda " + currency.getName() + " porque es la que se está mostrando ahora en la pantalla principal.");
@@ -82,9 +93,9 @@ public class ChosenCurrencyLongClickListener implements OnItemLongClickListener 
                             Dialog d = builder2.create();
                             d.show();
                         } else {
-                            List<Currency> chosenCurrencies = PreferencesManager.getInstance().getChosenCurrencies();
+                            List<Currency> chosenCurrencies = preferences.getChosenCurrencies();
                             chosenCurrencies.remove(currency);
-                            PreferencesManager.getInstance().setChosenCurrencies(chosenCurrencies);
+							preferences.setChosenCurrencies(chosenCurrencies);
                             mListener.onDialogPositiveClick(DeleteCurrencyDialogFragment.this);
                         }
                     });

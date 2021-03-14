@@ -7,10 +7,16 @@ import com.google.android.gms.ads.MobileAds
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager.THEME_CLEAR
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager.THEME_DARK
+import dagger.hilt.android.HiltAndroidApp
 import java.util.logging.Level
 import java.util.logging.Logger
+import javax.inject.Inject
 
+@HiltAndroidApp
 class MyApplication : Application() {
+
+    @Inject
+    lateinit var preferences: PreferencesManager
 
     init {
         instance = this
@@ -28,7 +34,7 @@ class MyApplication : Application() {
     }
 
     private fun setChosenTheme() {
-        val nightMode = when (PreferencesManager.getInstance().chosenTheme) {
+        val nightMode = when (preferences.chosenTheme) {
             THEME_CLEAR -> AppCompatDelegate.MODE_NIGHT_NO
             THEME_DARK -> AppCompatDelegate.MODE_NIGHT_YES
             else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM

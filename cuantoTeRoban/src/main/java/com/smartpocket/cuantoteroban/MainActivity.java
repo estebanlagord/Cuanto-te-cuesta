@@ -226,10 +226,10 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
         
         mDrawerList = findViewById(R.id.left_drawer);
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new ChosenCurrenciesAdapter(this));
+//        mDrawerList.setAdapter(new ChosenCurrenciesAdapter(this));
         
         // Open nav drawer unless it has been opened manually
-        if (PreferencesManager.getInstance().isNavDrawerANewFeature())
+//        if (PreferencesManager.getInstance().isNavDrawerANewFeature())
         	mDrawerLayout.openDrawer(Gravity.LEFT);
 	}
 	
@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 	
 
 	public void updateExchangeRatesAfterAddingNewCurrency() {
-		if (PreferencesManager.getInstance().isAutomaticUpdateEnabled())
+//		if (PreferencesManager.getInstance().isAutomaticUpdateEnabled())
 			updateExchangeRate(true);
 	}
 
@@ -394,14 +394,14 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 		DownloadExchangeRate downloadExchangeRate = new DownloadExchangeRate(this, force);
 		downloadExchangeRate.loadLastUpdateStr();
 
-		if (force || ( PreferencesManager.getInstance().isAutomaticUpdateEnabled()
-					   && downloadExchangeRate.needsUpdate()
-					 )){
-			if (!DownloadExchangeRate.updateInProgress){
-				updateVisibilityForLastUpdateMsg(true);
-				downloadExchangeRate.execute();
-			}
-		}
+//		if (force || ( PreferencesManager.getInstance().isAutomaticUpdateEnabled()
+//					   && downloadExchangeRate.needsUpdate()
+//					 )){
+//			if (!DownloadExchangeRate.updateInProgress){
+//				updateVisibilityForLastUpdateMsg(true);
+//				downloadExchangeRate.execute();
+//			}
+//		}
 	}
 
 	public synchronized void updateRefreshProgress() {
@@ -496,7 +496,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
     	// If the user pressed the app icon, and if the drawer is closed, change the preference
     	// to avoid opening automatically the nav drawer on next launch
     	if ((item.getItemId() == android.R.id.home) && (!mDrawerLayout.isDrawerOpen(mDrawerList)))
-    		PreferencesManager.getInstance().setIsNavDrawerNew(false);
+//    		PreferencesManager.getInstance().setIsNavDrawerNew(false);
     	
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
@@ -555,10 +555,10 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 			updateExchangeRate(false);
 			
 	       	// if "Discount %" or "Taxes %" is disabled, set its preference value to 0
-	       	if (!PreferencesManager.getInstance().isShowDiscount() && PreferencesManager.getInstance().getDiscount() == 0)
-	       		PreferencesManager.getInstance().setDiscount(0);
-	       	if (!PreferencesManager.getInstance().isShowTaxes() && PreferencesManager.getInstance().getTaxes() == 0)
-	       		PreferencesManager.getInstance().setTaxes(0);
+//	       	if (!PreferencesManager.getInstance().isShowDiscount() && PreferencesManager.getInstance().getDiscount() == 0)
+//	       		PreferencesManager.getInstance().setDiscount(0);
+//	       	if (!PreferencesManager.getInstance().isShowTaxes() && PreferencesManager.getInstance().getTaxes() == 0)
+//	       		PreferencesManager.getInstance().setTaxes(0);
 	       	
 			// get preference values again
 			recalculateConversionRates();
@@ -601,8 +601,8 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 				if (targetEditText != discountText 
 						&& targetEditText != taxesText)
 				{
-					PreferencesManager.getInstance().setLastConversionType(editorType);
-					PreferencesManager.getInstance().setLastConversionValue(newValue);
+//					PreferencesManager.getInstance().setLastConversionType(editorType);
+//					PreferencesManager.getInstance().setLastConversionValue(newValue);
 				}
 				
 				updateDeleteTaxOrDiscountVisibility();
@@ -642,40 +642,40 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
     	boolean showDiscount = false; 
     	boolean	showTaxes = false;
     	boolean	showTotal;
-    	boolean	showPesos = PreferencesManager.getInstance().isShowPesos();
-    	boolean	showCreditCard = PreferencesManager.getInstance().isShowCreditCard();
-        boolean showSavings = PreferencesManager.getInstance().isShowSavings();
-        boolean showBlue = PreferencesManager.getInstance().isShowBlue();
+//    	boolean	showPesos = PreferencesManager.getInstance().isShowPesos();
+//    	boolean	showCreditCard = PreferencesManager.getInstance().isShowCreditCard();
+//        boolean showSavings = PreferencesManager.getInstance().isShowSavings();
+//        boolean showBlue = PreferencesManager.getInstance().isShowBlue();
     	boolean	showAgency = false;
-    	boolean	showPayPal = PreferencesManager.getInstance().isShowPaypal();
+//    	boolean	showPayPal = PreferencesManager.getInstance().isShowPaypal();
     	
-    	if (PreferencesManager.getInstance().isShowDiscount()) {
+//    	if (PreferencesManager.getInstance().isShowDiscount()) {
     		try {
     			double discountValue = Double.parseDouble(discountText.getText().toString());
     			if (discountValue != 0)	
     				showDiscount = true;
     		} catch (Exception e) { }
-    	}
+//    	}
     	
-    	if (PreferencesManager.getInstance().isShowTaxes()) {
+//    	if (PreferencesManager.getInstance().isShowTaxes()) {
     		try {
     			double taxesValue = Double.parseDouble(taxesText.getText().toString());
     			if (taxesValue != 0) 
     				showTaxes = true;
     		} catch (Exception e) { }
-    	}
+//    	}
     	
     	showTotal = showDiscount || showTaxes;
     	
-    	if (PreferencesManager.getInstance().isShowExchangeAgency()) {
+//    	if (PreferencesManager.getInstance().isShowExchangeAgency()) {
     		try {
     			double agencyValue = Double.parseDouble(agencyText.getText().toString());
     			if (agencyValue != 0) 
     				showAgency = true;
     		} catch (Exception e) { }
-    	}
+//    	}
     	
-    	StringBuilder sharedText = new StringBuilder("Lo que te cobran en " + PreferencesManager.getInstance().getCurrentCurrency().getName() + ":");
+    	/*StringBuilder sharedText = new StringBuilder("Lo que te cobran en " + PreferencesManager.getInstance().getCurrentCurrency().getName() + ":");
     	sharedText.append("\nMonto: $" + amountText.getText().toString());
     	
     	if (showDiscount)
@@ -703,12 +703,12 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
     		sharedText.append("\nPayPal: $" + payPalText.getText().toString());
     	
     	sharedText.append("\n\nCalculado por la aplicación ¿Cuanto Te Cuesta? para Android." +
-    			"\nBajala gratis desde: http://play.google.com/store/apps/details?id=com.smartpocket.cuantoteroban"); 
+    			"\nBajala gratis desde: http://play.google.com/store/apps/details?id=com.smartpocket.cuantoteroban"); */
     	
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_SUBJECT, "¿Cuanto Te Cuesta?");
-        intent.putExtra(Intent.EXTRA_TEXT, sharedText.toString());
+//        intent.putExtra(Intent.EXTRA_TEXT, sharedText.toString());
 		return intent;
 	}
 
@@ -773,7 +773,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 	}
 	
 	private void restoreLastConversion() {
-		try {
+		/*try {
 			boolean userWantsToRemember = PreferencesManager.getInstance().isRememberLastConversion();
 			
 			if (userWantsToRemember){
@@ -829,15 +829,15 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 		} catch (Exception e) {
 			System.out.println("Error restoring last conversion");
 			e.printStackTrace();
-		}
+		}*/
 		
 	}
 
 
 	private void updateFlag(boolean fadeFlag) {
-		final Currency chosenCurrency = PreferencesManager.getInstance().getCurrentCurrency();
+//		final Currency chosenCurrency = PreferencesManager.getInstance().getCurrentCurrency();
 		final ImageView countryFlagView = findViewById(R.id.countryFlag);
-		final int newFlagIdentifier = chosenCurrency.getFlagIdentifier();
+//		final int newFlagIdentifier = chosenCurrency.getFlagIdentifier();
 		
 		if(fadeFlag) {
 			final Animation fadeInAnim = AnimationUtils.loadAnimation(this, R.anim.flag_transition_in);
@@ -853,32 +853,32 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 				
 				@Override
 				public void onAnimationEnd(Animation animation) {
-					countryFlagView.setImageResource(newFlagIdentifier);
+//					countryFlagView.setImageResource(newFlagIdentifier);
 					countryFlagView.startAnimation(fadeInAnim);
 				}
 			});
 			countryFlagView.startAnimation(fadeOutAnim);
 		} else {
 			// change the flag without showing the fade animation
-			countryFlagView.setImageResource(newFlagIdentifier);
+//			countryFlagView.setImageResource(newFlagIdentifier);
 		}
 				
 		TextView chosenCurrencyName = findViewById(R.id.currencyName);
-		chosenCurrencyName.setText("en " + chosenCurrency.getName());
+//		chosenCurrencyName.setText("en " + chosenCurrency.getName());
 	}
 
 	private void updateVisibilityForLastUpdateMsg(boolean forceShow) {
-		boolean areUpdatesEnabled = PreferencesManager.getInstance().isAutomaticUpdateEnabled();
+//		boolean areUpdatesEnabled = PreferencesManager.getInstance().isAutomaticUpdateEnabled();
 		View lastUpdateStr = findViewById(R.id.textLastUpdate);
 		View lastUpdateVal = findViewById(R.id.textLastUpdateValue);
 		
-		if (areUpdatesEnabled || forceShow) {
+//		if (areUpdatesEnabled || forceShow) {
 			lastUpdateStr.setVisibility(View.VISIBLE);
 			lastUpdateVal.setVisibility(View.VISIBLE);
-		} else if (!DownloadExchangeRate.updateInProgress){
+//		} else if (!DownloadExchangeRate.updateInProgress){
 			lastUpdateStr.setVisibility(View.GONE);
 			lastUpdateVal.setVisibility(View.GONE);
-		}
+//		}
 	}
 	
 	private void showOrHideConversions() {
@@ -892,13 +892,13 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 		View paypalView   =  null;//findViewById(R.id.tableRowPayPal);
 		
        	// if "Discount %" or "Taxes %" is disabled, set its preference value to 0
-       	if (PreferencesManager.getInstance().isShowDiscount())
+//       	if (PreferencesManager.getInstance().isShowDiscount())
        		discountView.setVisibility(View.VISIBLE);
-       	else {
+//       	else {
        		discountView.setVisibility(View.GONE);
-       		if (PreferencesManager.getInstance().getDiscount() != 0)
-       			PreferencesManager.getInstance().setDiscount(0);
-       	}
+//       		if (PreferencesManager.getInstance().getDiscount() != 0)
+//       			PreferencesManager.getInstance().setDiscount(0);
+//       	}
        	
 /*       	if (PreferencesManager.getInstance().isShowTaxes())
        		taxesView.setVisibility(View.VISIBLE);
@@ -909,7 +909,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
        	}*/
 
        	// if "Discount %" and "Taxes%" are both 0, hide "Total"
-		if (PreferencesManager.getInstance().getDiscount() == 0 && PreferencesManager.getInstance().getTaxes() == 0)
+		/*if (PreferencesManager.getInstance().getDiscount() == 0 && PreferencesManager.getInstance().getTaxes() == 0)
 			totalView.setVisibility(View.GONE);
 		else
 			totalView.setVisibility(View.VISIBLE);
@@ -942,7 +942,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 		if (PreferencesManager.getInstance().isShowPaypal())
 			paypalView.setVisibility(View.VISIBLE);
 		else
-			paypalView.setVisibility(View.GONE);
+			paypalView.setVisibility(View.GONE);*/
 	}
 	
 	private void setFonts() {
@@ -1089,7 +1089,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 		@Override
 		public void onClick(View v) {
 			mDrawerLayout.openDrawer(Gravity.LEFT);
-			PreferencesManager.getInstance().setIsNavDrawerNew(false);
+//			PreferencesManager.getInstance().setIsNavDrawerNew(false);
 		}
 	}
 	
@@ -1149,7 +1149,7 @@ public class MainActivity extends AppCompatActivity implements DeleteCurrencyDia
 	    
 	    if (newCurr != null) {
 	    	adapter.setSelectedItem(newCurr);
-	    	PreferencesManager.getInstance().setCurrentCurrency(newCurr);
+//	    	PreferencesManager.getInstance().setCurrentCurrency(newCurr);
 			onActivityResult(RequestCode.CHOOSE_CURRENCY.ordinal(), RESULT_OK, null);
 		}
 	    mDrawerLayout.closeDrawer(mDrawerList);

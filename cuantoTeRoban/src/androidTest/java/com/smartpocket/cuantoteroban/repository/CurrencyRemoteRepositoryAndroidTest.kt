@@ -2,6 +2,7 @@ package com.smartpocket.cuantoteroban.repository
 
 import com.smartpocket.cuantoteroban.Currency
 import com.smartpocket.cuantoteroban.CurrencyManager
+import com.smartpocket.cuantoteroban.preferences.PreferencesManager
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -11,11 +12,12 @@ import org.junit.Test
 class CurrencyRemoteRepositoryAndroidTest {
 
     private lateinit var repository: CurrencyRemoteRepository
-    private val currencyManager = CurrencyManager.getInstance()
+    private val currencyManager = CurrencyManager()
+    private val preferencesManager = PreferencesManager(currencyManager)
 
     @Before
     fun setUp() {
-        repository = CurrencyRemoteRepository()
+        repository = CurrencyRemoteRepository(preferencesManager)
     }
 
     @Test

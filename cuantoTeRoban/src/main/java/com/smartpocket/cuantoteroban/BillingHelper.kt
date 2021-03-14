@@ -10,11 +10,10 @@ import java.util.logging.Logger
 
 const val PURCHASE_STATE_PENDING = -1
 
-class BillingHelper(activity: FragmentActivity) : PurchasesUpdatedListener {
+class BillingHelper(activity: FragmentActivity, private val preferences: PreferencesManager) : PurchasesUpdatedListener {
 
     private val logger = Logger.getLogger(javaClass.simpleName)
     private lateinit var billingClient: BillingClient
-    private val preferences = PreferencesManager.getInstance()
     private val skuList = listOf("ads_removal")
     private var skuDetails: SkuDetails? = null
     private var isErrorState = false

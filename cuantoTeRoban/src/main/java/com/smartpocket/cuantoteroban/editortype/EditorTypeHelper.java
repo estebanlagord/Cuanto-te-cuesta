@@ -52,9 +52,9 @@ public class EditorTypeHelper {
 		return result;
 	}
 	
-	public static EditText getLastConversionEditText(Activity activity) {
+/*	public static EditText getLastConversionEditText(Activity activity) {
 		EditorType type = PreferencesManager.getInstance().getLastConversionType();
 		EditText result = getEditTextForEditorType(activity, type);
 		return result;
-	}
+	}*/
 }

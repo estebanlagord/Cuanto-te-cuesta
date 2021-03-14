@@ -26,7 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -40,6 +40,9 @@ import com.smartpocket.cuantoteroban.editortype.EditorType;
 
 import java.text.DecimalFormat;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 @SuppressWarnings("deprecation")
 public class CalculatorFragment extends Fragment {
 
@@ -146,7 +149,7 @@ public class CalculatorFragment extends Fragment {
             //view.setTextSize(20);
         }
 
-        singleActivityVM = ViewModelProviders.of(requireActivity()).get(SingleActivityVM.class);
+        singleActivityVM = new ViewModelProvider(requireActivity()).get(SingleActivityVM.class);
     }
 
 

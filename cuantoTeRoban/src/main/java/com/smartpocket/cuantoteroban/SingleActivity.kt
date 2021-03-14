@@ -1,22 +1,28 @@
 package com.smartpocket.cuantoteroban
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.android.billingclient.api.BillingClient
 import com.google.android.material.snackbar.Snackbar
 import com.smartpocket.cuantoteroban.databinding.ActivitySingleBinding
+import com.smartpocket.cuantoteroban.preferences.PreferencesManager
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SingleActivity : AppCompatActivity() {
 
     private lateinit var adViewHelper: AdViewHelper
-    private lateinit var singleActivityVM: SingleActivityVM
+    private val singleActivityVM: SingleActivityVM by viewModels()
     private lateinit var billingHelper: BillingHelper
     private lateinit var binding: ActivitySingleBinding
-//    private lateinit var appBarConfiguration: AppBarConfiguration
 
+    //    private lateinit var appBarConfiguration: AppBarConfiguration
+    @Inject
+    lateinit var preferences: PreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +37,8 @@ class SingleActivity : AppCompatActivity() {
 //        toolbar.setupWithNavController(navController, appBarConfiguration)
 //        setupActionBarWithNavController(this, navController)
         adViewHelper = AdViewHelper(binding.adViewContainer, this)
-        billingHelper = BillingHelper(this)
+        billingHelper = BillingHelper(this, preferences)
 
-        singleActivityVM = ViewModelProvider(this)[SingleActivityVM::class.java]
         singleActivityVM.billingStatusLD.observe(this, this::onBillingHelperStatusChanged)
         singleActivityVM.showAdsLD.observe(this, adViewHelper::showBanner)
         singleActivityVM.launchPurchaseLD.observe(this, {

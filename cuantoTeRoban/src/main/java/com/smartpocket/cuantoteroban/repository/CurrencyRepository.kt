@@ -7,12 +7,11 @@ import java.util.concurrent.TimeUnit
 import java.util.logging.Level
 import java.util.logging.Logger
 
-class CurrencyRepository {
+class CurrencyRepository(val preferences: PreferencesManager) {
 
     private val logger = Logger.getLogger(javaClass.simpleName)
-    val preferences: PreferencesManager by lazy { PreferencesManager.getInstance() }
-    private val localRepos by lazy { CurrencyLocalRepository() }
-    private val remoteRepos by lazy { CurrencyRemoteRepository() }
+    private val localRepos by lazy { CurrencyLocalRepository(preferences) }
+    private val remoteRepos by lazy { CurrencyRemoteRepository(preferences) }
 
     suspend fun getCurrencyExchange(
             currencyFrom: Currency,

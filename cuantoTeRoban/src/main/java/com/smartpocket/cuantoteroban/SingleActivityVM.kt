@@ -4,13 +4,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.smartpocket.cuantoteroban.editortype.EditorType
 import com.smartpocket.cuantoteroban.preferences.PreferencesManager
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SingleActivityVM : ViewModel() {
+@HiltViewModel
+class SingleActivityVM @Inject constructor() : ViewModel() {
 
-    val preferences = PreferencesManager.getInstance()
+    @Inject
+    lateinit var preferences: PreferencesManager
 
     val calculatorResultLD = SingleLiveEvent<CalculatorResult>()
-    val showAdsLD = MutableLiveData<Boolean>(preferences.isRemoveAdsPurchased.not())
+    val showAdsLD by lazy { MutableLiveData(preferences.isRemoveAdsPurchased.not()) }
     val billingStatusLD = SingleLiveEvent<Int>()
     val launchPurchaseLD = SingleLiveEvent<Boolean>()
     val launchRestoreAdsLD = SingleLiveEvent<Boolean>()
