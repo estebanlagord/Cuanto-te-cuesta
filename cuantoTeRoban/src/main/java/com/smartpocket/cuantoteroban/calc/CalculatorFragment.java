@@ -2,7 +2,6 @@ package com.smartpocket.cuantoteroban.calc;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -31,7 +30,6 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
-import com.smartpocket.cuantoteroban.MainActivity;
 import com.smartpocket.cuantoteroban.R;
 import com.smartpocket.cuantoteroban.SingleActivityVM;
 import com.smartpocket.cuantoteroban.Utilities;
@@ -55,7 +53,6 @@ public class CalculatorFragment extends Fragment {
     private static final String INFINITE_OR_NAN = "El resultado de la operación no es un número válido.\n¿Dividiste por 0?";
     private static final int DELETE_FREQUENCY = 200;
     private CalculatorBinding binding;
-    private String resultTextNameStr;
     private final DecimalFormat localNumberFormat = (DecimalFormat) DecimalFormat.getInstance();
     private char decimalSeparator;
     private EditorType editorType;
@@ -94,7 +91,7 @@ public class CalculatorFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         CalculatorFragmentArgs args = CalculatorFragmentArgs.fromBundle(getArguments());
-        this.resultTextNameStr = args.getEditTextName();
+        String resultTextNameStr = args.getEditTextName();
         this.editorType = args.getType();
 
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
@@ -140,14 +137,6 @@ public class CalculatorFragment extends Fragment {
         decimal.setText(Character.toString(decimalSeparator));
 
         registerListeners();
-
-        Typeface typeFace = MainActivity.TYPEFACE_ROBOTO_BLACK;
-        TextView[] views = new TextView[]{enterTotal, seven, eight, nine, division, four, five, six, multiply, one, two, three, subtract, decimal, zero, equals, addition, left, right};
-        //previous.setTypeface(MainActivity.TYPEFACE_CANTARELL);
-        for (TextView v : views) {
-            v.setTypeface(typeFace);
-            //view.setTextSize(20);
-        }
 
         singleActivityVM = new ViewModelProvider(requireActivity()).get(SingleActivityVM.class);
     }

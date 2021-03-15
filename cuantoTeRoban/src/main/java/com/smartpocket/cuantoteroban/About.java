@@ -30,26 +30,12 @@ public class About extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        TextView appName = binding.appNameView;
-        TextView versionTitle = binding.versionTitle;
         TextView versionNumber = binding.versionNumber;
-        TextView thanksTitle = binding.thanksTitle;
-        TextView thanksContent = binding.thanksContent;
-        TextView notThanksTitle = binding.notThanksTitle;
-        TextView notThanksContent = binding.notThanksContent;
 
         try {
             versionNumber.setText(requireContext().getPackageManager().getPackageInfo(requireContext().getPackageName(), 0).versionName);
         } catch (NameNotFoundException e) {
             versionNumber.setText("?");
-        }
-
-        for (TextView tv : new TextView[]{appName, thanksTitle, notThanksTitle}) {
-            tv.setTypeface(MainActivity.TYPEFACE_ROBOTO_BLACK);
-        }
-
-        for (TextView tv : new TextView[]{versionTitle, versionNumber, thanksContent, notThanksContent}) {
-            tv.setTypeface(MainActivity.TYPEFACE_ROBOTO_CONDENSED_ITALIC);
         }
     }
 }

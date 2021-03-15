@@ -53,7 +53,8 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:inputType="none"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

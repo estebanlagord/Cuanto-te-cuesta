@@ -26,7 +26,7 @@
             app:popExitAnim="@anim/exit_to_right" />
         <action
             android:id="@+id/action_mainFragment_to_helpActivity"
-            app:destination="@id/helpActivity"
+            app:destination="@id/helpFragment"
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/none"
             app:popEnterAnim="@anim/none"
@@ -74,10 +74,10 @@
         android:label="about"
         tools:layout="@layout/about" />
     <fragment
-        android:id="@+id/helpActivity"
-        android:name="com.smartpocket.cuantoteroban.HelpActivity"
+        android:id="@+id/helpFragment"
+        android:name="com.smartpocket.cuantoteroban.HelpFragment"
         android:label="helpActivity"
-        tools:layout="@layout/activity_help2" />
+        tools:layout="@layout/fragment_help" />
     <fragment
         android:id="@+id/preferencesFragment"
         android:name="com.smartpocket.cuantoteroban.preferences.PreferencesFragment"

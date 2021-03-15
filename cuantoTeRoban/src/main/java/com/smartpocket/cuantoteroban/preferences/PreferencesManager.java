@@ -6,7 +6,6 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 
-import com.smartpocket.cuantoteroban.AmountTextWatcher;
 import com.smartpocket.cuantoteroban.Currency;
 import com.smartpocket.cuantoteroban.CurrencyManager;
 import com.smartpocket.cuantoteroban.MyApplication;
@@ -107,7 +106,6 @@ public class PreferencesManager {
             setTaxes(0);
             setLastConversionValue(0);
             setLastConversionType(null);
-            AmountTextWatcher.lastOneChanged = null;
         }
     }
 

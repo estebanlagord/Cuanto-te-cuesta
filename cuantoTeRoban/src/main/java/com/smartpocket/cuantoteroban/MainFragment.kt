@@ -22,8 +22,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionManager
-import com.smartpocket.cuantoteroban.MainActivity.FRACTION_DIGITS
-import com.smartpocket.cuantoteroban.MainActivity.RequestCode
 import com.smartpocket.cuantoteroban.calc.CalculatorFragment
 import com.smartpocket.cuantoteroban.chosencurrencies.ChosenCurrenciesListener
 import com.smartpocket.cuantoteroban.chosencurrencies.ChosenCurrenciesRecyclerAdapter
@@ -37,6 +35,9 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+
+private const val FRACTION_DIGITS = 2
+
 
 @AndroidEntryPoint
 class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesListener {
@@ -76,6 +77,10 @@ class MainFragment : Fragment(), DeleteCurrencyDialogListener, ChosenCurrenciesL
     private lateinit var blueViews: MutableList<View>
     private lateinit var exchangeAgencyViews: MutableList<View>
     private var currentCurr: Currency? = null
+
+    enum class RequestCode {
+        SETTINGS, CALCULATOR, CHOOSE_CURRENCY
+    }
 
     @Inject
     lateinit var preferences: PreferencesManager
