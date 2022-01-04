@@ -18,7 +18,7 @@ class CurrencyRemoteRepository(private val preferences: PreferencesManager) {
     private val uyuDownloader by lazy { CurrencyDownloaderDolarHoyUYU() }
 
     private val xeCurrencyList = listOf("VES", "STD", "LVL", "SHP", "GIP", "FKP", "SYP", "LTL",
-            "YER", "WST", "MNT", "KPW", "ZMK")
+            "YER", "WST", "MNT", "KPW", "ZMK", "ETB", "FJD", "PGK", "PEN", "KHR", "BYR")
     /*
     List of currencies not supported by Google:
     Bolívar - Venezuela
@@ -33,6 +33,12 @@ class CurrencyRemoteRepository(private val preferences: PreferencesManager) {
 	Tala de Samoa - Samoa
 	Tugrik mongol - Mongolia
 	Won norcoreano - Corea del Norte
+	Birr etíope - Etiopia
+    Dólar fiyiano - Fiyi
+    Kina de Papúa Nueva Guinea - Papúa Nueva Guinea
+    Nuevo sol peruano - Perú
+    Riel camboyano - Camboya
+    Rublo bielorruso - Bielorrusia
     */
 
     suspend fun getCurrencyExchange(
@@ -40,9 +46,9 @@ class CurrencyRemoteRepository(private val preferences: PreferencesManager) {
             currencyTo: String,
             amount: Double
     ): CurrencyResult {
-        val from = currencyFrom.code.toUpperCase(Locale.ROOT)
+        val from = currencyFrom.code.uppercase()
         val downloader = when {
-            from == CurrencyManager.BRL -> brlDownloader
+//            from == CurrencyManager.BRL -> brlDownloader // Switching to Google for accuracy
             from == CurrencyManager.EUR -> eurDownloader
             from == CurrencyManager.USD -> usdDownloader
             from == CurrencyManager.UYU -> uyuDownloader
@@ -51,6 +57,8 @@ class CurrencyRemoteRepository(private val preferences: PreferencesManager) {
 //            else -> xeDownloader
         }
         val result = downloader.getExchangeRateFor1(currencyFrom.code, currencyTo)
+
+        if (result.official == 0.0) throw IllegalStateException("Value cannot be 0")
 
         logger.log(Level.INFO, "$amount ${currencyFrom.code} = $result $currencyTo")
         saveUpdatedRates(currencyFrom, result)

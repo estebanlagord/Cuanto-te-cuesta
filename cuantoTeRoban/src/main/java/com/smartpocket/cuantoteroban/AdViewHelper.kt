@@ -47,8 +47,8 @@ class AdViewHelper(private val adViewContainer: ViewGroup, private val activity:
             adUnitId = AD_UNIT_ID
             adListener = object : AdListener() {
 
-                override fun onAdFailedToLoad(p0: Int) {
-                    val error = when (p0) {
+                override fun onAdFailedToLoad(p0: LoadAdError) {
+                    val error = when (p0.code) {
                         AdRequest.ERROR_CODE_INTERNAL_ERROR -> "Internal error"
                         AdRequest.ERROR_CODE_INVALID_REQUEST -> "Invalid request"
                         AdRequest.ERROR_CODE_NETWORK_ERROR -> "Network connectivity error"

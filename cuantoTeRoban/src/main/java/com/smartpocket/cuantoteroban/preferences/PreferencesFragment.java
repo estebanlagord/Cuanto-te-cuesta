@@ -1,5 +1,9 @@
 package com.smartpocket.cuantoteroban.preferences;
 
+import static com.smartpocket.cuantoteroban.preferences.PreferencesManager.THEME_CLEAR;
+import static com.smartpocket.cuantoteroban.preferences.PreferencesManager.THEME_DARK;
+import static com.smartpocket.cuantoteroban.preferences.PreferencesManager.THEME_SYSTEM_DEFAULT;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,10 +37,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
-
-import static com.smartpocket.cuantoteroban.preferences.PreferencesManager.THEME_CLEAR;
-import static com.smartpocket.cuantoteroban.preferences.PreferencesManager.THEME_DARK;
-import static com.smartpocket.cuantoteroban.preferences.PreferencesManager.THEME_SYSTEM_DEFAULT;
 
 @AndroidEntryPoint
 public class PreferencesFragment extends Fragment {
@@ -147,8 +147,10 @@ public class PreferencesFragment extends Fragment {
                 intent.setData(Uri.parse("mailto:")); // only email apps should handle this
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"estebanlagord+Cuanto.Te.Cuesta.developer@gmail.com"});
                 intent.putExtra(Intent.EXTRA_SUBJECT, "App ¿Cuanto Te Cuesta?");
-                if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
+                try {
                     startActivity(intent);
+                } catch (Throwable e) {
+                    e.printStackTrace();
                 }
                 return true;
             });

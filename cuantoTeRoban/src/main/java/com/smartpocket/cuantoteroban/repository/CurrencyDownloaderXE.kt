@@ -101,8 +101,9 @@ class CurrencyDownloaderXE : CurrencyDownloader() {
         fun showHTML(html: String) {
 //            logger.log(Level.INFO, "showHTML for XE downloader: ${html?.length}")
             try {
-                val regex = """1 $currencyFrom = (\S+) ARS"""
-                val match = regex.toRegex().find(html)
+                val html2 = html.replace("<!-- -->", "")
+                val regex = """>1 $currencyFrom</a></td><td>(\S+) ARS</td></tr>"""
+                val match = regex.toRegex().find(html2)
                 if (match != null) {
                     val rateWithComma = match.groupValues[1]
                     val rate = rateWithComma

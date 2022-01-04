@@ -80,7 +80,7 @@ public class PreferencesManager {
     public static final String THEME_DARK = "Dark";
     public static final String THEME_SYSTEM_DEFAULT = "System Default";
 
-    private final Map<Currency, SharedPreferences> preferencesByCurrency = new HashMap<Currency, SharedPreferences>();
+    private final Map<Currency, SharedPreferences> preferencesByCurrency = new HashMap<>();
     private SharedPreferences preferencesByApp;
     private Currency currentCurrency;
     private final CurrencyManager currencyManager;
@@ -341,7 +341,7 @@ public class PreferencesManager {
     }
 
     public double getDiscount() {
-        return (double) getPreferencesByApp().getFloat(DISCOUNT, 0);
+        return getPreferencesByApp().getFloat(DISCOUNT, 0);
     }
 
     public void setDiscount(double discount) {
@@ -351,7 +351,7 @@ public class PreferencesManager {
     }
 
     public double getTaxes() {
-        return (double) getPreferencesByApp().getFloat(TAXES, 0);
+        return getPreferencesByApp().getFloat(TAXES, 0);
     }
 
     public void setTaxes(double taxes) {
@@ -361,7 +361,7 @@ public class PreferencesManager {
     }
 
     public double getBlueDollarToARSRate() {
-        return (double) getPreferencesByApp().getFloat(BLUE_DOLLAR_ARS, 0);
+        return getPreferencesByApp().getFloat(BLUE_DOLLAR_ARS, 0);
     }
 
     public void setBlueDollarToArsRate(double blueRate) {
