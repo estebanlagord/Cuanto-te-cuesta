@@ -53,7 +53,7 @@ class CurrencyDownloaderDolarHoyUSD : CurrencyDownloader() {
     @Deprecated("old version, no longer working")
     fun findPrice(link: Element, currencyName: String): Double {
         if (link.text().contains(currencyName, true)) {
-            (link.parentNode().parentNode() as Element).getElementsContainingText("VENTA")
+            (link.parentNode()!!.parentNode() as Element).getElementsContainingText("VENTA")
                     .forEach {
                         if (it.text().contains("COMPRA", true).not()) {
                             val valueStr = it.getElementsByClass("PRICE").text()

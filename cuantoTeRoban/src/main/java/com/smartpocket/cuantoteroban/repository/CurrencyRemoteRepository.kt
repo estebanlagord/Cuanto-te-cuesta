@@ -12,13 +12,13 @@ class CurrencyRemoteRepository(private val preferences: PreferencesManager) {
     private val logger = Logger.getLogger(javaClass.simpleName)
     private val googleDownloader by lazy { CurrencyDownloaderGoogle() }
     private val xeDownloader by lazy { CurrencyDownloaderXE() }
-    private val brlDownloader by lazy { CurrencyDownloaderDolarHoyBRL() }
+//    private val brlDownloader by lazy { CurrencyDownloaderDolarHoyBRL() }
     private val eurDownloader by lazy { CurrencyDownloaderDolarHoyEUR() }
     private val usdDownloader by lazy { CurrencyDownloaderDolarHoyUSD() }
     private val uyuDownloader by lazy { CurrencyDownloaderDolarHoyUYU() }
 
     private val xeCurrencyList = listOf("VES", "STD", "LVL", "SHP", "GIP", "FKP", "SYP", "LTL",
-            "YER", "WST", "MNT", "KPW", "ZMK", "ETB", "FJD", "PGK", "PEN", "KHR", "BYR")
+            "YER", "WST", "MNT", "KPW", "ZMK", "ETB", "FJD", "PGK", "PEN", "KHR", "BYR", "DJF")
     /*
     List of currencies not supported by Google:
     Bolívar - Venezuela
